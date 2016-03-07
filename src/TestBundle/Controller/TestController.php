@@ -16,7 +16,8 @@ class TestController extends Controller
     public function indexAction()
     {
         $reader = new Reader;
-        $resource = $reader->download('https://news.ycombinator.com/rss');
+        // $resource = $reader->download('https://news.ycombinator.com/rss');
+        $resource = $reader->download('http://unodieuxconnard.com/feed/');
 
         $parser = $reader->getParser(
             $resource->getUrl(),
