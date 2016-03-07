@@ -1,0 +1,14 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}TestBundle:Test:index{% endblock %}
+
+{% block body %}
+<h1>Welcome to the Test:index page</h1>
+    <form method="post">
+        <input type="text" placeholder="Source" />
+        <button>
+            Envoyer
+        </button>
+    </form>
+    {{ feed }}
+{% endblock %}
