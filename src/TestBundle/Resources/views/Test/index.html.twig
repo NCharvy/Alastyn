@@ -4,11 +4,59 @@
 
 {% block body %}
 <h1>Welcome to the Test:index page</h1>
-    <form method="post">
-        <input type="text" placeholder="Source" />
-        <button>
-            Envoyer
-        </button>
-    </form>
-    {{ feed }}
+<form method="post">
+    <input type="text" placeholder="Source" />
+    <button>
+        Envoyer
+    </button>
+</form>
+
+<h2>Id</h2>
+<p>{{ feed.id }}</p>
+
+<h2>Title</h2>
+<p>{{ feed.title }}</p>
+
+<h2>Url</h2>
+<p>{{ feed.site_url }}</p>
+
+<h2>Language</h2>
+<p>{{ feed.language }}</p>
+
+<h2>Description</h2>
+<p>{{ feed.description }}</p>
+
+<h2>Logo</h2>
+<img src="{{ feed.logo }}">
+<p>lien : {{ feed.logo }}</p>
+
+<h2>Date</h2>
+<p>{{ feed.date|date('d/m/Y H:i:s', "Europe/Paris") }}</p>
+
+<h2>Les items</h2>
+{% for item in feed.items %}
+	<h3>Id</h3>
+	<p>{{ item.id }}</p>
+
+	<h3>Title</h3>
+	<p>{{ item.title }}</p>
+
+	<h3>Url</h3>
+	<p>{{ item.url }}</p>
+
+	<h3>Language</h3>
+	<p>{{ item.language }}</p>
+
+	<h3>Author</h3>
+	<p>{{ item.author }}</p>
+
+	<h3>Date</h3>
+	<p>{{ item.date|date('d/m/Y H:i:s', "Europe/Paris") }}</p>
+
+	<h3>Content</h3>
+	{{ item.content|raw }}
+{% endfor %}
+
+<h2>Feed</h2>
+{{ feed }}
 {% endblock %}
