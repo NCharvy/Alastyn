@@ -1,64 +1,56 @@
-{% extends "::base.html.twig" %}
+{% extends "TestBundle::layout.html.twig" %}
 
-{% block title %}TestBundle:Test:index{% endblock %}
+{% block title %} {{ parent() }}Home{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Test:index page</h1>
+	{{ parent() }}
 <form method="post">
     <input type="text" placeholder="Source" />
     <button>
         Envoyer
     </button>
 </form>
+</br>
 
-{% for feed in feeds %}
+<div class="row">
+  <div class="col-md-6">
+    <div class="thumbnail">
+      <img src="{{ feed.logo }}" alt="logo">
+      <div class="caption">
+        <h3>{{ feed.title }}</h3>
+        <p><a href="{{ feed.site_url }}">Site</a>
+        <p>{{ feed.language }}</p>
+        <p>{{ feed.description }}</p>
+        <p>date :{{ feed.date|date('d/m/Y H:i:s', "Europe/Paris") }}</p>
+        <p>{{ feed.id }}</p>
+      </div>
+    </div>
+  </div>
+</div>
 
-<h2>Id</h2>
-<p>{{ feed.id }}</p>
+<h2>Les articles</h2>
 
-<h2>Title</h2>
-<p>{{ feed.title }}</p>
+	{% for item in feed.items %}
+			<!--{{ item }}-->
+			<div class="row">
+		  <div class="col-md-offset-3 col-md-6">
+		    <div class="thumbnail">
+		      {{ item.preimage|raw }}
+		      <div class="caption">
+		        <h3>{{ item.title }}</h3>
+		        <p><i> langue {{ item.language }}<i></p>
+		        <p hidden>{{ item.id }}</p>
+		        <p><strong>Auteur {{ item.author }}</strong>, 
+		        <i>{{ item.date|date('d/m/Y H:i:s', "Europe/Paris") }}</i></p>
 
-<h2>Url</h2>
-<p>{{ feed.site_url }}</p>
+		        {% set tmp = item.content | raw %}
+				{{ tmp |slice(0, 140)}}...
 
-<h2>Language</h2>
-<p>{{ feed.language }}</p>
+		        <p><a href="{{ item.url }}" class="btn btn-primary" role="button" target="_blank">Lire la suite</a></p>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	{% endfor %}
 
-<h2>Description</h2>
-<p>{{ feed.description }}</p>
-
-<h2>Logo</h2>
-<img src="{{ feed.logo }}">
-<p>lien : {{ feed.logo }}</p>
-
-<h2>Date</h2>
-<p>{{ feed.date|date('d/m/Y H:i:s', "Europe/Paris") }}</p>
-
-<h2>Les items</h2>
-{% for item in feed.items %}
-	<h3>Id</h3>
-	<p>{{ item.id }}</p>
-
-	<h3>Title</h3>
-	<p>{{ item.title }}</p>
-
-	<h3>Url</h3>
-	<p>{{ item.url }}</p>
-
-	<h3>Language</h3>
-	<p>{{ item.language }}</p>
-
-	<h3>Author</h3>
-	<p>{{ item.author }}</p>
-
-	<h3>Date</h3>
-	<p>{{ item.date|date('d/m/Y H:i:s', "Europe/Paris") }}</p>
-
-	<h3>Content</h3>
-	{{ item.content|raw }}
-{% endfor %}
-
-<h2>Feed</h2>
-{{ feed }}
 {% endblock %}

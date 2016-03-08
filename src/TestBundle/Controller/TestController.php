@@ -16,12 +16,12 @@ class TestController extends Controller
     public function indexAction()
     {
         $reader = new Reader;
-        $resources = ['https://news.ycombinator.com/rss', 'http://unodieuxconnard.com/feed/'];
+        //$resources = ['https://news.ycombinator.com/rss', 'http://unodieuxconnard.com/feed/'];
         // $resource = $reader->download('https://news.ycombinator.com/rss');
-        // $resource = $reader->download('http://unodieuxconnard.com/feed/');
-        $feeds = [];
+        $resource = $reader->download('http://korben.info/rss');
+        //$feeds = [];
 
-        foreach ($resources as $resource) {
+        /*foreach ($resources as $resource) {
             $parser = $reader->getParser(
                 $resource->getUrl(),
                 $resource->getContent(),
@@ -29,10 +29,25 @@ class TestController extends Controller
             );
 
             $feeds += $parser->execute();
+        }*/
+            $parser = $reader->getParser(
+                $resource->getUrl(),
+                $resource->getContent(),
+                $resource->getEncoding()
+            );
+        $feed = $parser->execute();
+        $result = [];
+        for($i = 0;$i<count($feed->items);$i++) {
+            preg_match("/(\<img).*((\/\>)|(\<\/img))/",$feed->items[$i]->content,$result);
+            if (count($result) > 0) {
+                $feed->items[$i]->preimage=$result[0];
+            }else{
+                $feed->items[$i]->preimage="";
+            }
+            
         }
 
-
-        return array('feeds' => $feeds);
+        return array('feed' => $feed);
     }
 
 
@@ -68,7 +83,6 @@ class TestController extends Controller
         // $resource = $reader->download('https://news.ycombinator.com/rss');
         $resource = $reader->download('http://unodieuxconnard.com/feed/');
 
-<<<<<<< HEAD
         $parser = $reader->getParser(
             $resource->getUrl(),
             $resource->getContent(),
@@ -79,7 +93,7 @@ class TestController extends Controller
 
         return array('feed' => $feed);
     }    
-=======
+
     /**
      * @Route("/test_style")
      * @Template()
@@ -89,5 +103,4 @@ class TestController extends Controller
         return array();
     }
 
->>>>>>> c0bd9c1f3acbd97863d174a0ba510f3eea8a099b
 }
