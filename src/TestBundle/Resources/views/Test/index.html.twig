@@ -54,7 +54,7 @@
 	<p>{{ item.date|date('d/m/Y H:i:s', "Europe/Paris") }}</p>
 
 	<h3>Content</h3>
-	{{ item.content|raw }}
+	{{ item.content|raw|slice(0, 400) }}...
 {% endfor %}
 
 <h2>Feed</h2>
