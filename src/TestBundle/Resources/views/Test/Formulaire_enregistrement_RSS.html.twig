@@ -3,12 +3,20 @@
 {% block title %}TestBundle:Test:index{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Test:index page</h1>
-    <form method="post">
-        <input type="text" placeholder="Source" />
-        <button>
-            Envoyer
-        </button>
-    </form>
+
+
+<h1>Enregistrement des lien RSS</h1>
+
+
+<form action="Formulaire_enregistrement_RSS" method="post">
+  First name:<br>
+  <input type="text" name="URL_VALEUR" value="Valeur"><br>
+  <input type="submit" value="Submit">
+</form>
+    
+    
+    
     {{ feed }}
+    <BR>
+    {{ fichier_xml.Adresse_Site_Web }}
 {% endblock %}

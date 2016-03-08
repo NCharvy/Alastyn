@@ -2,6 +2,7 @@
 
 namespace TestBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -39,44 +40,24 @@ class TestController extends Controller
      * @Route("/Formulaire_enregistrement_RSS")
      * @Template()
      */
-    public function Formulaire_enregistrement_RSSAction()
+    public function Formulaire_enregistrement_RSSAction(Request $request)
     {
-        $reader = new Reader;
-        // $resource = $reader->download('https://news.ycombinator.com/rss');
-        $resource = $reader->download('http://unodieuxconnard.com/feed/');
-
-        $parser = $reader->getParser(
-            $resource->getUrl(),
-            $resource->getContent(),
-            $resource->getEncoding()
-        );
-
-        $feed = $parser->execute();
-
-        return array('feed' => $feed);
+        if ($request->getMethod() == 'POST') 
+        {
+			$URL_SITE_RSS = $_POST["URL_VALEUR"];
+			$vari="../Fichier_Sauvegarde_Lien_RSS/Fichier_Lien_RSS.xml";
+			$xml= simplexml_load_file($vari);
+			$json = json_encode($xml);
+			$array = json_decode($json,TRUE);
+			
+            return array('feed' => $URL_SITE_RSS, 'fichier_xml' => $array);          
+        }
+        else
+        {
+			return array('feed' => "Pas de donnée", 'fichier_xml' => "pas de donné");
+		}
     }
-    
 
-    /**
-     * @Route("/enregistrement_RSS")
-     * @Template()
-     */
-    public function enregistrement_RSSAction()
-    {
-        $reader = new Reader;
-        // $resource = $reader->download('https://news.ycombinator.com/rss');
-        $resource = $reader->download('http://unodieuxconnard.com/feed/');
-
-        $parser = $reader->getParser(
-            $resource->getUrl(),
-            $resource->getContent(),
-            $resource->getEncoding()
-        );
-
-        $feed = $parser->execute();
-
-        return array('feed' => $feed);
-    } 
 
     /**
      * @Route("/test_style")
