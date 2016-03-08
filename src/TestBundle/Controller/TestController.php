@@ -68,6 +68,7 @@ class TestController extends Controller
         // $resource = $reader->download('https://news.ycombinator.com/rss');
         $resource = $reader->download('http://unodieuxconnard.com/feed/');
 
+<<<<<<< HEAD
         $parser = $reader->getParser(
             $resource->getUrl(),
             $resource->getContent(),
@@ -78,4 +79,15 @@ class TestController extends Controller
 
         return array('feed' => $feed);
     }    
+=======
+    /**
+     * @Route("/test_style")
+     * @Template()
+     */
+    public function testAction()
+    {
+        return array();
+    }
+
+>>>>>>> c0bd9c1f3acbd97863d174a0ba510f3eea8a099b
 }
