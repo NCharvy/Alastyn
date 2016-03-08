@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site_Web>
+	
+	<id>0</id>
+	<Adresse_Site_Web>Test</Adresse_Site_Web>
+	<Flux_RSS>test</Flux_RSS>
+
+	<id>1</id>
+	<Adresse_Site_Web>Test</Adresse_Site_Web>
+	<Flux_RSS>test</Flux_RSS>
+	
+</Site_Web>
