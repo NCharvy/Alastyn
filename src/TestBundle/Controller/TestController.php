@@ -30,4 +30,13 @@ class TestController extends Controller
         return array('feed' => $feed);
     }
 
+    /**
+     * @Route("/test_style")
+     * @Template()
+     */
+    public function testAction()
+    {
+        return array();
+    }
+
 }
