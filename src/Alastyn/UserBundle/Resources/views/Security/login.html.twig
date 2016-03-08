@@ -1,0 +1,40 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Login | Orange budget{% endblock %}
+
+{% block body %}
+
+	<section id="main-login" class="container">
+	    <div class="row">
+	        <div class="col-md-3"></div>
+	        <div class="col-md-6 centered" style="background-color : #ddd; padding-right: 0px; padding-left : 0px;">
+	            <div class="navbar navbar-inverse">
+	                <h2 style="color : #fff; text-align : center;">Alastyn | Admin</h2>
+	            </div>
+	            {% if error %}
+					<div class="alert alert-danger">{{ error.message }}</div>
+				{% endif %}
+	            <form method="post" action="{{ path('login_check') }}" style="margin-top : 30px;">
+	                <div class="row">
+	                    <div class="col-md-3"></div>
+	                    <div class="col-md-6">
+	                        <div class="item-login" style="margin-bottom : 20px;">
+	                            <input type="text" name="_username" value="{{ last_username }}" placeholder="Votre identifiant..." style="width : 100%" />
+	                        </div>
+	                        <div class="item-login" style="margin-bottom : 20px;">
+	                            <input type="password" name="_password" placeholder="Votre mot de passe..."  style="width : 100%" />
+	                        </div>
+	                        <div class="item-login"  style="margin-bottom : 30px;">
+	                            <button type="submit">
+	                                Connexion
+	                            </button>
+	                        </div>
+	                    </div>
+	                    <div class="col-md-3"></div>
+	                </div>
+	            </form>
+	        </div>
+	        <div class="col-md-3"></div>
+	    </div>
+	</section>
+{% endblock %}

@@ -10,7 +10,7 @@ use PicoFeed\Reader\Reader;
 class AdminController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/admin")
      * @Template()
      */
     public function indexAction()
