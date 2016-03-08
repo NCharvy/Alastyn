@@ -1,12 +1,12 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}TestBundle:Test:index{% endblock %}
+{% block title %}Partie Admin{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Test:index page</h1>
+<h1>Partie Admin</h1>
 <form method="post">
     <input type="text" placeholder="Source" />
-    <button>
+    <button type="submit">
         Envoyer
     </button>
 </form>
@@ -53,9 +53,11 @@
 
 		<h3>Date</h3>
 		<p>{{ item.date|date('d/m/Y H:i:s', "Europe/Paris") }}</p>
+
 		<h3>Content</h3>
 		<p>{{ item.content|slice(0, 400)|striptags }}...</p>
 	{% endfor %}
+
 	<h2>Feed</h2>
 	{{ feed }}
 {% endfor %}

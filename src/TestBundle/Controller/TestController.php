@@ -16,18 +16,22 @@ class TestController extends Controller
     public function indexAction()
     {
         $reader = new Reader;
-        // $resource = $reader->download('https://news.ycombinator.com/rss');
-        $resource = $reader->download('http://unodieuxconnard.com/feed/');
+        $resources = ['https://news.ycombinator.com/rss', 'http://unodieuxconnard.com/feed/'];
+        $feeds = [];
 
-        $parser = $reader->getParser(
-            $resource->getUrl(),
-            $resource->getContent(),
-            $resource->getEncoding()
-        );
+        foreach ($resources as $rss) {
+            $resource = $reader->download($rss);
+            $parser = $reader->getParser(
+                $resource->getUrl(),
+                $resource->getContent(),
+                $resource->getEncoding()
+            );
 
-        $feed = $parser->execute();
+            $feeds[] = $parser->execute();
+        }
 
-        return array('feed' => $feed);
+
+        return array('feeds' => $feeds);
     }
 
 
@@ -72,5 +76,14 @@ class TestController extends Controller
         $feed = $parser->execute();
 
         return array('feed' => $feed);
-    }    
+    } 
+
+    /**
+     * @Route("/test_style")
+     * @Template()
+     */
+    public function testAction()
+    {
+        return array();
+    }
 }
