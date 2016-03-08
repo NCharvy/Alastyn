@@ -11,6 +11,9 @@
     </head>
     <body>
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}
+            <script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
+            <script src="{{ asset('bundles/test/js/global.js') }}"></script>
+        {% endblock %}
     </body>
 </html>

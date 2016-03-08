@@ -1,4 +1,4 @@
 services:
-#    test.example:
-#        class: TestBundle\Example
+#    alastyn_user.example:
+#        class: Alastyn\UserBundle\Example
 #        arguments: ["@service_id", "plain_value", %parameter%]

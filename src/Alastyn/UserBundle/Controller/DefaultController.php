@@ -1,6 +1,6 @@
 <?php
 
-namespace TestBundle\Controller;
+namespace Alastyn\UserBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -8,10 +8,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/default")
+     * @Route("/")
      */
     public function indexAction()
     {
-        return $this->render('TestBundle:Default:index.html.twig');
+        return $this->render('AlastynUserBundle:Default:index.html.twig');
     }
 }
