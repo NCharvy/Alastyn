@@ -5,10 +5,12 @@
 {% block body %}
 <h1>Welcome to the Test:index page</h1>
     <form method="post">
-        <input type="text" placeholder="Source" />
-        <button>
+        <input id="input-test" type="text" name="input-test" placeholder="Source" />
+        <button id="btn-test">
             Envoyer
         </button>
     </form>
-    {{ feed }}
+    <div id="feed">
+
+    </div>
 {% endblock %}
