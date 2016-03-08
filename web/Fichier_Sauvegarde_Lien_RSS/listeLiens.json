@@ -1,0 +1,17 @@
+[
+    {
+        "id": 0,
+        "site": "Un odieux connard",
+        "rss": "http:\/\/unodieuxconnard.com\/feed\/"
+    },
+    {
+        "id": 1,
+        "site": "Korben",
+        "rss": "http:\/\/korben.info\/rss"
+    },
+    {
+        "id": 2,
+        "site": "How to geek",
+        "rss": "http:\/\/feeds.howtogeek.com\/howtogeek"
+    }
+]
