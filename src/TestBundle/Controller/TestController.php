@@ -2,6 +2,7 @@
 
 namespace TestBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -50,44 +51,50 @@ class TestController extends Controller
      * @Route("/Formulaire_enregistrement_RSS")
      * @Template()
      */
-    public function Formulaire_enregistrement_RSSAction()
+    public function Formulaire_enregistrement_RSSAction(Request $request)
     {
-        $reader = new Reader;
-        // $resource = $reader->download('https://news.ycombinator.com/rss');
-        $resource = $reader->download('http://unodieuxconnard.com/feed/');
-
-        $parser = $reader->getParser(
-            $resource->getUrl(),
-            $resource->getContent(),
-            $resource->getEncoding()
-        );
-
-        $feed = $parser->execute();
-
-        return array('feed' => $feed);
+        if ($request->getMethod() == 'POST') 
+        {
+			$URL_SITE_NAME = $_POST["URL_VALEUR_NAME"];
+			$URL_SITE_RSS = $_POST["URL_VALEUR_RSS"];
+			$vari="Fichier_Sauvegarde_Lien_RSS/Fichier_Lien_RSS.xml";
+			$xml= simplexml_load_file($vari);
+			$json = json_encode($xml);
+			$array = json_decode($json,TRUE);
+			array_push($array["id"],(count($array["id"])));
+			array_push($array["site"],$URL_SITE_NAME);
+			array_push($array["rss"],$URL_SITE_RSS);
+			
+			$_xml ="<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\r\n";
+			$_xml .="<site_web>\r\n";
+			
+			for ($i = 0; $i < count($array["id"]); $i++)
+			{
+				$_xml .="	<id>".$array["id"][$i]."</id>\r\n";
+				$_xml .="	<site>".$array["site"][$i]."</site>\r\n";
+				$_xml .="	<rss>".$array["rss"][$i]."</rss>\r\n\n";
+			
+			}
+			
+			$_xml .="</site_web>\r\n";
+			
+			$file= fopen($vari, "w");
+			fwrite($file,$_xml);
+			fclose($file);
+			
+            return array('fichier_xml' => $array);          
+        }
+        else
+        {
+			$vari="Fichier_Sauvegarde_Lien_RSS/Fichier_Lien_RSS.xml";
+			$xml= simplexml_load_file($vari);
+			$json = json_encode($xml);
+			$array = json_decode($json,TRUE);
+			
+            return array('fichier_xml' => $array); 
+		}
     }
-    
 
-    /**
-     * @Route("/enregistrement_RSS")
-     * @Template()
-     */
-    public function enregistrement_RSSAction()
-    {
-        $reader = new Reader;
-        // $resource = $reader->download('https://news.ycombinator.com/rss');
-        $resource = $reader->download('http://unodieuxconnard.com/feed/');
-
-        $parser = $reader->getParser(
-            $resource->getUrl(),
-            $resource->getContent(),
-            $resource->getEncoding()
-        );
-
-        $feed = $parser->execute();
-
-        return array('feed' => $feed);
-    } 
 
     /**
      * @Route("/test_style")
