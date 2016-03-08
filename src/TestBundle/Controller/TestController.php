@@ -44,17 +44,43 @@ class TestController extends Controller
     {
         if ($request->getMethod() == 'POST') 
         {
-			$URL_SITE_RSS = $_POST["URL_VALEUR"];
-			$vari="../Fichier_Sauvegarde_Lien_RSS/Fichier_Lien_RSS.xml";
+			$URL_SITE_NAME = $_POST["URL_VALEUR_NAME"];
+			$URL_SITE_RSS = $_POST["URL_VALEUR_RSS"];
+			$vari="Fichier_Sauvegarde_Lien_RSS/Fichier_Lien_RSS.xml";
+			$xml= simplexml_load_file($vari);
+			$json = json_encode($xml);
+			$array = json_decode($json,TRUE);
+			array_push($array["id"],(count($array["id"])));
+			array_push($array["site"],$URL_SITE_NAME);
+			array_push($array["rss"],$URL_SITE_RSS);
+			
+			$_xml ="<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\r\n";
+			$_xml .="<site_web>\r\n";
+			
+			for ($i = 0; $i < count($array["id"]); $i++)
+			{
+				$_xml .="	<id>".$array["id"][$i]."</id>\r\n";
+				$_xml .="	<site>".$array["site"][$i]."</site>\r\n";
+				$_xml .="	<rss>".$array["rss"][$i]."</rss>\r\n\n";
+			
+			}
+			
+			$_xml .="</site_web>\r\n";
+			
+			$file= fopen($vari, "w");
+			fwrite($file,$_xml);
+			fclose($file);
+			
+            return array('fichier_xml' => $array);          
+        }
+        else
+        {
+			$vari="Fichier_Sauvegarde_Lien_RSS/Fichier_Lien_RSS.xml";
 			$xml= simplexml_load_file($vari);
 			$json = json_encode($xml);
 			$array = json_decode($json,TRUE);
 			
-            return array('feed' => $URL_SITE_RSS, 'fichier_xml' => $array);          
-        }
-        else
-        {
-			return array('feed' => "Pas de donnée", 'fichier_xml' => "pas de donné");
+            return array('fichier_xml' => $array); 
 		}
     }
 
