@@ -17,18 +17,17 @@ class TestController extends Controller
     {
         $reader = new Reader;
         $resources = ['https://news.ycombinator.com/rss', 'http://unodieuxconnard.com/feed/'];
-        // $resource = $reader->download('https://news.ycombinator.com/rss');
-        // $resource = $reader->download('http://unodieuxconnard.com/feed/');
         $feeds = [];
 
-        foreach ($resources as $resource) {
+        foreach ($resources as $rss) {
+            $resource = $reader->download($rss);
             $parser = $reader->getParser(
                 $resource->getUrl(),
                 $resource->getContent(),
                 $resource->getEncoding()
             );
 
-            $feeds += $parser->execute();
+            $feeds[] = $parser->execute();
         }
 
 
@@ -68,7 +67,6 @@ class TestController extends Controller
         // $resource = $reader->download('https://news.ycombinator.com/rss');
         $resource = $reader->download('http://unodieuxconnard.com/feed/');
 
-<<<<<<< HEAD
         $parser = $reader->getParser(
             $resource->getUrl(),
             $resource->getContent(),
@@ -78,8 +76,8 @@ class TestController extends Controller
         $feed = $parser->execute();
 
         return array('feed' => $feed);
-    }    
-=======
+    } 
+
     /**
      * @Route("/test_style")
      * @Template()
@@ -88,6 +86,4 @@ class TestController extends Controller
     {
         return array();
     }
-
->>>>>>> c0bd9c1f3acbd97863d174a0ba510f3eea8a099b
 }
