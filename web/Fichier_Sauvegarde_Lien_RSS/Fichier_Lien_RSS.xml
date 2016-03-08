@@ -1,15 +1,11 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
+<flux>
 <site_web>
-	<id>0</id>
-	<site>Test0</site>
-	<rss>test</rss>
 
-	<id>1</id>
-	<site>Test1</site>
-	<rss>test1</rss>
+   <id>0</id>
+   <site>Test</site>
+   <rss>test</rss>
 
-	<id>2</id>
-	<site>Test3</site>
-	<rss>Test3</rss>
-	
 </site_web>
+
+</flux>
