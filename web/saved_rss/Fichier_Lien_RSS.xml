@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<flux>
+<site_web>
+
+   <id>0</id>
+   <site>Test</site>
+   <rss>test</rss>
+
+</site_web>
+
+</flux>
