@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new TestBundle\TestBundle(),
             new Alastyn\AdminBundle\AlastynAdminBundle(),
             new Alastyn\UserBundle\AlastynUserBundle(),
+            new Alastyn\FrontBundle\AlastynFrontBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
