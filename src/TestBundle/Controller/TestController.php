@@ -11,13 +11,16 @@ use PicoFeed\Reader\Reader;
 class TestController extends Controller
 {
     /**
-     * @Route("/index")
+     * @Route("/index", name = "_index")
      * @Template()
      */
     public function indexAction()
     {
         $reader = new Reader;
-        $resources = ['https://news.ycombinator.com/rss', 'http://unodieuxconnard.com/feed/', 'http://korben.info/rss'];
+        $resources = ['http://feeds.howtogeek.com/howtogeek',
+         'http://unodieuxconnard.com/feed/',
+          'http://korben.info/rss',
+           'http://www.lemonde.fr/videos/rss_full.xml'];
         $feeds = [];
 
         foreach ($resources as $rss) {

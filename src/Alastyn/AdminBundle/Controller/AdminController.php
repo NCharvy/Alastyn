@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 class AdminController extends Controller
 {
     /**
-     * @Route("/admin")
+     * @Route("/admin", name = "_indexAdmin")
      * @Template()
      */
     public function indexAction(Request $request)
