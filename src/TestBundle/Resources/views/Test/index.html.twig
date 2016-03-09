@@ -14,45 +14,44 @@
 </br>
 
 {% for feed in feeds %}
-	<div class="row">
-	  <div class="col-md-6">
-	    <div class="thumbnail">
-	      <img src="{{ feed.logo }}" alt="logo">
-	      <div class="caption">
-	        <h3>{{ feed.title }}</h3>
-	        <p><a href="{{ feed.site_url }}">Site</a>
-	        <p>{{ feed.language }}</p>
-	        <p>{{ feed.description }}</p>
-	        <p>date :{{ feed.date|date('d/m/Y H:i:s', "Europe/Paris") }}</p>
-	        <p>{{ feed.id }}</p>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-
-	<h2>Les articles</h2>
-
-	{% for item in feed.items %}
-			<!--{{ item }}-->
-			<div class="row">
-		  <div class="col-md-offset-3 col-md-6">
-		    <div class="thumbnail">
-		      {{ item.preimage|raw }}
-		      <div class="caption">
-		        <h3>{{ item.title }}</h3>
-		        <p><i> langue {{ item.language }}<i></p>
-		        <p hidden>{{ item.id }}</p>
-		        <p><strong>Auteur {{ item.author }}</strong>, 
-		        <i>{{ item.date|date('d/m/Y H:i:s', "Europe/Paris") }}</i></p>
-
-		        {% set tmp = item.content | raw %}
-				<p>{{ tmp|slice(0, 140)|striptags }}...</p>
-
-		        <p><a href="{{ item.url }}" class="btn btn-primary" role="button" target="_blank">Lire la suite</a></p>
-		      </div>
-		    </div>
-		  </div>
+	{% if feed == feeds[0] %}
+		<div class="row">
+			<div style="background-color: red;" class="col-md-6 col-md-offset-5">
+				    <div class="col-md-offset-3 col-md-2">
+					    <a href="{{ feed.site_url }}" class="thumbnail">
+					      <img src="{{ feed.logo }}" alt="logo">
+					    </a>
+					</div>
+					<div class="col-md-7">
+					 	<b>{{ feed.title }}</b>
+				        <p><a href="{{ feed.site_url }}">Site</a>,
+				        </br>{{ feed.language }}  {{ feed.description }}
+				   		</br>{{ feed.date|date('d/m/Y H:i:s', "Europe/Paris") }}</p>
+				   		<hr>
+				        <!--<p>{{ feed.id }}</p>-->
+					</div>
+				</div>
+			</div>
 		</div>
-	{% endfor %}
+	{% else %}
+			<div class="row">
+			<div class="col-md-6 col-md-offset-5">
+				    <div class="col-md-offset-3 col-md-2">
+					    <a href="{{ feed.site_url }}" class="thumbnail">
+					      <img src="{{ feed.logo }}" alt="logo">
+					    </a>
+					</div>
+					<div class="col-md-7">
+					 	<b>{{ feed.title }}</b>
+				        <p><a href="{{ feed.site_url }}">Site</a>,
+				        </br>{{ feed.language }}  {{ feed.description }}
+				   		</br>{{ feed.date|date('d/m/Y H:i:s', "Europe/Paris") }}</p>
+				   		<hr>
+				        <!--<p>{{ feed.id }}</p>-->
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endif %}
 {% endfor %}
 {% endblock %}
