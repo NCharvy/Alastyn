@@ -114,7 +114,7 @@ class AdminController extends Controller
 			else 
 			{
 				$URL_Verif = "Url non valide";
-				$Verif_RSS = "RSS non vérifier";
+				$Verif_RSS = "RSS non vérifié";
 			}
 		}
 		else
