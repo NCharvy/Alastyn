@@ -14,14 +14,28 @@ class AdminController extends Controller
      * @Route("/admin")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
     	$reader = new Reader;
-        $file=file_get_contents("Fichier_Sauvegarde_Lien_RSS/listeLiens.json");
+        $file=file_get_contents('Fichier_Sauvegarde_Lien_RSS/listeLiens.json');
         $datas=json_decode($file);
+
+        if ($request->getMethod() == 'POST')
+        {
+            $name = $_POST['name'];
+            $rss = $_POST['rss_link'];
+            
+            $datas[] = array('id'=>(count($datas)),'site'=>$name,'rss'=>$rss); 
+            $textResponse = json_encode($datas,JSON_PRETTY_PRINT);
+            file_put_contents('Fichier_Sauvegarde_Lien_RSS/listeLiens.json', $textResponse);
+
+            $file=file_get_contents('Fichier_Sauvegarde_Lien_RSS/listeLiens.json');
+            $datas=json_decode($file);
+        }
+
         $resources = [];
         foreach ($datas as $data) {
-            array_push($resources, $data->rss);
+            $resources[] = $data->rss;
         }
         $feeds = [];
 
@@ -38,7 +52,7 @@ class AdminController extends Controller
 
             $result = [];
             for($i = 0;$i<count($feed->items);$i++) {
-                preg_match("/(\<img).*((\/\>)|(\<\/img))/",$feed->items[$i]->content,$result);
+                preg_match('/(\<img).*((\/\>)|(\<\/img))/',$feed->items[$i]->content,$result);
                 if (count($result) > 0) {
                     $feed->items[$i]->preimage=$result[0];
                 }else{
@@ -48,6 +62,7 @@ class AdminController extends Controller
 
             $feeds[] = $feed;
         }
+
         return array('feeds' => $feeds);
     }
 

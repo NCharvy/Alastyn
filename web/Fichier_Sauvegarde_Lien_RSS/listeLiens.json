@@ -13,5 +13,15 @@
         "id": 2,
         "site": "How to geek",
         "rss": "http:\/\/feeds.howtogeek.com\/howtogeek"
+    },
+    {
+        "id": 3,
+        "site": "Hacking Social",
+        "rss": "http:\/\/hacking-social.com\/feed\/"
+    },
+    {
+        "id": 4,
+        "site": "Les Lutini\u00e8res",
+        "rss": "http:\/\/leslutinieres.viabloga.com\/index.xml"
     }
 ]
