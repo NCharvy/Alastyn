@@ -10,13 +10,13 @@ use PicoFeed\Reader\Reader;
 class AdminController extends Controller
 {
     /**
-     * @Route("/admin")
+     * @Route("/admin", name = "_indexAdmin")
      * @Template()
      */
     public function indexAction()
     {
     	$reader = new Reader;
-        $resources = ['https://news.ycombinator.com/rss', 'http://unodieuxconnard.com/feed/', 'http://korben.info/rss'];
+        $resources = ['http://unodieuxconnard.com/feed/', 'http://korben.info/rss'];
         $feeds = [];
 
         foreach ($resources as $rss) {
