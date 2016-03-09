@@ -80,15 +80,50 @@ class AdminController extends Controller
         {
             $URL_SITE_NAME = $_POST["URL_VALEUR_NAME"];
             $URL_SITE_RSS = $_POST["URL_VALEUR_RSS"];
+			
+			if (@fopen($URL_SITE_RSS, 'r')) 
+			{
+				$URL_Verif = "Url valide";
+				try {
 
-            
-            array_push($array,array("id"=>(count($array)),"site"=>$URL_SITE_NAME,"rss"=>$URL_SITE_RSS)); 
-            $textResponse = json_encode($array,JSON_PRETTY_PRINT);
-            file_put_contents("Fichier_Sauvegarde_Lien_RSS/listeLiens.json", $textResponse);
-            return array('file' => $array); 
-        }else{
-            return array('file' => $array); 
-        }
+					$reader = new Reader;
+
+					// Return a resource
+					$resource = $reader->download($URL_SITE_RSS);
+
+					// Return the right parser instance according to the feed format
+					$parser = $reader->getParser(
+						$resource->getUrl(),
+						$resource->getContent(),
+						$resource->getEncoding()
+					);
+
+					// Return a Feed object
+					$feed = $parser->execute();
+
+					$Verif_RSS = "RSS Valide";
+					
+					array_push($array,array("id"=>(count($array)),"site"=>$URL_SITE_NAME,"rss"=>$URL_SITE_RSS)); 
+					$textResponse = json_encode($array,JSON_PRETTY_PRINT);
+					file_put_contents("Fichier_Sauvegarde_Lien_RSS/listeLiens.json", $textResponse);
+				}
+				catch (PicoFeedException $e) {
+					$Verif_RSS = "RSS Comporte des erreurs <br> ".$e."<br>";
+				}
+			}
+			else 
+			{
+				$URL_Verif = "Url non valide";
+				$Verif_RSS = "RSS non vérifier";
+			}
+		}
+		else
+		{
+			$URL_Verif = "pas de donnée";
+			$Verif_RSS = "pas de donnée"; 
+		}			
+        return array('file' => $array, 'Verif_Exist' => $URL_Verif, 'Verif_RSS' => $Verif_RSS);    
+
     
         /*$vari="Fichier_Sauvegarde_Lien_RSS/Fichier_Lien_RSS.xml";
 

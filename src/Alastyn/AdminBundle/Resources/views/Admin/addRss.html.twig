@@ -19,15 +19,25 @@
   <br>
   <input type="submit" value="Valider">
 </form>
-    
-    <br>
+<br>
+<br>
+
+{% if Verif_Exist != "pas de donnée" %}
+	{{Verif_Exist}}
 	<br>
-	<br>		
-	{% if file != "pas de données" %}
-		{% for data in file %}
-			<p>{{ data.site }}</p>
-			<p>{{ data.rss }}</p>
-      <br><br>
-		{% endfor %}
-	{% endif %}
+	{{Verif_RSS}}
+	<br>
+{% endif %}
+
+<br>
+<br>
+<br>		
+{% for data in file %}
+	<p>
+	{{ data.site }}</p>
+	<p>
+	{{ data.rss }}</p>
+	<br>
+	<br>
+{% endfor %}
 {% endblock %}
