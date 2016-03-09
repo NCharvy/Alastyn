@@ -22,8 +22,8 @@ class AdminController extends Controller
 
         if ($request->getMethod() == 'POST')
         {
-            $name = $_POST['name'];
-            $rss = $_POST['rss_link'];
+            $name = $request->request->get('name');
+            $rss = $request->request->get('rss_link');
             
             $datas[] = array('id'=>(count($datas)),'site'=>$name,'rss'=>$rss); 
             $textResponse = json_encode($datas,JSON_PRETTY_PRINT);
