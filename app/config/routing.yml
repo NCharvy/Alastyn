@@ -1,3 +1,8 @@
+alastyn_front:
+    resource: "@AlastynFrontBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 alastyn_user:
     resource: "@AlastynUserBundle/Controller/"
     type:     annotation
