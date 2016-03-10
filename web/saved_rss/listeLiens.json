@@ -28,5 +28,10 @@
         "id": 5,
         "site": "Indiemag",
         "rss": "https:\/\/www.indiemag.fr\/feed\/rss.xml"
+    },
+    {
+        "id": 6,
+        "site": "aaa",
+        "rss": "http:\/\/feeds.howtogeek.com\/howtogeek"
     }
 ]
