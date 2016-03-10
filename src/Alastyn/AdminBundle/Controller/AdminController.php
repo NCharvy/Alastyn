@@ -8,6 +8,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use PicoFeed\Reader\Reader;
 use Symfony\Component\HttpFoundation\Request;
 
+use Alastyn\AdminBundle\Entity\Pays;
+use Alastyn\AdminBundle\Entity\Region;
+use Alastyn\AdminBundle\Entity\Domaine;
+use Alastyn\AdminBundle\Entity\Flux;
+
+use Alastyn\AdminBundle\Form\PaysType;
+
 class AdminController extends Controller
 {
     /**
@@ -164,5 +171,38 @@ class AdminController extends Controller
             return array('fichier_xml' => $array); 
         }
         */
+    }
+
+    /**
+     * @Route("/admin/state/create", name="_create_state")
+     * @Template("AlastynAdminBundle:Admin:createState.html.twig")
+     */
+    public function createStateAction(Request $req){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $state = new Pays;
+        $form = $this->get('form.factory')->create(PaysType::class, $state);
+
+        if($form->handleRequest($req)->isValid()){
+            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+            $file = $state->getIcon();
+            $fileName = $file->getClientOriginalName();
+
+            $iconsDir = $this->container->getParameter('kernel.root_dir').'/../web/uploads/icons';
+            $file->move($iconsDir, $fileName);
+
+            $state->setIcon($fileName);
+            $em->persist($state);
+            $em->flush();
+
+            $req->getSession()->getFlashBag()->add('notice', 'Le pays a bien été ajouté.');
+
+            return $this->redirectToRoute('_create_state');
+        }
+
+        return array('form' => $form->createView());
     }
 }

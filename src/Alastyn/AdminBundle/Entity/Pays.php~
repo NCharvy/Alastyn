@@ -3,13 +3,14 @@
 namespace Alastyn\AdminBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-//use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Pays
  *
  * @ORM\Table(name="pays")
  * @ORM\Entity(repositoryClass="Alastyn\AdminBundle\Repository\PaysRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Pays
 {
@@ -44,11 +45,16 @@ class Pays
     private $publication;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="icon", type="string", length=255, nullable=true)
+     * @var UploadedFile
      */
     private $icon;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="icon_name", type="string")
+     */
+    private $icon_name;
 
     /**
      * @ORM\OneToMany(targetEntity="Alastyn\AdminBundle\Entity\Region", mappedBy="pays", cascade={"all"})
@@ -201,5 +207,45 @@ class Pays
     public function getRegions()
     {
         return $this->regions;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUpload()
+    {
+        if(null === $this->icon)
+        {
+            return;
+        }
+
+        $this->nom_icon = $this->icon->getClientOriginalName();
+    }
+
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function upload()
+    {
+        if(null === $this->icon){
+            return;
+        }
+
+        $this->icon->move(
+            $this->getUploadRootDir(),
+            $this->nom_icon
+        );
+    }
+
+    public function getUploadRootDir()
+    {
+        return __DIR__ . '/../../../../web/' . $this->getUploadDir();
+    }
+
+    public function getUploadDir()
+    {
+        return 'uploads/icon';
     }
 }
