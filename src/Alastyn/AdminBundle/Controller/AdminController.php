@@ -14,6 +14,7 @@ use Alastyn\AdminBundle\Entity\Domaine;
 use Alastyn\AdminBundle\Entity\Flux;
 
 use Alastyn\AdminBundle\Form\PaysType;
+use Alastyn\AdminBundle\Form\RegionType;
 
 class AdminController extends Controller
 {
@@ -204,5 +205,134 @@ class AdminController extends Controller
         }
 
         return array('form' => $form->createView());
+    }
+
+    /**
+     * @Route("/admin/state/update/{id}", name="_update_state")
+     * @Template("AlastynAdminBundle:Admin:createState.html.twig")
+     */
+    public function updateStateAction(Request $req, $id){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $state = $em->getRepository('AlastynAdminBundle:Pays')->find($id);
+        $form = $this->get('form.factory')->create(PaysType::class, $state);
+
+        if($form->handleRequest($req)->isValid()){
+            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+            $file = $state->getIcon();
+            $fileName = $file->getClientOriginalName();
+
+            $iconsDir = $this->container->getParameter('kernel.root_dir').'/../web/uploads/icons';
+            $file->move($iconsDir, $fileName);
+
+            $state->setIcon($fileName);
+            $em->persist($state);
+            $em->flush();
+
+            $req->getSession()->getFlashBag()->add('notice', 'Le pays a bien été ajouté.');
+
+            return $this->redirectToRoute('_indexAdmin');
+        }
+
+        return array('form' => $form->createView());
+    }
+
+    /**
+     * @Route("/admin/states/view", name="_view_states")
+     * @Template("AlastynAdminBundle:Admin:viewStates.html.twig")
+     */
+    public function viewStateAction(Request $req){
+        $em = $this->getDoctrine()->getManager();
+        $states = $em->getRepository('AlastynAdminBundle:Pays')->findAll();
+        return array('states' => $states);
+    }
+
+    /**
+     * @Route("/admin/state/delete/{id}", name="_delete_state")
+     */
+    public function deleteStateAction(Request $req, $id){
+        $em = $this->getDoctrine()->getManager();
+        $state = $em->getRepository('AlastynAdminBundle:Pays')->find($id);
+
+        $em->remove($state);
+        $em->flush();
+
+        return $this->redirectToRoute('_view_states');
+    }
+
+    /**
+     * @Route("/admin/region/create", name="_create_region")
+     * @Template("AlastynAdminBundle:Admin:createRegion.html.twig")
+     */
+    public function createRegionAction(Request $req){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $region = new Region;
+        $form = $this->get('form.factory')->create(RegionType::class, $region);
+
+        if($form->handleRequest($req)->isValid()){
+            $em->persist($region);
+            $em->flush();
+
+            $req->getSession()->getFlashBag()->add('notice', 'La région a bien été ajoutée.');
+
+            return $this->redirectToRoute('_create_region');
+        }
+
+        return array('form' => $form->createView());
+    }
+
+    /**
+     * @Route("/admin/region/update/{id}", name="_update_region")
+     * @Template("AlastynAdminBundle:Admin:createRegion.html.twig")
+     */
+    public function updateRegionAction(Request $req, $id){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $region = $em->getRepository('AlastynAdminBundle:Region')->find($id);
+        $form = $this->get('form.factory')->create(RegionType::class, $region);
+
+        if($form->handleRequest($req)->isValid()){
+            $em->persist($region);
+            $em->flush();
+
+            $req->getSession()->getFlashBag()->add('notice', 'La région a bien été ajoutée.');
+
+            return $this->redirectToRoute('_indexAdmin');
+        }
+
+        return array('form' => $form->createView());
+    }
+
+    /**
+     * @Route("/admin/regions/view", name="_view_regions")
+     * @Template("AlastynAdminBundle:Admin:viewRegions.html.twig")
+     */
+    public function viewRegionAction(Request $req){
+        $em = $this->getDoctrine()->getManager();
+        $regions = $em->getRepository('AlastynAdminBundle:Region')->findAll();
+        return array('regions' => $regions);
+    }
+
+    /**
+     * @Route("/admin/region/delete/{id}", name="_delete_region")
+     */
+    public function deleteRegionAction(Request $req, $id){
+        $em = $this->getDoctrine()->getManager();
+        $region = $em->getRepository('AlastynAdminBundle:Region')->find($id);
+
+        $em->remove($region);
+        $em->flush();
+
+        return $this->redirectToRoute('_view_regions');
     }
 }
