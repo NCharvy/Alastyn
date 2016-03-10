@@ -87,69 +87,22 @@ class AdminController extends Controller
         {
             $URL_SITE_NAME = $_POST["URL_VALEUR_NAME"];
             $URL_SITE_RSS = $_POST["URL_VALEUR_RSS"];
-			
-			if (@fopen($URL_SITE_RSS, 'r')) 
-			{
-				$URL_Verif = "Url valide";
-				
-				try 
-				{
+            $Verfification_rss = $this->get('gbprod.my_service')->Service_verification_rss($URL_SITE_RSS);
 
-					$reader = new Reader;
-					
-					// Return a resource
-					$resource = $reader->download($URL_SITE_RSS);
+       		if($Verfification_rss == "FLUX RSS VALIDER")
+       		{
 
-					// Return the right parser instance according to the feed format
-						$parser = $reader->getParser(
-						$resource->getUrl(),
-						$resource->getContent(),
-						$resource->getEncoding()
-					);
-					
-					$Verfification_rss = $this->get('gbprod.my_service')->Service_verification_rss($URL_SITE_RSS);					
-					
-					if ($Verfification_rss == true ) 
-					{
-						$Verif_RSS = "Ce document est valide !\n";
-						
-						
-						try 
-						{
-							// Return a Feed object
-							$feed = $parser->execute();
-						}
-						catch (Exception $e) 
-						{
-							$Verif_RSS = $e;
-						}
-						$Verif_RSS = "RSS Valide";
-						array_push($array,array("id"=>(count($array)),"site"=>$URL_SITE_NAME,"rss"=>$URL_SITE_RSS)); 
-						$textResponse = json_encode($array,JSON_PRETTY_PRINT);
-						file_put_contents("saved_rss/listeLiens.json", $textResponse);
-					}
-					else
-					{
-							$Verif_RSS = "document non valide\n";
-					}
-				}
-				catch (Exception $e) 
-				{
-					$Verif_RSS = $e;
-				}
-			}
-			else 
-			{
-				$URL_Verif = "Url non valide";
-				$Verif_RSS = "RSS non vérifié";
-			}
+				array_push($array,array("id"=>(count($array)),"site"=>$URL_SITE_NAME,"rss"=>$URL_SITE_RSS)); 
+				$textResponse = json_encode($array,JSON_PRETTY_PRINT);
+				file_put_contents("saved_rss/listeLiens.json", $textResponse);
+
+       		}
 		}
 		else
 		{
-			$URL_Verif = "pas de donnée";
-			$Verif_RSS = "pas de donnée"; 
-		}			
-        return array('file' => $array, 'Verif_Exist' => $URL_Verif, 'Verif_RSS' => $Verif_RSS);    
+			$Verfification_rss = "pas de donnée";
+		}
+        return array('file' => $array, 'Verif_Exist' => $Verfification_rss);    
 
     
         /*$vari="saved_rss/Fichier_Lien_RSS.xml";
