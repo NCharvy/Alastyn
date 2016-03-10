@@ -6,26 +6,21 @@
     },
     {
         "id": 1,
-        "site": "Korben",
-        "rss": "http:\/\/korben.info\/rss"
-    },
-    {
-        "id": 2,
         "site": "How to geek",
         "rss": "http:\/\/feeds.howtogeek.com\/howtogeek"
     },
     {
-        "id": 3,
+        "id": 2,
         "site": "Hacking Social",
         "rss": "http:\/\/hacking-social.com\/feed\/"
     },
     {
-        "id": 4,
+        "id": 3,
         "site": "Les Lutini\u00e8res",
         "rss": "http:\/\/leslutinieres.viabloga.com\/index.xml"
     },
     {
-        "id": 5,
+        "id": 4,
         "site": "Indiemag",
         "rss": "https:\/\/www.indiemag.fr\/feed\/rss.xml"
     }
