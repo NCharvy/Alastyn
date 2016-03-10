@@ -19,7 +19,10 @@ class FrontControllerController extends Controller
         $resources = ['http://feeds.howtogeek.com/howtogeek',
          'http://unodieuxconnard.com/feed/',
           'http://korben.info/rss',
-           'http://www.lemonde.fr/videos/rss_full.xml'];
+           'http://www.lemonde.fr/videos/rss_full.xml','http://www.begeek.fr/feed',
+           'http://feeds2.feedburner.com/LeJournalduGeek',
+            'http://www.journaldunet.com/rss/',
+             'http://feeds.feedburner.com/fubiz'];
         $feeds = [];
 
         foreach ($resources as $rss) {
