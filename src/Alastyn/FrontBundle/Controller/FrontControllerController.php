@@ -10,19 +10,19 @@ use PicoFeed\Reader\Reader;
 class FrontControllerController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/", name = "_index")
      * @Template()
      */
 	public function indexAction()
     {
         $reader = new Reader;
         $resources = ['http://feeds.howtogeek.com/howtogeek',
-         'http://unodieuxconnard.com/feed/',
-          'http://korben.info/rss',
-           'http://www.lemonde.fr/videos/rss_full.xml','http://www.begeek.fr/feed',
-           'http://feeds2.feedburner.com/LeJournalduGeek',
-            'http://www.journaldunet.com/rss/',
-             'http://feeds.feedburner.com/fubiz'];
+          'http://www.lemonde.fr/videos/rss_full.xml',
+          'http://www.begeek.fr/feed',
+          'http://feeds2.feedburner.com/LeJournalduGeek',
+          'http://www.journaldunet.com/rss/',
+          'http://feeds.feedburner.com/fubiz',
+          'http://www.presse-citron.net/feed/'];
         $feeds = [];
 
         foreach ($resources as $rss) {
@@ -48,7 +48,8 @@ class FrontControllerController extends Controller
                 }
                 else{
                     $feed->items[$i]->preimage=
-                    '<img width="100%!important;" class="img-responsive" src="http://www.allvectors.com/wp-content/uploads/2012/06/abstract-white-background.jpg" />';
+                    '<img width="100%!important;" class="img-responsive" 
+                    src="http://www.allvectors.com/wp-content/uploads/2012/06/abstract-white-background.jpg" />';
                 }
             }
 
