@@ -241,11 +241,11 @@ class Domaine
     /**
      * Set region
      *
-     * @param \Alastyn\AdminBundle\Region $region
+     * @param \Alastyn\AdminBundle\Entity\Region $region
      *
      * @return Domaine
      */
-    public function setRegion(\Alastyn\AdminBundle\Region $region = null)
+    public function setRegion(\Alastyn\AdminBundle\Entity\Region $region = null)
     {
         $this->region = $region;
 
@@ -255,7 +255,7 @@ class Domaine
     /**
      * Get region
      *
-     * @return \Alastyn\AdminBundle\Region
+     * @return \Alastyn\AdminBundle\Entity\Region
      */
     public function getRegion()
     {

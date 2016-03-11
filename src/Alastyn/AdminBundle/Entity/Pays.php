@@ -172,11 +172,11 @@ class Pays
     /**
      * Add region
      *
-     * @param \Alastyn\AdminBundle\Region $region
+     * @param \Alastyn\AdminBundle\Entity\Region $region
      *
      * @return Pays
      */
-    public function addRegion(\Alastyn\AdminBundle\Region $region)
+    public function addRegion(\Alastyn\AdminBundle\Entity\Region $region)
     {
         $this->regions[] = $region;
 
@@ -186,9 +186,9 @@ class Pays
     /**
      * Remove region
      *
-     * @param \Alastyn\AdminBundle\Region $region
+     * @param \Alastyn\AdminBundle\Entity\Region $region
      */
-    public function removeRegion(\Alastyn\AdminBundle\Region $region)
+    public function removeRegion(\Alastyn\AdminBundle\Entity\Region $region)
     {
         $this->regions->removeElement($region);
     }

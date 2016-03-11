@@ -83,11 +83,11 @@ class Region
     /**
      * Add domaine
      *
-     * @param \Alastyn\AdminBundle\Domaine $domaine
+     * @param \Alastyn\AdminBundle\Entity\Domaine $domaine
      *
      * @return Region
      */
-    public function addDomaine(\Alastyn\AdminBundle\Domaine $domaine)
+    public function addDomaine(\Alastyn\AdminBundle\Entity\Domaine $domaine)
     {
         $this->domaines[] = $domaine;
 
@@ -97,9 +97,9 @@ class Region
     /**
      * Remove domaine
      *
-     * @param \Alastyn\AdminBundle\Domaine $domaine
+     * @param \Alastyn\AdminBundle\Entity\Domaine $domaine
      */
-    public function removeDomaine(\Alastyn\AdminBundle\Domaine $domaine)
+    public function removeDomaine(\Alastyn\AdminBundle\Entity\Domaine $domaine)
     {
         $this->domaines->removeElement($domaine);
     }
@@ -117,11 +117,11 @@ class Region
     /**
      * Set pays
      *
-     * @param \Alastyn\AdminBundle\Pays $pays
+     * @param \Alastyn\AdminBundle\Entity\Pays $pays
      *
      * @return Region
      */
-    public function setPays(\Alastyn\AdminBundle\Pays $pays = null)
+    public function setPays(\Alastyn\AdminBundle\Entity\Pays $pays = null)
     {
         $this->pays = $pays;
 
@@ -131,7 +131,7 @@ class Region
     /**
      * Get pays
      *
-     * @return \Alastyn\AdminBundle\Pays
+     * @return \Alastyn\AdminBundle\Entity\Pays
      */
     public function getPays()
     {

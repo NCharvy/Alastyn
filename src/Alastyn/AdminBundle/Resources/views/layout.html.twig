@@ -77,16 +77,10 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#region"><i class="fa fa-fw fa-map"></i> Région <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="region" class="collapse">
                             <li>
-                                <a href="#">Voir la liste des régions</a>
+                                <a href="{{ path('_view_regions') }}">Voir la liste des régions</a>
                             </li>
                             <li>
-                                <a href="#">Ajouter région</a>
-                            </li>
-                            <li>
-                                <a href="#">Supprimer région</a>
-                            </li>
-                            <li>
-                                <a href="#">Modifier région</a>
+                                <a href="{{ path('_create_region') }}">Ajouter région</a>
                             </li>
                         </ul>
                     </li>
@@ -94,16 +88,10 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#state"><i class="fa fa-fw fa-globe"></i> Pays <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="state" class="collapse">
                             <li>
-                                <a href="#">Voir la liste des pays</a>
+                                <a href="{{ path('_view_states') }}">Voir la liste des pays</a>
                             </li>
                             <li>
                                 <a href="{{ path('_create_state') }}">Ajouter pays</a>
-                            </li>
-                            <li>
-                                <a href="#">Supprimer pays</a>
-                            </li>
-                            <li>
-                                <a href="#">Modifier pays</a>
                             </li>
                         </ul>
                     </li>

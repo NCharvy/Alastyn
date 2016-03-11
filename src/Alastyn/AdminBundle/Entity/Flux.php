@@ -133,11 +133,11 @@ class Flux
     /**
      * Set domaine
      *
-     * @param \Alastyn\AdminBundle\Entity\Path $domaine
+     * @param \Alastyn\AdminBundle\Entity\Domaine $domaine
      *
      * @return Flux
      */
-    public function setDomaine(\Alastyn\AdminBundle\Entity\Path $domaine = null)
+    public function setDomaine(\Alastyn\AdminBundle\Entity\Domaine $domaine = null)
     {
         $this->domaine = $domaine;
 
@@ -147,7 +147,7 @@ class Flux
     /**
      * Get domaine
      *
-     * @return \Alastyn\AdminBundle\Entity\Path
+     * @return \Alastyn\AdminBundle\Entity\Domaine
      */
     public function getDomaine()
     {
