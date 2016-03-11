@@ -36,7 +36,7 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    <li class="active">
+                    <li>
                         <a href="{{ path('_indexAdmin') }}"><i class="fa fa-fw fa-dashboard"></i> Tableau de bord</a>
                     </li>
                     <li>
@@ -46,7 +46,7 @@
                                 <a href="#">Voir la liste des flux</a>
                             </li>
                             <li>
-                                <a href="#">Ajouter flux</a>
+                                <a href="{{ path('_create_flow') }}">Ajouter flux</a>
                             </li>
                             <li>
                                 <a href="#">Supprimer flux</a>
@@ -63,7 +63,7 @@
                                 <a href="#">Voir la liste des domaines</a>
                             </li>
                             <li>
-                                <a href="#">Ajouter domaine</a>
+                                <a href="{{ path('_create_domain') }}">Ajouter domaine</a>
                             </li>
                             <li>
                                 <a href="#">Supprimer domaine</a>

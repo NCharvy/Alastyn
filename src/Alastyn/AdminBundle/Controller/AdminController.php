@@ -14,6 +14,9 @@ use Alastyn\AdminBundle\Entity\Domaine;
 use Alastyn\AdminBundle\Entity\Flux;
 
 use Alastyn\AdminBundle\Form\PaysType;
+use Alastyn\AdminBundle\Form\DomaineType;
+use Alastyn\AdminBundle\Form\FluxType;
+
 
 class AdminController extends Controller
 {
@@ -129,53 +132,12 @@ class AdminController extends Controller
 			$URL_Verif = "pas de donnée";
 			$Verif_RSS = "pas de donnée"; 
 		}			
-        return array('file' => $array, 'Verif_Exist' => $URL_Verif, 'Verif_RSS' => $Verif_RSS);    
-
-    
-        /*$vari="saved_rss/Fichier_Lien_RSS.xml";
-
-        if ($request->getMethod() == 'POST') 
-        {
-            $URL_SITE_NAME = $_POST["URL_VALEUR_NAME"];
-            $URL_SITE_RSS = $_POST["URL_VALEUR_RSS"];
-            $xml= simplexml_load_file($vari);
-            $json = json_encode($xml);
-            $array = json_decode($json,TRUE);
-            array_push($array["site_web"],array("id"=>(count($array["site_web"])),"site"=>$URL_SITE_NAME,"rss"=>$URL_SITE_RSS));
-            
-            $_xml ="<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\r\n";
-            $_xml .="<flux>\r\n";
-            
-            for ($i = 0; $i < count($array["site_web"]); $i++)
-            {
-                $_xml .="   <site_web>\r\n\r\n";
-                $_xml .="       <id>".$array["site_web"][$i]["id"]."</id>\r\n";
-                $_xml .="       <site>".$array["site_web"][$i]["site"]."</site>\r\n";
-                $_xml .="       <rss>".$array["site_web"][$i]["rss"]."</rss>\r\n\n";
-                $_xml .="   </site_web>\r\n\r\n";            
-            }
-            
-            $_xml .="</flux>\r\n";
-            
-            $file= fopen($vari, "w");
-            fwrite($file,$_xml);
-            fclose($file);
-
-            return array('fichier_xml' => $array);          
-        }
-        else
-        {
-            $xml= simplexml_load_file($vari);
-            $json = json_encode($xml);
-            $array = json_decode($json,TRUE);
-            return array('fichier_xml' => $array); 
-        }
-        */
+        return array('file' => $array, 'Verif_Exist' => $URL_Verif, 'Verif_RSS' => $Verif_RSS);
     }
 
     /**
      * @Route("/admin/state/create", name="_create_state")
-     * @Template("AlastynAdminBundle:Admin:createState.html.twig")
+     * @Template("AlastynAdminBundle:Pays:createState.html.twig")
      */
     public function createStateAction(Request $req){
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
@@ -201,6 +163,79 @@ class AdminController extends Controller
             $req->getSession()->getFlashBag()->add('notice', 'Le pays a bien été ajouté.');
 
             return $this->redirectToRoute('_create_state');
+        }
+
+        return array('form' => $form->createView());
+    }
+
+    /**
+     * @Route("/admin/domain/create", name="_create_domain")
+     * @Template("AlastynAdminBundle:Domaine:createDomain.html.twig")
+     */
+    public function createDomainAction(Request $req){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $domain = new Domaine;
+        $form = $this->get('form.factory')->create(DomaineType::class, $domain);
+
+        if($form->handleRequest($req)->isValid()){
+            $em->persist($domain);
+            $em->flush();
+
+            $req->getSession()->getFlashBag()->add('notice', 'Le domaine a bien été ajouté.');
+
+            return $this->redirectToRoute('_create_domain');
+        }
+
+        return array('form' => $form->createView());
+    }
+
+    /**
+     * @Route("/admin/domain/list", name="_list_domain")
+     * @Template("AlastynAdminBundle:Domaine:listDomain/html.twig")
+     */
+    public function listDomainAction(){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        }
+
+        $domains = $this->getDoctrine()
+                ->getRepository('AlastynAdminBundle:Domaine')
+                ->findAll()
+        ;
+
+        if (!$domains) {
+            throw $this->createNotFoundException('No domains found ');
+        }
+
+        return array('domains' => $domains);
+    }
+
+    /**
+     * @Route("/admin/flow/create", name="_create_flow")
+     * @Template("AlastynAdminBundle:Flux:createFlow.html.twig")
+     */
+    public function createFlowAction(Request $req){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $flow = new Flux;
+        $form = $this->get('form.factory')->create(FluxType::class, $flow);
+
+        if($form->handleRequest($req)->isValid()){
+            # Faire la vérification RSS, ajouter status + passer publication à false si erreur
+            $flow->setStatus('Valide');
+            $em->persist($flow);
+            $em->flush();
+
+            $req->getSession()->getFlashBag()->add('notice', 'Le flux RSS a bien été ajouté.');
+
+            return $this->redirectToRoute('_create_flow');
         }
 
         return array('form' => $form->createView());

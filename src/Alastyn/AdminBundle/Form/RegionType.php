@@ -20,7 +20,7 @@ class RegionType extends AbstractType
                 'class'         =>  'AlastynAdminBundle:Pays',
                 'property'      =>  'nom',
                 'multiple'      =>  false,
-                'expanded'    =>  false
+                'expanded'      =>  false
             ))
         ;
     }
