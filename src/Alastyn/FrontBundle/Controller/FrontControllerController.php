@@ -25,37 +25,66 @@ class FrontControllerController extends Controller
              'http://feeds.feedburner.com/fubiz'];
         $feeds = [];
 
-        foreach ($resources as $rss) {
-            $resource = $reader->download($rss);
+        foreach ($resources as $rss) 
+        {
+			
+			$dom = new \DOMDocument;
+			$dom->Load($URL_SITE_RSS);
+			if ($dom->validate()) 
+			{	
+				try 
+				{
+					// Return a Feed object
+					$feed = $parser->execute();
+				}
+				catch (Exception $e) 
+				{
+					$Verif_RSS = $e;
+				}
+				try
+				{
+				$resource = $reader->download($rss);
 
-            $parser = $reader->getParser(
-                $resource->getUrl(),
-                $resource->getContent(),
-                $resource->getEncoding()
-            );
+				$parser = $reader->getParser(
+					$resource->getUrl(),
+					$resource->getContent(),
+					$resource->getEncoding()
+				);
+				
+					$feed = $parser->execute();
+					
+					$result = [];
+					for($i = 0;$i<count($feed->items);$i++) 
+					{
+						preg_match("/(\<img).*((\/\>)|(\<\/img))/",$feed->items[$i]->content,$result);
 
-            $feed = $parser->execute();
+						if (count($result) > 0) 
+						{
+							$feed->items[$i]->preimage=$result[0]; 
+							$feed->items[$i]->preimage = preg_replace("/src/",
+							'width="100%!important;" class="img-responsive" src',
+							$feed->items[$i]->preimage);
+						}
+						else
+						{
+							$feed->items[$i]->preimage=
+							'<img width="100%!important;" class="img-responsive" src="http://www.allvectors.com/wp-content/uploads/2012/06/abstract-white-background.jpg" />';
+						}
+					}
+				}
+				Catch(MalformedXmlException $e) 
+				{
+						$feed = "RSS Comporte des erreurs <br> ".$e."<br>";
+				}
+				$feeds[] = $feed;       
+				return array('feeds' => $feeds);
+			}
+			else
+			{
+					return array('feeds' => "document non valide\n");
+			}
+		}
 
-            $result = [];
-            for($i = 0;$i<count($feed->items);$i++) {
-                preg_match("/(\<img).*((\/\>)|(\<\/img))/",$feed->items[$i]->content,$result);
 
-                if (count($result) > 0) {
-                    $feed->items[$i]->preimage=$result[0]; 
-                    $feed->items[$i]->preimage = preg_replace("/src/",
-                    'width="100%!important;" class="img-responsive" src',
-                    $feed->items[$i]->preimage);
-                }
-                else{
-                    $feed->items[$i]->preimage=
-                    '<img width="100%!important;" class="img-responsive" src="http://www.allvectors.com/wp-content/uploads/2012/06/abstract-white-background.jpg" />';
-                }
-            }
-
-            $feeds[] = $feed;
-        }
-        return array('feeds' => $feeds);
-    }
-
-
+	}
 }

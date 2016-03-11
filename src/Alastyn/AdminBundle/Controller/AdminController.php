@@ -49,31 +49,38 @@ class AdminController extends Controller
         }
         $feeds = [];
 
-        foreach ($resources as $rss) {
-            $resource = $reader->download($rss);
+        foreach ($resources as $rss) 
+        {
+			try
+			{
+				$resource = $reader->download($rss);
+				
+				$parser = $reader->getParser(
+					$resource->getUrl(),
+					$resource->getContent(),
+					$resource->getEncoding()
+				);
+				
+				$feed = $parser->execute();
 
-            $parser = $reader->getParser(
-                $resource->getUrl(),
-                $resource->getContent(),
-                $resource->getEncoding()
-            );
-
-            $feed = $parser->execute();
-
-            $result = [];
-            for($i = 0;$i<count($feed->items);$i++) {
-                preg_match('/(\<img).*((\/\>)|(\<\/img))/',$feed->items[$i]->content,$result);
-                if (count($result) > 0) {
-                    $feed->items[$i]->preimage=$result[0];
-                }else{
-                    $feed->items[$i]->preimage="";
-                }
-            }
-
-            $feeds[] = $feed;
+				$result = [];
+				for($i = 0;$i<count($feed->items);$i++) {
+					preg_match('/(\<img).*((\/\>)|(\<\/img))/',$feed->items[$i]->content,$result);
+					if (count($result) > 0) {
+						$feed->items[$i]->preimage=$result[0];
+					}else{
+						$feed->items[$i]->preimage="";
+					}
+				}
+				$feeds[] = $feed;
+				return array('feeds' => $feeds);
+			}
+			catch(Exception $e) 
+			{
+				return array('feeds' => $e);
+			}
+            
         }
-
-        return array('feeds' => $feeds);
     }
 
     /**
@@ -90,49 +97,22 @@ class AdminController extends Controller
         {
             $URL_SITE_NAME = $_POST["URL_VALEUR_NAME"];
             $URL_SITE_RSS = $_POST["URL_VALEUR_RSS"];
-			
-			if (@fopen($URL_SITE_RSS, 'r')) 
-			{
-				$URL_Verif = "Url valide";
-				try {
+            $Verfification_rss = $this->get('gbprod.my_service')->Service_verification_rss($URL_SITE_RSS);
 
-					$reader = new Reader;
+       		if($Verfification_rss == "FLUX RSS VALIDER")
+       		{
 
-					// Return a resource
-					$resource = $reader->download($URL_SITE_RSS);
+				array_push($array,array("id"=>(count($array)),"site"=>$URL_SITE_NAME,"rss"=>$URL_SITE_RSS)); 
+				$textResponse = json_encode($array,JSON_PRETTY_PRINT);
+				file_put_contents("saved_rss/listeLiens.json", $textResponse);
 
-					// Return the right parser instance according to the feed format
-					$parser = $reader->getParser(
-						$resource->getUrl(),
-						$resource->getContent(),
-						$resource->getEncoding()
-					);
-
-					// Return a Feed object
-					$feed = $parser->execute();
-
-					$Verif_RSS = "RSS Valide";
-					
-					array_push($array,array("id"=>(count($array)),"site"=>$URL_SITE_NAME,"rss"=>$URL_SITE_RSS)); 
-					$textResponse = json_encode($array,JSON_PRETTY_PRINT);
-					file_put_contents("saved_rss/listeLiens.json", $textResponse);
-				}
-				catch (PicoFeedException $e) {
-					$Verif_RSS = "RSS Comporte des erreurs <br> ".$e."<br>";
-				}
-			}
-			else 
-			{
-				$URL_Verif = "Url non valide";
-				$Verif_RSS = "RSS non vérifié";
-			}
+       		}
 		}
 		else
 		{
-			$URL_Verif = "pas de donnée";
-			$Verif_RSS = "pas de donnée"; 
-		}			
-        return array('file' => $array, 'Verif_Exist' => $URL_Verif, 'Verif_RSS' => $Verif_RSS);
+			$Verfification_rss = "pas de donnée";
+		}
+        return array('file' => $array, 'Verif_Exist' => $Verfification_rss);    
     }
 
     /**
