@@ -1,0 +1,36 @@
+{% extends "AlastynAdminBundle::layout.html.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <h2 style="text-align : center;">Liste des pays</h2>
+            <table class="table table-hover table-bordered table-stripped">
+                <tr>
+                    <th>Nom</th>
+                    <th>Abréviation</th>
+                    <th>Publié</th>
+                    <th>Icône</th>
+                    <th>Opérations</th>
+                </tr>
+                {% for state in states %}
+                    <tr>
+                        <td>{{ state.nom }}</td>
+                        <td>{{ state.abbr }}</td>
+                        <td>
+                            {% if state.publication == 1 %}
+                                Oui
+                            {% else %}
+                                Non
+                            {% endif %}
+                        </td>
+                        <td><img src="{{ asset("uploads/icons/#{state.icon}") }}" width="50" /></td>
+                        <td>
+                            <a href="{{ path('_update_state', {'id': state.id}) }}"><i class="fa fa-pencil"></i></a>
+                            <a href="{{ path('_delete_state', {'id': state.id}) }}"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}
