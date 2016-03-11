@@ -207,11 +207,11 @@ class Domaine
     /**
      * Add flux
      *
-     * @param \Alastyn\AdminBundle\Flux $flux
+     * @param \Alastyn\AdminBundle\Entity\Flux $flux
      *
      * @return Domaine
      */
-    public function addFlux(\Alastyn\AdminBundle\Flux $flux)
+    public function addFlux(\Alastyn\AdminBundle\Entity\Flux $flux)
     {
         $this->flux[] = $flux;
 
@@ -221,9 +221,9 @@ class Domaine
     /**
      * Remove flux
      *
-     * @param \Alastyn\AdminBundle\Flux $flux
+     * @param \Alastyn\AdminBundle\Entity\Flux $flux
      */
-    public function removeFlux(\Alastyn\AdminBundle\Flux $flux)
+    public function removeFlux(\Alastyn\AdminBundle\Entity\Flux $flux)
     {
         $this->flux->removeElement($flux);
     }

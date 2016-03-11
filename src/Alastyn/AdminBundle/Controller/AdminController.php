@@ -239,6 +239,7 @@ class AdminController extends Controller
             throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
         }
 
+        $em = $this->getDoctrine()->getManager();
         $region = $em->getRepository('AlastynAdminBundle:Region')->find($id);
         $form = $this->get('form.factory')->create(RegionType::class, $region);
 
@@ -320,6 +321,44 @@ class AdminController extends Controller
     }
 
     /**
+     * @Route("/admin/domain/update/{id}", name="_update_domain")
+     * @Template("AlastynAdminBundle:Region:createDomain.html.twig")
+     */
+    public function updateDomainAction(Request $req, $id){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $domain = $em->getRepository('AlastynAdminBundle:Domaine')->find($id);
+        $form = $this->get('form.factory')->create(DomaineType::class, $domain);
+
+        if($form->handleRequest($req)->isValid()){
+            $em->persist($domain);
+            $em->flush();
+
+            $req->getSession()->getFlashBag()->add('notice', 'Le domaine a bien été ajouté.');
+
+            return $this->redirectToRoute('_indexAdmin');
+        }
+
+        return array('form' => $form->createView());
+    }
+
+    /**
+     * @Route("/admin/domain/delete/{id}", name="_delete_domain")
+     */
+    public function deleteDomainAction(Request $req, $id){
+        $em = $this->getDoctrine()->getManager();
+        $domain = $em->getRepository('AlastynAdminBundle:Domaine')->find($id);
+
+        $em->remove($domain);
+        $em->flush();
+
+        return $this->redirectToRoute('_list_domain');
+    }
+
+    /**
      * @Route("/admin/flow/create", name="_create_flow")
      * @Template("AlastynAdminBundle:Flux:createFlow.html.twig")
      */
@@ -342,7 +381,62 @@ class AdminController extends Controller
 
             return $this->redirectToRoute('_create_flow');
         }
-        
+
         return array('form' => $form->createView());
+    }
+
+    /**
+     * @Route("/admin/flow/list", name="_list_flow")
+     * @Template("AlastynAdminBundle:Flux:listFlow.html.twig")
+     */
+    public function listFlowAction(){
+        $flows = $this->getDoctrine()
+            ->getRepository('AlastynAdminBundle:Flux')
+            ->findAll()
+        ;
+
+        if (!$flows) {
+            throw $this->createNotFoundException('No flows found ');
+        }
+
+        return array('flows' => $flows);
+    }
+
+    /**
+     * @Route("/admin/flow/update/{id}", name="_update_flow")
+     * @Template("AlastynAdminBundle:Flux:createFlow.html.twig")
+     */
+    public function updateFlowAction(Request $req, $id){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $flow = $em->getRepository('AlastynAdminBundle:Flux')->find($id);
+        $form = $this->get('form.factory')->create(FluxType::class, $flow);
+
+        if($form->handleRequest($req)->isValid()){
+            $em->persist($flow);
+            $em->flush();
+
+            $req->getSession()->getFlashBag()->add('notice', 'Le flux a bien été ajouté.');
+
+            return $this->redirectToRoute('_indexAdmin');
+        }
+
+        return array('form' => $form->createView());
+    }
+
+    /**
+     * @Route("/admin/flow/delete/{id}", name="_delete_flow")
+     */
+    public function deleteFlowAction(Request $req, $id){
+        $em = $this->getDoctrine()->getManager();
+        $domain = $em->getRepository('AlastynAdminBundle:Flux')->find($id);
+
+        $em->remove($domain);
+        $em->flush();
+
+        return $this->redirectToRoute('_list_flow');
     }
 }

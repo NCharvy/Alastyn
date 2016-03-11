@@ -43,16 +43,10 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#flux"><i class="fa fa-fw fa-rss"></i> Flux <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="flux" class="collapse">
                             <li>
-                                <a href="#">Voir la liste des flux</a>
+                                <a href="{{ path('_list_flow') }}">Voir la liste des flux</a>
                             </li>
                             <li>
                                 <a href="{{ path('_create_flow') }}">Ajouter flux</a>
-                            </li>
-                            <li>
-                                <a href="#">Supprimer flux</a>
-                            </li>
-                            <li>
-                                <a href="#">Modifier flux</a>
                             </li>
                         </ul>
                     </li>
@@ -60,16 +54,10 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#domain"><i class="fa fa-fw fa-leaf"></i> Domaine <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="domain" class="collapse">
                             <li>
-                                <a href="#">Voir la liste des domaines</a>
+                                <a href="{{ path('_list_domain') }}">Voir la liste des domaines</a>
                             </li>
                             <li>
                                 <a href="{{ path('_create_domain') }}">Ajouter domaine</a>
-                            </li>
-                            <li>
-                                <a href="#">Supprimer domaine</a>
-                            </li>
-                            <li>
-                                <a href="#">Modifier domaine</a>
                             </li>
                         </ul>
                     </li>

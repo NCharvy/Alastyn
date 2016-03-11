@@ -1,17 +1,34 @@
 {% extends "AlastynAdminBundle::layout.html.twig" %}
 
 {% block content %}
-	<main>
-		<table class="table table-striped">
-			<tr>
-				<th>#</th>
-				<th>Nom</th>
-				<th>Site web</th>
-				<th>Adresse</th>
-				<th>Code Postal</th>
-				<th>Ville</th>
-				<th>Region</th>
-			</tr>
-		</table>
-	</main>
+	<div class="row">
+        <div class="col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2">
+            <h2 style="text-align : center;">Liste des domaines</h2>
+            <table class="table table-hover table-bordered table-stripped">
+                <tr>
+					<th>Nom</th>
+					<th>Site web</th>
+					<th>Adresse</th>
+					<th>Code Postal</th>
+					<th>Ville</th>
+					<th>Region</th>
+					<th>Opérations</th>
+				</tr>
+				{% for domain in domains %}
+	                <tr>
+	                    <td>{{ domain.nom }}</td>
+	                    <td>{{ domain.website }}</td>
+	                    <td>{{ domain.adresse }}</td>
+	                    <td>{{ domain.codepostal }}</td>
+	                    <td>{{ domain.ville }}</td>
+	                    <td>{{ domain.region.nom }}</td>
+	                    <td>
+	                        <a href="{{ path('_update_domain', {'id': domain.id}) }}"><i class="fa fa-pencil"></i></a>
+	                        <a href="{{ path('_delete_domain', {'id': domain.id}) }}"><i class="fa fa-trash"></i></a>
+	                    </td>
+	                </tr>
+	            {% endfor %}
+            </table>
+        </div>
+    </div>
 {% endblock %}
