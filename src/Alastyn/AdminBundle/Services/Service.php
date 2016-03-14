@@ -6,7 +6,7 @@ class Service
     public function Service_verification_rss( $xmlContent )
 	{
 
-		if (fopen($xmlContent, 'r')) 
+		if (@fopen($xmlContent, 'r')) 
 		{
 				$xmlContent = file_get_contents($xmlContent);
 				libxml_use_internal_errors(true);
