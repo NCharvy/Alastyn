@@ -5,6 +5,8 @@ namespace Alastyn\AdminBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class RegionType extends AbstractType
 {
@@ -16,11 +18,14 @@ class RegionType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('pays', 'entity', array(
+            ->add('pays', EntityType::class, array(
                 'class'         =>  'AlastynAdminBundle:Pays',
-                'property'      =>  'nom',
+                'choice_label'      =>  'nom',
                 'multiple'      =>  false,
-                'expanded'    =>  false
+                'expanded'      =>  false
+            ))
+            ->add('enregistrer', SubmitType::class, array(
+                'attr' => array('class' => 'btn btn-primary')
             ))
         ;
     }

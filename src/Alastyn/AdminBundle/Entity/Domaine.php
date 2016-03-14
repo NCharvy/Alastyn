@@ -207,11 +207,11 @@ class Domaine
     /**
      * Add flux
      *
-     * @param \Alastyn\AdminBundle\Flux $flux
+     * @param \Alastyn\AdminBundle\Entity\Flux $flux
      *
      * @return Domaine
      */
-    public function addFlux(\Alastyn\AdminBundle\Flux $flux)
+    public function addFlux(\Alastyn\AdminBundle\Entity\Flux $flux)
     {
         $this->flux[] = $flux;
 
@@ -221,9 +221,9 @@ class Domaine
     /**
      * Remove flux
      *
-     * @param \Alastyn\AdminBundle\Flux $flux
+     * @param \Alastyn\AdminBundle\Entity\Flux $flux
      */
-    public function removeFlux(\Alastyn\AdminBundle\Flux $flux)
+    public function removeFlux(\Alastyn\AdminBundle\Entity\Flux $flux)
     {
         $this->flux->removeElement($flux);
     }
@@ -241,11 +241,11 @@ class Domaine
     /**
      * Set region
      *
-     * @param \Alastyn\AdminBundle\Region $region
+     * @param \Alastyn\AdminBundle\Entity\Region $region
      *
      * @return Domaine
      */
-    public function setRegion(\Alastyn\AdminBundle\Region $region = null)
+    public function setRegion(\Alastyn\AdminBundle\Entity\Region $region = null)
     {
         $this->region = $region;
 
@@ -255,7 +255,7 @@ class Domaine
     /**
      * Get region
      *
-     * @return \Alastyn\AdminBundle\Region
+     * @return \Alastyn\AdminBundle\Entity\Region
      */
     public function getRegion()
     {

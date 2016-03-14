@@ -36,23 +36,17 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    <li class="active">
+                    <li>
                         <a href="{{ path('_indexAdmin') }}"><i class="fa fa-fw fa-dashboard"></i> Tableau de bord</a>
                     </li>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#flux"><i class="fa fa-fw fa-rss"></i> Flux <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="flux" class="collapse">
                             <li>
-                                <a href="#">Voir la liste des flux</a>
+                                <a href="{{ path('_list_flow') }}">Voir la liste des flux</a>
                             </li>
                             <li>
-                                <a href="#">Ajouter flux</a>
-                            </li>
-                            <li>
-                                <a href="#">Supprimer flux</a>
-                            </li>
-                            <li>
-                                <a href="#">Modifier flux</a>
+                                <a href="{{ path('_create_flow') }}">Ajouter flux</a>
                             </li>
                         </ul>
                     </li>
@@ -60,16 +54,10 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#domain"><i class="fa fa-fw fa-leaf"></i> Domaine <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="domain" class="collapse">
                             <li>
-                                <a href="#">Voir la liste des domaines</a>
+                                <a href="{{ path('_list_domain') }}">Voir la liste des domaines</a>
                             </li>
                             <li>
-                                <a href="#">Ajouter domaine</a>
-                            </li>
-                            <li>
-                                <a href="#">Supprimer domaine</a>
-                            </li>
-                            <li>
-                                <a href="#">Modifier domaine</a>
+                                <a href="{{ path('_create_domain') }}">Ajouter domaine</a>
                             </li>
                         </ul>
                     </li>
@@ -77,16 +65,10 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#region"><i class="fa fa-fw fa-map"></i> Région <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="region" class="collapse">
                             <li>
-                                <a href="#">Voir la liste des régions</a>
+                                <a href="{{ path('_view_regions') }}">Voir la liste des régions</a>
                             </li>
                             <li>
-                                <a href="#">Ajouter région</a>
-                            </li>
-                            <li>
-                                <a href="#">Supprimer région</a>
-                            </li>
-                            <li>
-                                <a href="#">Modifier région</a>
+                                <a href="{{ path('_create_region') }}">Ajouter région</a>
                             </li>
                         </ul>
                     </li>
@@ -94,16 +76,10 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#state"><i class="fa fa-fw fa-globe"></i> Pays <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="state" class="collapse">
                             <li>
-                                <a href="#">Voir la liste des pays</a>
+                                <a href="{{ path('_view_states') }}">Voir la liste des pays</a>
                             </li>
                             <li>
                                 <a href="{{ path('_create_state') }}">Ajouter pays</a>
-                            </li>
-                            <li>
-                                <a href="#">Supprimer pays</a>
-                            </li>
-                            <li>
-                                <a href="#">Modifier pays</a>
                             </li>
                         </ul>
                     </li>

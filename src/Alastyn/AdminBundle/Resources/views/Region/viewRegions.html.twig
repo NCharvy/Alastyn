@@ -1,0 +1,26 @@
+{% extends "AlastynAdminBundle::layout.html.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-xs-offset-0 col-sm-offset-3">
+            <h2 style="text-align : center;">Liste des régions</h2>
+            <table class="table table-hover table-bordered table-stripped">
+                <tr>
+                    <th>Nom</th>
+                    <th>Pays</th>
+                    <th>Opérations</th>
+                </tr>
+                {% for region in regions %}
+                    <tr>
+                        <td>{{ region.nom }}</td>
+                        <td>{{ region.pays.abbr }}</td>
+                        <td>
+                            <a href="{{ path('_update_region', {'id': region.id}) }}"><i class="fa fa-pencil"></i></a>
+                            <a href="{{ path('_delete_region', {'id': region.id}) }}"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}
