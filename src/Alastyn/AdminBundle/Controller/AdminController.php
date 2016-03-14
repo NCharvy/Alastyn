@@ -18,6 +18,8 @@ use Alastyn\AdminBundle\Form\DomaineType;
 use Alastyn\AdminBundle\Form\FluxType;
 use Alastyn\AdminBundle\Form\RegionType;
 
+use Alastyn\AdminBundle\Services\Service_verification_rss;
+
 class AdminController extends Controller
 {
     /**
@@ -51,8 +53,9 @@ class AdminController extends Controller
 
         foreach ($resources as $rss) 
         {
-			try
-			{
+            $Verfification_rss = $this->get('gbprod.my_service')->Service_verification_rss($rss);
+            if($Verfification_rss == "FLUX RSS VALIDER")
+            {
 				$resource = $reader->download($rss);
 				
 				$parser = $reader->getParser(
@@ -74,12 +77,11 @@ class AdminController extends Controller
 				}
 				$feeds[] = $feed;
 				return array('feeds' => $feeds);
-			}
-			catch(Exception $e) 
-			{
-				return array('feeds' => $e);
-			}
-            
+			} 
+            else
+            {
+                return array('feeds' => $Verfification_rss);
+            }          
         }
     }
 
