@@ -9,12 +9,12 @@ use PicoFeed\Reader\Reader;
 use Symfony\Component\HttpFoundation\Request;
 
 use Alastyn\AdminBundle\Entity\Pays;
-use Alastyn\AdminBundle\Entity\Region;
+use Alastyn\AdminBundle\Entity\Region; 
 use Alastyn\AdminBundle\Entity\Domaine;
 use Alastyn\AdminBundle\Entity\Flux;
-
+ 
 use Alastyn\AdminBundle\Form\PaysType;
-use Alastyn\AdminBundle\Form\DomaineType;
+use Alastyn\AdminBundle\Form\DomaineType; 
 use Alastyn\AdminBundle\Form\FluxType;
 use Alastyn\AdminBundle\Form\RegionType;
 
@@ -51,8 +51,9 @@ class AdminController extends Controller
 
         foreach ($resources as $rss) 
         {
-			try
-			{
+            $Verfification_rss = $this->get('gbprod.my_service')->Service_verification_rss($rss);
+            if($Verfification_rss == "FLUX RSS VALIDER")
+            {
 				$resource = $reader->download($rss);
 				
 				$parser = $reader->getParser(
@@ -74,12 +75,11 @@ class AdminController extends Controller
 				}
 				$feeds[] = $feed;
 				return array('feeds' => $feeds);
-			}
-			catch(Exception $e) 
-			{
-				return array('feeds' => $e);
-			}
-            
+			} 
+            else
+            {
+                return array('feeds' => $Verfification_rss);
+            }          
         }
     }
 
