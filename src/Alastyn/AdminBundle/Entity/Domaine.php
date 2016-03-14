@@ -57,12 +57,12 @@ class Domaine
     private $ville;
 
     /**
-     * @ORM\OneToMany(targetEntity="Alastyn\AdminBundle\Entity\Flux", mappedBy="domaine", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="Alastyn\AdminBundle\Entity\Flux", mappedBy="domaine")
      */
     private $flux;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Alastyn\AdminBundle\Entity\Region", inversedBy="domaines", cascade={"all"}) 
+     * @ORM\ManyToOne(targetEntity="Alastyn\AdminBundle\Entity\Region", inversedBy="domaines") 
      */
     private $region;
 

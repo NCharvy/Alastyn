@@ -29,7 +29,7 @@ class Appellation
     private $nom;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Alastyn\AdminBundle\Entity\Region", inversedBy="appellations", cascade={"all"}) 
+     * @ORM\ManyToOne(targetEntity="Alastyn\AdminBundle\Entity\Region", inversedBy="appellations") 
      */
     private $region;
 

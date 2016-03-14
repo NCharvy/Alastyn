@@ -51,7 +51,7 @@ class Pays
     private $icon;
 
     /**
-     * @ORM\OneToMany(targetEntity="Alastyn\AdminBundle\Entity\Region", mappedBy="pays", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="Alastyn\AdminBundle\Entity\Region", mappedBy="pays")
      */
     private $regions;
 
