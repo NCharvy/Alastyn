@@ -38,6 +38,11 @@ class Region
      */
     private $pays;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Alastyn\AdminBundle\Entity\Appellation", mappedBy="region", cascade={"all"})
+     */
+    private $appellations;
+
 
     /**
      * Get id
@@ -136,5 +141,39 @@ class Region
     public function getPays()
     {
         return $this->pays;
+    }
+
+    /**
+     * Add appellation
+     *
+     * @param \Alastyn\AdminBundle\Entity\Appellation $appellation
+     *
+     * @return Region
+     */
+    public function addAppellation(\Alastyn\AdminBundle\Entity\Appellation $appellation)
+    {
+        $this->appellations[] = $appellation;
+
+        return $this;
+    }
+
+    /**
+     * Remove appellation
+     *
+     * @param \Alastyn\AdminBundle\Entity\Appellation $appellation
+     */
+    public function removeAppellation(\Alastyn\AdminBundle\Entity\Appellation $appellation)
+    {
+        $this->appellations->removeElement($appellation);
+    }
+
+    /**
+     * Get appellations
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAppellations()
+    {
+        return $this->appellations;
     }
 }

@@ -28,6 +28,11 @@ class Appellation
      */
     private $nom;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Alastyn\AdminBundle\Entity\Region", inversedBy="appellations", cascade={"all"}) 
+     */
+    private $region;
+
 
     /**
      * Get id
@@ -62,5 +67,28 @@ class Appellation
     {
         return $this->nom;
     }
-}
 
+    /**
+     * Set region
+     *
+     * @param \Alastyn\AdminBundle\Entity\Region $region
+     *
+     * @return Appellation
+     */
+    public function setRegion(\Alastyn\AdminBundle\Entity\Region $region = null)
+    {
+        $this->region = $region;
+
+        return $this;
+    }
+
+    /**
+     * Get region
+     *
+     * @return \Alastyn\AdminBundle\Entity\Region
+     */
+    public function getRegion()
+    {
+        return $this->region;
+    }
+}

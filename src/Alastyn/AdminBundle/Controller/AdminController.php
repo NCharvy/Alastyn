@@ -313,10 +313,6 @@ class AdminController extends Controller
             ->findAll()
         ;
 
-        if (!$domains) {
-            throw $this->createNotFoundException('No domains found ');
-        }
-
         return array('domains' => $domains);
     }
 
@@ -394,10 +390,6 @@ class AdminController extends Controller
             ->getRepository('AlastynAdminBundle:Flux')
             ->findAll()
         ;
-
-        if (!$flows) {
-            throw $this->createNotFoundException('No flows found ');
-        }
 
         return array('flows' => $flows);
     }
