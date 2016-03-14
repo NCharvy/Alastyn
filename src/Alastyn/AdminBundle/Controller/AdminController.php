@@ -9,16 +9,14 @@ use PicoFeed\Reader\Reader;
 use Symfony\Component\HttpFoundation\Request;
 
 use Alastyn\AdminBundle\Entity\Pays;
-use Alastyn\AdminBundle\Entity\Region;
+use Alastyn\AdminBundle\Entity\Region; 
 use Alastyn\AdminBundle\Entity\Domaine;
 use Alastyn\AdminBundle\Entity\Flux;
-
+ 
 use Alastyn\AdminBundle\Form\PaysType;
-use Alastyn\AdminBundle\Form\DomaineType;
+use Alastyn\AdminBundle\Form\DomaineType; 
 use Alastyn\AdminBundle\Form\FluxType;
 use Alastyn\AdminBundle\Form\RegionType;
-
-use Alastyn\AdminBundle\Services\Service_verification_rss;
 
 class AdminController extends Controller
 {
