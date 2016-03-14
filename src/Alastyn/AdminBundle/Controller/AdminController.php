@@ -368,7 +368,7 @@ class AdminController extends Controller
         $form = $this->get('form.factory')->create(FluxType::class, $flow);
 
         if($form->handleRequest($req)->isValid()){
-            # Faire la vérification RSS, ajouter status + passer publication à false si erreur
+            $check_rss = $this->get('gbprod.my_service')->Service_verification_rss($rss);
             $flow->setStatus('Valide');
             $em->persist($flow);
             $em->flush();
