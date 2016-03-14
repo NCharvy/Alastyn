@@ -12,11 +12,13 @@ use Alastyn\AdminBundle\Entity\Pays;
 use Alastyn\AdminBundle\Entity\Region; 
 use Alastyn\AdminBundle\Entity\Domaine;
 use Alastyn\AdminBundle\Entity\Flux;
+use Alastyn\AdminBundle\Entity\Appellation;
  
 use Alastyn\AdminBundle\Form\PaysType;
 use Alastyn\AdminBundle\Form\DomaineType; 
 use Alastyn\AdminBundle\Form\FluxType;
 use Alastyn\AdminBundle\Form\RegionType;
+use Alastyn\AdminBundle\Form\AppellationType;
 
 class AdminController extends Controller
 {
@@ -433,5 +435,81 @@ class AdminController extends Controller
         $em->flush();
 
         return $this->redirectToRoute('_list_flow');
+    }
+
+    /**
+     * @Route("/admin/wine/create", name="_create_wine")
+     * @Template("AlastynAdminBundle:Appellation:createWine.html.twig")
+     */
+    public function createWineAction(Request $req){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $wine = new Appellation;
+        $form = $this->get('form.factory')->create(AppellationType::class, $wine);
+
+        if($form->handleRequest($req)->isValid()){
+            $em->persist($wine);
+            $em->flush();
+
+            $req->getSession()->getFlashBag()->add('notice', 'L\'appellation a bien été ajoutée.');
+
+            return $this->redirectToRoute('_create_wine');
+        }
+
+        return array('form' => $form->createView());
+    }
+
+    /**
+     * @Route("/admin/wine/list", name="_list_wine")
+     * @Template("AlastynAdminBundle:Appellation:listWine.html.twig")
+     */
+    public function listWineAction(){
+        $wines = $this->getDoctrine()
+            ->getRepository('AlastynAdminBundle:Appellation')
+            ->findAll()
+        ;
+
+        return array('wines' => $wines);
+    }
+
+    /**
+     * @Route("/admin/wine/update/{id}", name="_update_wine")
+     * @Template("AlastynAdminBundle:Appellation:createWine.html.twig")
+     */
+    public function updateWineAction(Request $req, $id){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $wine = $em->getRepository('AlastynAdminBundle:Appellation')->find($id);
+        $form = $this->get('form.factory')->create(AppellationType::class, $wine);
+
+        if($form->handleRequest($req)->isValid()){
+            $em->persist($wine);
+            $em->flush();
+
+            $req->getSession()->getFlashBag()->add('notice', 'L\'appellation a bien été ajoutée.');
+
+            return $this->redirectToRoute('_indexAdmin');
+        }
+
+        return array('form' => $form->createView());
+    }
+
+    /**
+     * @Route("/admin/wine/delete/{id}", name="_delete_wine")
+     */
+    public function deleteWineAction(Request $req, $id){
+        $em = $this->getDoctrine()->getManager();
+        $wine = $em->getRepository('AlastynAdminBundle:Appellation')->find($id);
+
+        $em->remove($wine);
+        $em->flush();
+
+        return $this->redirectToRoute('_list_wine');
     }
 }
