@@ -6,7 +6,7 @@ class Service
     public function Service_verification_rss( $xmlContent )
 	{
 
-		if (fopen($xmlContent, 'r')) 
+		if (@fopen($xmlContent, 'r')) 
 		{
 				$xmlContent = file_get_contents($xmlContent);
 				libxml_use_internal_errors(true);
@@ -16,13 +16,13 @@ class Service
 				$errors = libxml_get_errors();
 				if (empty($errors))
 				{
-				    return true;
+				    return "Valide";
 				}
 
 				$error = $errors[ 0 ];
 				if ($error->level < 3)
 				{
-				    return true;
+				    return "Valide";
 				}
 
 				$lines = explode("r", $xmlContent);

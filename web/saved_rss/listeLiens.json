@@ -28,5 +28,10 @@
         "id": 6,
         "site": "aaa",
         "rss": "http:\/\/feeds.howtogeek.com\/howtogeek"
+    },
+    {
+        "id": 6,
+        "site": " Un odieux connard",
+        "rss": "http:\/\/unodieuxconnard.com\/feed\/"
     }
 ]
