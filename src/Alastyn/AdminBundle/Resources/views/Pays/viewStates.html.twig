@@ -1,4 +1,4 @@
-{% extends "AlastynAdminBundle::layout.html.twig" %}
+{%  extends "AlastynAdminBundle::layout.html.twig" %}
 
 {% block content %}
     <div class="row">
@@ -31,6 +31,7 @@
                     </tr>
                 {% endfor %}
             </table>
+            {% include 'AlastynAdminBundle:Admin:paging.html.twig' %}
         </div>
     </div>
 {% endblock %}

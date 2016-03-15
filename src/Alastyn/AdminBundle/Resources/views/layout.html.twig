@@ -43,7 +43,7 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#flux"><i class="fa fa-fw fa-rss"></i> Flux <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="flux" class="collapse">
                             <li>
-                                <a href="{{ path('_list_flow') }}">Voir la liste des flux</a>
+                                <a href="{{ path('_list_flow', {'page': 1}) }}">Voir la liste des flux</a>
                             </li>
                             <li>
                                 <a href="{{ path('_create_flow') }}">Ajouter flux</a>
@@ -54,7 +54,7 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#domain"><i class="fa fa-fw fa-leaf"></i> Domaine <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="domain" class="collapse">
                             <li>
-                                <a href="{{ path('_list_domain') }}">Voir la liste des domaines</a>
+                                <a href="{{ path('_list_domain', {'page': 1}) }}">Voir la liste des domaines</a>
                             </li>
                             <li>
                                 <a href="{{ path('_create_domain') }}">Ajouter domaine</a>
@@ -65,7 +65,7 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#region"><i class="fa fa-fw fa-map"></i> Région <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="region" class="collapse">
                             <li>
-                                <a href="{{ path('_view_regions') }}">Voir la liste des régions</a>
+                                <a href="{{ path('_view_regions', {'page': 1}) }}">Voir la liste des régions</a>
                             </li>
                             <li>
                                 <a href="{{ path('_create_region') }}">Ajouter région</a>
@@ -76,7 +76,7 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#state"><i class="fa fa-fw fa-globe"></i> Pays <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="state" class="collapse">
                             <li>
-                                <a href="{{ path('_view_states') }}">Voir la liste des pays</a>
+                                <a href="{{ path('_view_states', {'page': 1}) }}">Voir la liste des pays</a>
                             </li>
                             <li>
                                 <a href="{{ path('_create_state') }}">Ajouter pays</a>

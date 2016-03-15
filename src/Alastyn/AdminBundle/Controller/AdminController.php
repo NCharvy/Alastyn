@@ -13,6 +13,8 @@ use Alastyn\AdminBundle\Entity\Region;
 use Alastyn\AdminBundle\Entity\Domaine;
 use Alastyn\AdminBundle\Entity\Flux;
 
+use Alastyn\AdminBundle\Entity\Pagination;
+
 use Alastyn\AdminBundle\Form\PaysType;
 use Alastyn\AdminBundle\Form\DomaineType;
 use Alastyn\AdminBundle\Form\FluxType;
@@ -196,13 +198,36 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/states/view", name="_view_states")
+     * @Route("/admin/states/view/{page}", name="_view_states", defaults={"page", 1})
      * @Template("AlastynAdminBundle:Pays:viewStates.html.twig")
      */
-    public function viewStateAction(Request $req){
+    public function viewStateAction($page){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        }
         $em = $this->getDoctrine()->getManager();
-        $states = $em->getRepository('AlastynAdminBundle:Pays')->findAll();
-        return array('states' => $states);
+        $pays = $em->createQueryBuilder()
+            ->select('pays')
+            ->from('AlastynAdminBundle:Pays','pays');
+        $domaines = new Pagination($pays);
+        $domaines->setPage($page);
+        $domains_count = $em->getRepository('AlastynAdminBundle:Pays')
+            ->createQueryBuilder('p')
+            ->select('COUNT(p)')
+            ->getQuery()
+            ->getSingleScalarResult();
+        $pagination = array(
+            'page' => $page,
+            'route' => '_view_states',
+            'pages_count' => ceil($domains_count / $domaines->getMaxPerPage()),
+            'route_params' => array()
+        );
+        $states = $domaines->getList();
+
+        return array(
+            'states' => $states,
+            'pagination' => $pagination
+        );
     }
 
     /**
@@ -256,13 +281,36 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/regions/view", name="_view_regions")
+     * @Route("/admin/regions/view/{page}", name="_view_regions", defaults={"page", 1})
      * @Template("AlastynAdminBundle:Region:viewRegions.html.twig")
      */
-    public function viewRegionAction(Request $req){
+    public function viewRegionAction($page){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        }
         $em = $this->getDoctrine()->getManager();
-        $regions = $em->getRepository('AlastynAdminBundle:Region')->findAll();
-        return array('regions' => $regions);
+        $region = $em->createQueryBuilder()
+            ->select('region')
+            ->from('AlastynAdminBundle:Region','region');
+        $reg = new Pagination($region);
+        $reg->setPage($page);
+        $regions_count = $em->getRepository('AlastynAdminBundle:Region')
+            ->createQueryBuilder('r')
+            ->select('COUNT(r)')
+            ->getQuery()
+            ->getSingleScalarResult();
+        $pagination = array(
+            'page' => $page,
+            'route' => '_view_regions',
+            'pages_count' => ceil($regions_count / $reg->getMaxPerPage()),
+            'route_params' => array()
+        );
+        $regions = $reg->getList();
+
+        return array(
+            'regions' => $regions,
+            'pagination' => $pagination
+        );
     }
 
     /**
@@ -304,20 +352,36 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/domain/list", name="_list_domain")
+     * @Route("/admin/domain/list/{page}", name="_list_domain", defaults={"page", 1})
      * @Template("AlastynAdminBundle:Domaine:listDomain.html.twig")
      */
-    public function listDomainAction(){
-        $domains = $this->getDoctrine()
-            ->getRepository('AlastynAdminBundle:Domaine')
-            ->findAll()
-        ;
-
-        if (!$domains) {
-            throw $this->createNotFoundException('No domains found ');
+    public function listDomainAction($page){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
         }
+        $em = $this->getDoctrine()->getManager();
+        $domaine = $em->createQueryBuilder()
+            ->select('domaine')
+            ->from('AlastynAdminBundle:domaine','domaine');
+        $domaines = new Pagination($domaine);
+        $domaines->setPage($page);
+        $domains_count = $em->getRepository('AlastynAdminBundle:Domaine')
+            ->createQueryBuilder('d')
+            ->select('COUNT(d)')
+            ->getQuery()
+            ->getSingleScalarResult();
+        $pagination = array(
+            'page' => $page,
+            'route' => 'domain_list',
+            'pages_count' => ceil($domains_count / $domaines->getMaxPerPage()),
+            'route_params' => array()
+        );
+        $domains = $domaines->getList();
 
-        return array('domains' => $domains);
+        return array(
+            'domains' => $domains,
+            'pagination' => $pagination
+        );
     }
 
     /**
@@ -386,20 +450,36 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/flow/list", name="_list_flow")
+     * @Route("/admin/flow/list/{page}", name="_list_flow", defaults={"page", 1})
      * @Template("AlastynAdminBundle:Flux:listFlow.html.twig")
      */
-    public function listFlowAction(){
-        $flows = $this->getDoctrine()
-            ->getRepository('AlastynAdminBundle:Flux')
-            ->findAll()
-        ;
-
-        if (!$flows) {
-            throw $this->createNotFoundException('No flows found ');
+    public function listFlowAction($page){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
         }
+        $em = $this->getDoctrine()->getManager();
+        $flux = $em->createQueryBuilder()
+            ->select('flux')
+            ->from('AlastynAdminBundle:Flux','flux');
+        $fl = new Pagination($flux);
+        $fl->setPage($page);
+        $flows_count = $em->getRepository('AlastynAdminBundle:Flux')
+            ->createQueryBuilder('f')
+            ->select('COUNT(f)')
+            ->getQuery()
+            ->getSingleScalarResult();
+        $pagination = array(
+            'page' => $page,
+            'route' => '_list_flow',
+            'pages_count' => ceil($flows_count / $fl->getMaxPerPage()),
+            'route_params' => array()
+        );
+        $flows = $fl->getList();
 
-        return array('flows' => $flows);
+        return array(
+            'flows' => $flows,
+            'pagination' => $pagination
+        );
     }
 
     /**
@@ -438,5 +518,39 @@ class AdminController extends Controller
         $em->flush();
 
         return $this->redirectToRoute('_list_flow');
+    }
+
+    /**
+     * @Route("/admin/domains/list/{page}", name="domain_list", defaults={"page", 1})
+     * @Template("AlastynAdminBundle:Pays:viewStates.html.twig")
+     */
+    public function listDomainsAction($page)
+    {
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        }
+        $em = $this->getDoctrine()->getManager();
+        $pays = $em->createQueryBuilder()
+                    ->select('pays')
+                    ->from('AlastynAdminBundle:Pays','pays');
+        $domaines = new Pagination($pays);
+        $domaines->setPage($page);
+        $domains_count = $em->getRepository('AlastynAdminBundle:Pays')
+                            ->createQueryBuilder('p')
+                            ->select('COUNT(p)')
+                            ->getQuery()
+                            ->getSingleScalarResult();
+        $pagination = array(
+            'page' => $page,
+            'route' => 'domain_list',
+            'pages_count' => ceil($domains_count / $domaines->getMaxPerPage()),
+            'route_params' => array()
+        );
+        $states = $domaines->getList();
+
+        return array(
+            'states' => $states,
+            'pagination' => $pagination
+        );
     }
 }
