@@ -11,7 +11,7 @@ use PicoFeed\Reader\Reader;
 class TestController extends Controller
 {
     /**
-     * @Route("/index", name = "_index")
+     * @Route("/index")
      * @Template()
      */
     public function indexAction()
