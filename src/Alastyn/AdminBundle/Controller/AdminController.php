@@ -320,7 +320,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/domain/update/{id}", name="_update_domain")
-     * @Template("AlastynAdminBundle:Region:createDomain.html.twig")
+     * @Template("AlastynAdminBundle:Domaine:createDomain.html.twig")
      */
     public function updateDomainAction(Request $req, $id){
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){

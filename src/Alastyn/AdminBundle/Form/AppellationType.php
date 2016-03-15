@@ -18,6 +18,7 @@ class AppellationType extends AbstractType
     {
         $builder
             ->add('nom')
+            ->add('publication')
             ->add('region', EntityType::class, array(
                 'class'         =>  'AlastynAdminBundle:Region',
                 'choice_label'  =>  'nom',
