@@ -3,14 +3,14 @@
 {% block content %}
 	<div class="row">
         <div class="col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2">
-            <h2 style="text-align : center;">Liste des flux</h2>
+            <h2 style="text-align : center;">{{ 'list.flow'|trans }}</h2>
             <table class="table table-hover table-bordered table-stripped">
                 <tr>
-					<th>URL</th>
-					<th>Status</th>
-					<th>Publié</th>
-					<th>Domaine</th>
-					<th>Opérations</th>
+					<th>{{ 'url'|trans }}</th>
+					<th>{{ 'status'|trans }}</th>
+					<th>{{ 'publication'|trans }}</th>
+					<th>{{ 'domain'|trans }}</th>
+					<th>{{ 'operations'|trans }}</th>
 				</tr>
 				{% for flow in flows %}
 	                <tr>
@@ -18,9 +18,9 @@
 	                    <td>{{ flow.status }}</td>
 	                    <td>
 	                    	{% if flow.publication == 1 %}
-                                Oui
+                                {{ 'yes'|trans }}
                             {% else %}
-                                Non
+                                {{ 'no'|trans }}
                             {% endif %}
 	                    </td>
 	                    <td>{{ flow.domaine.nom }}</td>
@@ -31,6 +31,7 @@
 	                </tr>
 	            {% endfor %}
             </table>
+			{% include 'AlastynAdminBundle:Admin:paging.html.twig' %}
         </div>
     </div>
 {% endblock %}

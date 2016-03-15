@@ -1,16 +1,16 @@
-{% extends "AlastynAdminBundle::layout.html.twig" %}
+{%  extends "AlastynAdminBundle::layout.html.twig" %}
 
 {% block content %}
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-xs-offset-0 col-sm-offset-3">
-            <h2 style="text-align : center;">Liste des pays</h2>
+            <h2 style="text-align : center;">{{ 'list.state'|trans }}</h2>
             <table class="table table-hover table-bordered table-stripped">
                 <tr>
-                    <th>Nom</th>
-                    <th>Abréviation</th>
-                    <th>Publié</th>
-                    <th>Icône</th>
-                    <th>Opérations</th>
+                    <th>{{ 'name'|trans }}</th>
+                    <th>{{ 'abbreviation'|trans }}</th>
+                    <th>{{ 'publication'|trans }}</th>
+                    <th>{{ 'icon'|trans }}</th>
+                    <th>{{ 'operations'|trans }}</th>
                 </tr>
                 {% for state in states %}
                     <tr>
@@ -18,9 +18,9 @@
                         <td>{{ state.abbr }}</td>
                         <td>
                             {% if state.publication == 1 %}
-                                Oui
+                                {{ 'yes'|trans }}
                             {% else %}
-                                Non
+                                {{ 'no'|trans }}
                             {% endif %}
                         </td>
                         <td><img src="{{ asset("uploads/icons/#{state.icon}") }}" width="50" /></td>
@@ -31,6 +31,7 @@
                     </tr>
                 {% endfor %}
             </table>
+            {% include 'AlastynAdminBundle:Admin:paging.html.twig' %}
         </div>
     </div>
 {% endblock %}

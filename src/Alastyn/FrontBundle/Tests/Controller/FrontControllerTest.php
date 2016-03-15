@@ -4,7 +4,7 @@ namespace Alastyn\FrontBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class FrontControllerControllerTest extends WebTestCase
+class FrontControllerTest extends WebTestCase
 {
     public function testIndex()
     {

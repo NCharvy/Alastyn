@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use PicoFeed\Reader\Reader;
 
-class FrontControllerController extends Controller
+class FrontController extends Controller
 {
     /**
      * @Route("/", name = "_index")

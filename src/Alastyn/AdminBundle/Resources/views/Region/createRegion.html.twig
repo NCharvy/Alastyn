@@ -2,38 +2,38 @@
 
 {% block content %}
     <main style="overflow : hidden;">
-        <div class="col-sm-6 col-sm-offset-3">
+        <div class="col-sm-7 col-sm-offset-3">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2 style="text-align : center;">Enregistrement de région</h2>
+                    <h2 style="text-align : center;">{{ 'form.region'|trans }}</h2>
                 </div>
                 <div class="panel-body">
                     <div class="col-md-10 col-md-offset-1">
                         {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
                         {{ form_errors(form) }}
                         <div class="form-group">
-                            {{ form_label(form.nom, "Nom", {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
+                            {{ form_label(form.nom, 'name'|trans, {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
                             {{ form_errors(form.nom) }}
                             <div class="col-sm-6">
                                 {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
                             </div>
                         </div>
                         <div class="form-group">
-                            {{ form_label(form.publication, "Autoriser la publication ?", {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
+                            {{ form_label(form.publication, 'form.publication'|trans, {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
                             {{ form_errors(form.publication) }}
                             <div class="col-sm-6">
                                 {{ form_widget(form.publication, {'attr': {'class': 'form-control'}}) }}
                             </div>
                         </div>
                         <div class="form-group">
-                            {{ form_label(form.pays, "Pays attribué", {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
+                            {{ form_label(form.pays, 'form.state'|trans, {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
                             {{ form_errors(form.pays) }}
                             <div class="col-sm-6">
                                 {{ form_widget(form.pays, {'attr': {'class': 'form-control'}}) }}
                             </div>
                         </div>
                         <div class="col-md-3 col-md-offset-8">
-                            {{ form_widget(form.enregistrer, {'attr': {'class': 'btn btn-primary'}}) }}
+                            {{ form_widget(form.enregistrer, {'attr': {'class': 'btn btn-primary'}, 'label': 'form.save'|trans}) }}
                         </div>
                         {{ form_rest(form) }} {# Génération automatique de champs pas encore écrits, comme ceux générés automatiquement par Symfony #}
                         {{ form_end(form) }}

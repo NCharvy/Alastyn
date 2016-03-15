@@ -1,1 +1,52 @@
-Symfony is great: J'aime Symfony
+abbreviation: Abréviation
+address: Adresse
+city: Ville
+dashboard: Tableau de bord
+domain: Domaine
+flow: Flux
+form:
+    domain: Enregistrement de domaine
+    flow: Enregistrement de flux RSS
+    publication: Autoriser la publication ?
+    region: Enregistrement de région
+    save: Enregistrer
+    state: Enregistrement de pays
+    website: URL du site
+    wine: Enregistrement d'appellations
+icon: Icône
+link_rss: Lien RSS
+list:
+    domain: Liste des domaines
+    flow: Liste des flux
+    region: Liste des régions
+    state: Liste des pays
+    wine: Liste des appellations
+log_out: Déconnexion
+menu:
+    domain:
+        add: Ajouter domaine
+        list: Voir la liste des domaines
+    flow:
+        add: Ajouter flux
+        list: Voir la liste des flux
+    region:
+        add: Ajouter région
+        list: Voir la liste des régions
+    state:
+        add: Ajouter pays
+        list: Voir la liste des pays
+    wine:
+        add: Ajouter appellation
+        list: Voit la liste des appellations
+name: Nom
+no: Non
+operations: Opérations
+postcode: Code Postal
+publication: Publié
+region: Région
+state: Pays
+status: Statut
+url: URL
+website: Site web
+wine: Appellation
+yes: Oui

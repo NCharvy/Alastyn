@@ -3,22 +3,22 @@
 {% block content %}
 	<div class="row">
         <div class="col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2">
-            <h2 style="text-align : center;">Liste des appellations</h2>
+            <h2 style="text-align : center;">{{ 'list.wine'|trans }}</h2>
             <table class="table table-hover table-bordered table-stripped">
                 <tr>
-					<th>Nom</th>
-					<th>Publié</th>
-					<th>Région</th>
-					<th>Opérations</th>
+					<th>{{ 'name'|trans }}</th>
+					<th>{{ 'publication'|trans }}</th>
+					<th>{{ 'region'|trans }}</th>
+					<th>{{ 'operations'|trans }}</th>
 				</tr>
 				{% for wine in wines %}
 	                <tr>
 	                    <td>{{ wine.nom }}</td>
 	                    <td>
                             {% if wine.publication == 1 %}
-                                Oui
+                                {{ 'yes'|trans }}
                             {% else %}
-                                Non
+                                {{'no'|trans }}
                             {% endif %}
                         </td>
 	                    <td>{{ wine.region.nom }}</td>
