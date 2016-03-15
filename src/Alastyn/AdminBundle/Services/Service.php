@@ -16,13 +16,13 @@ class Service
 				$errors = libxml_get_errors();
 				if (empty($errors))
 				{
-				    return true;
+				    return "Valide";
 				}
 
 				$error = $errors[ 0 ];
 				if ($error->level < 3)
 				{
-				    return true;
+				    return "Valide";
 				}
 
 				$lines = explode("r", $xmlContent);

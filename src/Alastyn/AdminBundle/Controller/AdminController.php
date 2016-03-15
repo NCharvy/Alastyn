@@ -9,14 +9,16 @@ use PicoFeed\Reader\Reader;
 use Symfony\Component\HttpFoundation\Request;
 
 use Alastyn\AdminBundle\Entity\Pays;
-use Alastyn\AdminBundle\Entity\Region;
+use Alastyn\AdminBundle\Entity\Region; 
 use Alastyn\AdminBundle\Entity\Domaine;
 use Alastyn\AdminBundle\Entity\Flux;
-
+use Alastyn\AdminBundle\Entity\Appellation;
+ 
 use Alastyn\AdminBundle\Form\PaysType;
-use Alastyn\AdminBundle\Form\DomaineType;
+use Alastyn\AdminBundle\Form\DomaineType; 
 use Alastyn\AdminBundle\Form\FluxType;
 use Alastyn\AdminBundle\Form\RegionType;
+use Alastyn\AdminBundle\Form\AppellationType;
 
 class AdminController extends Controller
 {
@@ -26,94 +28,94 @@ class AdminController extends Controller
      */
     public function indexAction(Request $request)
     {
-    	$reader = new Reader;
-        $file=file_get_contents('saved_rss/listeLiens.json');
-        $datas=json_decode($file);
+   //  	$reader = new Reader;
+   //      $file=file_get_contents('saved_rss/listeLiens.json');
+   //      $datas=json_decode($file);
 
-        if ($request->getMethod() == 'POST')
-        {
-            $name = $request->request->get('name');
-            $rss = $request->request->get('rss_link');
+   //      if ($request->getMethod() == 'POST')
+   //      {
+   //          $name = $request->request->get('name');
+   //          $rss = $request->request->get('rss_link');
             
-            $datas[] = array('id'=>(count($datas)),'site'=>$name,'rss'=>$rss); 
-            $textResponse = json_encode($datas,JSON_PRETTY_PRINT);
-            file_put_contents('saved_rss/listeLiens.json', $textResponse);
+   //          $datas[] = array('id'=>(count($datas)),'site'=>$name,'rss'=>$rss); 
+   //          $textResponse = json_encode($datas,JSON_PRETTY_PRINT);
+   //          file_put_contents('saved_rss/listeLiens.json', $textResponse);
 
-            $file=file_get_contents('saved_rss/listeLiens.json');
-            $datas=json_decode($file);
-        }
+   //          $file=file_get_contents('saved_rss/listeLiens.json');
+   //          $datas=json_decode($file);
+   //      }
 
-        $resources = [];
-        foreach ($datas as $data) {
-            $resources[] = $data->rss;
-        }
-        $feeds = [];
+   //      $resources = [];
+   //      foreach ($datas as $data) {
+   //          $resources[] = $data->rss;
+   //      }
+   //      $feeds = [];
 
-        foreach ($resources as $rss) 
-        {
-			try
-			{
-				$resource = $reader->download($rss);
+   //      foreach ($resources as $rss) 
+   //      {
+   //          $Verfification_rss = $this->get('gbprod.my_service')->Service_verification_rss($rss);
+   //          if($Verfification_rss == "FLUX RSS VALIDER")
+   //          {
+			// 	$resource = $reader->download($rss);
 				
-				$parser = $reader->getParser(
-					$resource->getUrl(),
-					$resource->getContent(),
-					$resource->getEncoding()
-				);
+			// 	$parser = $reader->getParser(
+			// 		$resource->getUrl(),
+			// 		$resource->getContent(),
+			// 		$resource->getEncoding()
+			// 	);
 				
-				$feed = $parser->execute();
+			// 	$feed = $parser->execute();
 
-				$result = [];
-				for($i = 0;$i<count($feed->items);$i++) {
-					preg_match('/(\<img).*((\/\>)|(\<\/img))/',$feed->items[$i]->content,$result);
-					if (count($result) > 0) {
-						$feed->items[$i]->preimage=$result[0];
-					}else{
-						$feed->items[$i]->preimage="";
-					}
-				}
-				$feeds[] = $feed;
-				return array('feeds' => $feeds);
-			}
-			catch(Exception $e) 
-			{
-				return array('feeds' => $e);
-			}
-            
-        }
+			// 	$result = [];
+			// 	for($i = 0;$i<count($feed->items);$i++) {
+			// 		preg_match('/(\<img).*((\/\>)|(\<\/img))/',$feed->items[$i]->content,$result);
+			// 		if (count($result) > 0) {
+			// 			$feed->items[$i]->preimage=$result[0];
+			// 		}else{
+			// 			$feed->items[$i]->preimage="";
+			// 		}
+			// 	}
+			// 	$feeds[] = $feed;
+			// 	return array('feeds' => $feeds);
+			// } 
+   //          else
+   //          {
+   //              return array('feeds' => $Verfification_rss);
+   //          }          
+   //      }
     }
 
     /**
      * @Route("/add_rss")
      * @Template()
      */
-    public function addRssAction(Request $request)
-    {
+  //   public function addRssAction(Request $request)
+  //   {
 
-        $contentFile=file_get_contents("saved_rss/listeLiens.json");
-        $array=json_decode($contentFile);
+  //       $contentFile=file_get_contents("saved_rss/listeLiens.json");
+  //       $array=json_decode($contentFile);
 
-        if ($request->getMethod() == 'POST') 
-        {
-            $URL_SITE_NAME = $_POST["URL_VALEUR_NAME"];
-            $URL_SITE_RSS = $_POST["URL_VALEUR_RSS"];
-            $Verfification_rss = $this->get('gbprod.my_service')->Service_verification_rss($URL_SITE_RSS);
+  //       if ($request->getMethod() == 'POST') 
+  //       {
+  //           $URL_SITE_NAME = $_POST["URL_VALEUR_NAME"];
+  //           $URL_SITE_RSS = $_POST["URL_VALEUR_RSS"];
+  //           $Verfification_rss = $this->get('gbprod.my_service')->Service_verification_rss($URL_SITE_RSS);
 
-       		if($Verfification_rss == "FLUX RSS VALIDER")
-       		{
+  //      		if($Verfification_rss == "FLUX RSS VALIDER")
+  //      		{
 
-				array_push($array,array("id"=>(count($array)),"site"=>$URL_SITE_NAME,"rss"=>$URL_SITE_RSS)); 
-				$textResponse = json_encode($array,JSON_PRETTY_PRINT);
-				file_put_contents("saved_rss/listeLiens.json", $textResponse);
+		// 		array_push($array,array("id"=>(count($array)),"site"=>$URL_SITE_NAME,"rss"=>$URL_SITE_RSS)); 
+		// 		$textResponse = json_encode($array,JSON_PRETTY_PRINT);
+		// 		file_put_contents("saved_rss/listeLiens.json", $textResponse);
 
-       		}
-		}
-		else
-		{
-			$Verfification_rss = "pas de donnée";
-		}
-        return array('file' => $array, 'Verif_Exist' => $Verfification_rss);    
-    }
+  //      		}
+		// }
+		// else
+		// {
+		// 	$Verfification_rss = "pas de donnée";
+		// }
+  //       return array('file' => $array, 'Verif_Exist' => $Verfification_rss);    
+  //   }
 
     /**
      * @Route("/admin/state/create", name="_create_state")
@@ -313,10 +315,6 @@ class AdminController extends Controller
             ->findAll()
         ;
 
-        if (!$domains) {
-            throw $this->createNotFoundException('No domains found ');
-        }
-
         return array('domains' => $domains);
     }
 
@@ -372,8 +370,11 @@ class AdminController extends Controller
         $form = $this->get('form.factory')->create(FluxType::class, $flow);
 
         if($form->handleRequest($req)->isValid()){
-            # Faire la vérification RSS, ajouter status + passer publication à false si erreur
-            $flow->setStatus('Valide');
+            $check_rss = $this->get('gbprod.my_service')->Service_verification_rss($flow->getUrl());
+            $flow->setStatus($check_rss);
+            if($check_rss != 'Valide') {
+                $flow->setPublication(false);
+            }
             $em->persist($flow);
             $em->flush();
 
@@ -394,10 +395,6 @@ class AdminController extends Controller
             ->getRepository('AlastynAdminBundle:Flux')
             ->findAll()
         ;
-
-        if (!$flows) {
-            throw $this->createNotFoundException('No flows found ');
-        }
 
         return array('flows' => $flows);
     }
@@ -438,5 +435,81 @@ class AdminController extends Controller
         $em->flush();
 
         return $this->redirectToRoute('_list_flow');
+    }
+
+    /**
+     * @Route("/admin/wine/create", name="_create_wine")
+     * @Template("AlastynAdminBundle:Appellation:createWine.html.twig")
+     */
+    public function createWineAction(Request $req){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $wine = new Appellation;
+        $form = $this->get('form.factory')->create(AppellationType::class, $wine);
+
+        if($form->handleRequest($req)->isValid()){
+            $em->persist($wine);
+            $em->flush();
+
+            $req->getSession()->getFlashBag()->add('notice', 'L\'appellation a bien été ajoutée.');
+
+            return $this->redirectToRoute('_create_wine');
+        }
+
+        return array('form' => $form->createView());
+    }
+
+    /**
+     * @Route("/admin/wine/list", name="_list_wine")
+     * @Template("AlastynAdminBundle:Appellation:listWine.html.twig")
+     */
+    public function listWineAction(){
+        $wines = $this->getDoctrine()
+            ->getRepository('AlastynAdminBundle:Appellation')
+            ->findAll()
+        ;
+
+        return array('wines' => $wines);
+    }
+
+    /**
+     * @Route("/admin/wine/update/{id}", name="_update_wine")
+     * @Template("AlastynAdminBundle:Appellation:createWine.html.twig")
+     */
+    public function updateWineAction(Request $req, $id){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $wine = $em->getRepository('AlastynAdminBundle:Appellation')->find($id);
+        $form = $this->get('form.factory')->create(AppellationType::class, $wine);
+
+        if($form->handleRequest($req)->isValid()){
+            $em->persist($wine);
+            $em->flush();
+
+            $req->getSession()->getFlashBag()->add('notice', 'L\'appellation a bien été ajoutée.');
+
+            return $this->redirectToRoute('_indexAdmin');
+        }
+
+        return array('form' => $form->createView());
+    }
+
+    /**
+     * @Route("/admin/wine/delete/{id}", name="_delete_wine")
+     */
+    public function deleteWineAction(Request $req, $id){
+        $em = $this->getDoctrine()->getManager();
+        $wine = $em->getRepository('AlastynAdminBundle:Appellation')->find($id);
+
+        $em->remove($wine);
+        $em->flush();
+
+        return $this->redirectToRoute('_list_wine');
     }
 }

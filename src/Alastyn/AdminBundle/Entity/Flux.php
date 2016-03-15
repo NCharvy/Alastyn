@@ -43,7 +43,7 @@ class Flux
     private $publication;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Alastyn\AdminBundle\Entity\Domaine", inversedBy="flux", cascade={"all"}) 
+     * @ORM\ManyToOne(targetEntity="Alastyn\AdminBundle\Entity\Domaine", inversedBy="flux", nullable=true) 
      */
     private $domaine;
 

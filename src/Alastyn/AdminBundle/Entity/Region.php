@@ -29,14 +29,19 @@ class Region
     private $nom;
 
     /**
-     * @ORM\OneToMany(targetEntity="Alastyn\AdminBundle\Entity\Domaine", mappedBy="region", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="Alastyn\AdminBundle\Entity\Domaine", mappedBy="region", nullable=true)
      */
     private $domaines;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Alastyn\AdminBundle\Entity\Pays", inversedBy="regions", cascade={"all"}) 
+     * @ORM\ManyToOne(targetEntity="Alastyn\AdminBundle\Entity\Pays", inversedBy="regions", nullable=true) 
      */
     private $pays;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Alastyn\AdminBundle\Entity\Appellation", mappedBy="region", nullable=true)
+     */
+    private $appellations;
 
 
     /**
@@ -136,5 +141,39 @@ class Region
     public function getPays()
     {
         return $this->pays;
+    }
+
+    /**
+     * Add appellation
+     *
+     * @param \Alastyn\AdminBundle\Entity\Appellation $appellation
+     *
+     * @return Region
+     */
+    public function addAppellation(\Alastyn\AdminBundle\Entity\Appellation $appellation)
+    {
+        $this->appellations[] = $appellation;
+
+        return $this;
+    }
+
+    /**
+     * Remove appellation
+     *
+     * @param \Alastyn\AdminBundle\Entity\Appellation $appellation
+     */
+    public function removeAppellation(\Alastyn\AdminBundle\Entity\Appellation $appellation)
+    {
+        $this->appellations->removeElement($appellation);
+    }
+
+    /**
+     * Get appellations
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAppellations()
+    {
+        return $this->appellations;
     }
 }
