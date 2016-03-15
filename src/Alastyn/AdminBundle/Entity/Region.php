@@ -50,6 +50,11 @@ class Region
      */
     private $appellations;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Alastyn\AdminBundle\Entity\Suggestion", mappedBy="region")
+     */
+    private $suggestions;
+
 
     /**
      * Get id
@@ -206,5 +211,39 @@ class Region
     public function getPublication()
     {
         return $this->publication;
+    }
+
+    /**
+     * Add suggestion
+     *
+     * @param \Alastyn\AdminBundle\Entity\Suggestion $suggestion
+     *
+     * @return Region
+     */
+    public function addSuggestion(\Alastyn\AdminBundle\Entity\Suggestion $suggestion)
+    {
+        $this->suggestions[] = $suggestion;
+
+        return $this;
+    }
+
+    /**
+     * Remove suggestion
+     *
+     * @param \Alastyn\AdminBundle\Entity\Suggestion $suggestion
+     */
+    public function removeSuggestion(\Alastyn\AdminBundle\Entity\Suggestion $suggestion)
+    {
+        $this->suggestions->removeElement($suggestion);
+    }
+
+    /**
+     * Get suggestions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSuggestions()
+    {
+        return $this->suggestions;
     }
 }
