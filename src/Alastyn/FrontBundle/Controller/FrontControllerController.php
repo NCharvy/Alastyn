@@ -21,8 +21,7 @@ class FrontControllerController extends Controller
           'http://www.begeek.fr/feed',
           'http://feeds2.feedburner.com/LeJournalduGeek',
           'http://www.journaldunet.com/rss/',
-          'http://feeds.feedburner.com/fubiz',
-          'http://www.presse-citron.net/feed/'];
+          'http://feeds.feedburner.com/fubiz'];
         $feeds = [];
 
         foreach ($resources as $rss) {
@@ -41,10 +40,19 @@ class FrontControllerController extends Controller
                 preg_match("/(\<img).*((\/\>)|(\<\/img))/",$feed->items[$i]->content,$result);
 
                 if (count($result) > 0) {
-                    $feed->items[$i]->preimage=$result[0]; 
+                    $feed->items[$i]->preimage=$result[0];
+
                     $feed->items[$i]->preimage = preg_replace("/src/",
                     'width="100%!important;" class="img-responsive" src',
                     $feed->items[$i]->preimage);
+                  /*  
+                    if ( mettre la bonne image correspondand au flux) {
+                      $feed->items[$i]->preimage=
+                    }
+                  */
+                    $feed->items[$i]->preimage=
+                    '<img width="100%!important;" class="img-responsive" 
+                    src="http://www.allvectors.com/wp-content/uploads/2012/06/abstract-white-background.jpg" />';
                 }
                 else{
                     $feed->items[$i]->preimage=
