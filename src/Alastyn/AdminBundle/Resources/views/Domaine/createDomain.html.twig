@@ -2,66 +2,66 @@
 
 {% block content %}
 	<main style="overflow : hidden;">
-        <div class="col-sm-6 col-sm-offset-3">
+        <div class="col-sm-7 col-sm-offset-3">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2 style="text-align : center;">Enregistrement de domaine</h2>
+                    <h2 style="text-align : center;">{{ 'form.domain'|trans }}</h2>
                 </div>
                 <div class="panel-body">
                     <div class="col-md-10 col-md-offset-1">
                         {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
                         {{ form_errors(form) }}
                         <div class="form-group">
-                            {{ form_label(form.nom, "Nom", {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
+                            {{ form_label(form.nom, 'name'|trans, {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
                             {{ form_errors(form.nom) }}
                             <div class="col-sm-6">
                                 {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
                             </div>
                         </div>
                         <div class="form-group">
-                            {{ form_label(form.website, "URL du site", {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
+                            {{ form_label(form.website, 'form.website'|trans, {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
                             {{ form_errors(form.website) }}
                             <div class="col-sm-6">
                                 {{ form_widget(form.website) }}
                             </div>
                         </div>
                         <div class="form-group">
-                            {{ form_label(form.adresse, "Adresse", {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
+                            {{ form_label(form.adresse, 'address'|trans, {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
                             {{ form_errors(form.adresse) }}
                             <div class="col-sm-6">
                                 {{ form_widget(form.adresse, {'attr': {'class': 'form-control'}}) }}
                             </div>
                         </div>
                         <div class="form-group">
-                            {{ form_label(form.codepostal, "Code Postal", {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
+                            {{ form_label(form.codepostal, 'postcode'|trans, {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
                             {{ form_errors(form.codepostal) }}
                             <div class="col-sm-6">
                                 {{ form_widget(form.codepostal, {'attr': {'class': 'form-control'}}) }}
                             </div>
                         </div>
                         <div class="form-group">
-                            {{ form_label(form.ville, "Ville", {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
+                            {{ form_label(form.ville, 'city'|trans, {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
                             {{ form_errors(form.ville) }}
                             <div class="col-sm-6">
                                 {{ form_widget(form.ville) }}
                             </div>
                         </div>
                         <div class="form-group">
-                            {{ form_label(form.publication, "Autoriser la publication ?", {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
+                            {{ form_label(form.publication, 'form.publication'|trans, {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
                             {{ form_errors(form.publication) }}
                             <div class="col-sm-6">
                                 {{ form_widget(form.publication, {'attr': {'class': 'form-control'}}) }}
                             </div>
                         </div>
                         <div class="form-group">
-                            {{ form_label(form.region, "Region", {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
+                            {{ form_label(form.region, 'region'|trans, {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
                             {{ form_errors(form.region) }}
                             <div class="col-sm-6">
                                 {{ form_widget(form.region) }}
                             </div>
                         </div>
                         <div class="col-md-3 col-md-offset-8">
-                            {{ form_widget(form.enregistrer, {'attr': {'class': 'btn btn-primary'}}) }}
+                            {{ form_widget(form.enregistrer, {'attr': {'class': 'btn btn-primary'}, 'label': 'form.save'|trans}) }}
                         </div>
                         {{ form_rest(form) }} {# Génération automatique de champs pas encore écrits, comme ceux générés automatiquement par Symfony #}
                         {{ form_end(form) }}

@@ -1,1 +1,52 @@
-Symfony is great: J'aime Symfony
+abbreviation: Abbreviation
+address: Address
+city: City
+dashboard: Dashboard
+domain: Domain
+flow: RSS feed
+form:
+    domain: Saving Domain
+    flow: Saving RSS feed
+    publication: Allow publication ?
+    region: Saving Region
+    save: Save
+    state: Saving Country
+    website: website (URL)
+    wine: Saving Naming
+icon: Icon
+link_rss: Link RSS
+list:
+    domain: List of domains
+    flow: List of RSS feeds
+    region: List of regions
+    state: List of countries
+    wine: List of naming
+log_out: Log Out
+menu:
+    domain:
+        add: Add domain
+        list: Show list of domains
+    flow:
+        add: Add flow
+        list: Show list of flows
+    region:
+        add: Add region
+        list: Show list of regions
+    state:
+        add: Add country
+        list: Show list of countries
+    wine:
+        add: Add naming
+        list: Show list of naming
+name: Name
+no: No
+operations: Operations
+postcode: Postcode (or Zip Code)
+publication: Published
+region: Region
+state: Country
+status: Status
+url: URL
+website: Website
+wine: Naming
+yes: Yes

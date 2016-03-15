@@ -3,22 +3,22 @@
 {% block content %}
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-xs-offset-0 col-sm-offset-3">
-            <h2 style="text-align : center;">Liste des régions</h2>
+            <h2 style="text-align : center;">{{ 'list.region'|trans }}</h2>
             <table class="table table-hover table-bordered table-stripped">
                 <tr>
-                    <th>Nom</th>
-                    <th>Publié</th>
-                    <th>Pays</th>
-                    <th>Opérations</th>
+                    <th>{{ 'name'|trans }}</th>
+                    <th>{{ 'publication'|trans }}</th>
+                    <th>{{ 'state'|trans }}</th>
+                    <th>{{ 'operations'|trans }}</th>
                 </tr>
                 {% for region in regions %}
                     <tr>
                         <td>{{ region.nom }}</td>
                         <td>
                             {% if region.publication == 1 %}
-                                Oui
+                                {{ 'yes'|trans }}
                             {% else %}
-                                Non
+                                {{ 'no'|trans }}
                             {% endif %}
                         </td>
                         <td>{{ region.pays.abbr }}</td>
