@@ -29,7 +29,14 @@ class Appellation
     private $nom;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Alastyn\AdminBundle\Entity\Region", inversedBy="appellations", nullable=true) 
+     * @var bool
+     *
+     * @ORM\Column(name="publication", type="boolean")
+     */
+    private $publication;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Alastyn\AdminBundle\Entity\Region", inversedBy="appellations") 
      */
     private $region;
 
@@ -90,5 +97,29 @@ class Appellation
     public function getRegion()
     {
         return $this->region;
+    }
+
+    /**
+     * Set publication
+     *
+     * @param boolean $publication
+     *
+     * @return Appellation
+     */
+    public function setPublication($publication)
+    {
+        $this->publication = $publication;
+
+        return $this;
+    }
+
+    /**
+     * Get publication
+     *
+     * @return boolean
+     */
+    public function getPublication()
+    {
+        return $this->publication;
     }
 }

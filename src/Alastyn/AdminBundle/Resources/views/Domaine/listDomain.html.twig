@@ -11,6 +11,7 @@
 					<th>Adresse</th>
 					<th>Code Postal</th>
 					<th>Ville</th>
+					<th>Publié</th>
 					<th>Region</th>
 					<th>Opérations</th>
 				</tr>
@@ -21,6 +22,13 @@
 	                    <td>{{ domain.adresse }}</td>
 	                    <td>{{ domain.codepostal }}</td>
 	                    <td>{{ domain.ville }}</td>
+	                    <td>
+                            {% if domain.publication == 1 %}
+                                Oui
+                            {% else %}
+                                Non
+                            {% endif %}
+                        </td>
 	                    <td>{{ domain.region.nom }}</td>
 	                    <td>
 	                        <a href="{{ path('_update_domain', {'id': domain.id}) }}"><i class="fa fa-pencil"></i></a>

@@ -7,12 +7,20 @@
             <table class="table table-hover table-bordered table-stripped">
                 <tr>
                     <th>Nom</th>
+                    <th>Publié</th>
                     <th>Pays</th>
                     <th>Opérations</th>
                 </tr>
                 {% for region in regions %}
                     <tr>
                         <td>{{ region.nom }}</td>
+                        <td>
+                            {% if region.publication == 1 %}
+                                Oui
+                            {% else %}
+                                Non
+                            {% endif %}
+                        </td>
                         <td>{{ region.pays.abbr }}</td>
                         <td>
                             <a href="{{ path('_update_region', {'id': region.id}) }}"><i class="fa fa-pencil"></i></a>

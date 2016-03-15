@@ -22,6 +22,7 @@ class DomaineType extends AbstractType
             ->add('codepostal')
             ->add('website')
             ->add('ville')
+            ->add('publication')
             ->add('region', EntityType::class, array(
                 'class'         =>  'AlastynAdminBundle:Region',
                 'choice_label'  =>  'nom',

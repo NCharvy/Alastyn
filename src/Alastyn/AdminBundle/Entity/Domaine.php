@@ -57,12 +57,19 @@ class Domaine
     private $ville;
 
     /**
-     * @ORM\OneToMany(targetEntity="Alastyn\AdminBundle\Entity\Flux", mappedBy="domaine", nullable=true)
+     * @var bool
+     *
+     * @ORM\Column(name="publication", type="boolean")
+     */
+    private $publication;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Alastyn\AdminBundle\Entity\Flux", mappedBy="domaine")
      */
     private $flux;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Alastyn\AdminBundle\Entity\Region", inversedBy="domaines", nullable=true) 
+     * @ORM\ManyToOne(targetEntity="Alastyn\AdminBundle\Entity\Region", inversedBy="domaines") 
      */
     private $region;
 
@@ -260,5 +267,29 @@ class Domaine
     public function getRegion()
     {
         return $this->region;
+    }
+
+    /**
+     * Set publication
+     *
+     * @param boolean $publication
+     *
+     * @return Domaine
+     */
+    public function setPublication($publication)
+    {
+        $this->publication = $publication;
+
+        return $this;
+    }
+
+    /**
+     * Get publication
+     *
+     * @return boolean
+     */
+    public function getPublication()
+    {
+        return $this->publication;
     }
 }

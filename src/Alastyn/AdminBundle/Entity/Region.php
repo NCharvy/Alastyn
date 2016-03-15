@@ -29,17 +29,24 @@ class Region
     private $nom;
 
     /**
-     * @ORM\OneToMany(targetEntity="Alastyn\AdminBundle\Entity\Domaine", mappedBy="region", nullable=true)
+     * @var bool
+     *
+     * @ORM\Column(name="publication", type="boolean")
+     */
+    private $publication;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Alastyn\AdminBundle\Entity\Domaine", mappedBy="region")
      */
     private $domaines;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Alastyn\AdminBundle\Entity\Pays", inversedBy="regions", nullable=true) 
+     * @ORM\ManyToOne(targetEntity="Alastyn\AdminBundle\Entity\Pays", inversedBy="regions") 
      */
     private $pays;
 
     /**
-     * @ORM\OneToMany(targetEntity="Alastyn\AdminBundle\Entity\Appellation", mappedBy="region", nullable=true)
+     * @ORM\OneToMany(targetEntity="Alastyn\AdminBundle\Entity\Appellation", mappedBy="region")
      */
     private $appellations;
 
@@ -175,5 +182,29 @@ class Region
     public function getAppellations()
     {
         return $this->appellations;
+    }
+
+    /**
+     * Set publication
+     *
+     * @param boolean $publication
+     *
+     * @return Region
+     */
+    public function setPublication($publication)
+    {
+        $this->publication = $publication;
+
+        return $this;
+    }
+
+    /**
+     * Get publication
+     *
+     * @return boolean
+     */
+    public function getPublication()
+    {
+        return $this->publication;
     }
 }

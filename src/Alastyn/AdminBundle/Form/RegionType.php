@@ -18,6 +18,7 @@ class RegionType extends AbstractType
     {
         $builder
             ->add('nom')
+            ->add('publication')
             ->add('pays', EntityType::class, array(
                 'class'         =>  'AlastynAdminBundle:Pays',
                 'choice_label'      =>  'nom',
