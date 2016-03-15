@@ -3,7 +3,6 @@
 namespace Alastyn\AdminBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-//use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Pays
@@ -52,6 +51,7 @@ class Pays
 
     /**
      * @ORM\OneToMany(targetEntity="Alastyn\AdminBundle\Entity\Region", mappedBy="pays")
+     * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
      */
     private $regions;
 

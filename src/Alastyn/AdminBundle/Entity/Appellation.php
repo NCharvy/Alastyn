@@ -37,6 +37,7 @@ class Appellation
 
     /**
      * @ORM\ManyToOne(targetEntity="Alastyn\AdminBundle\Entity\Region", inversedBy="appellations") 
+     * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
      */
     private $region;
 

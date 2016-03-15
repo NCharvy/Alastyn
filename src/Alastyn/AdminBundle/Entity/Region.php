@@ -37,21 +37,25 @@ class Region
 
     /**
      * @ORM\OneToMany(targetEntity="Alastyn\AdminBundle\Entity\Domaine", mappedBy="region")
+     * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
      */
     private $domaines;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Alastyn\AdminBundle\Entity\Pays", inversedBy="regions") 
+     * @ORM\ManyToOne(targetEntity="Alastyn\AdminBundle\Entity\Pays", inversedBy="regions")
+     * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
      */
     private $pays;
 
     /**
      * @ORM\OneToMany(targetEntity="Alastyn\AdminBundle\Entity\Appellation", mappedBy="region")
+     * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
      */
     private $appellations;
 
     /**
      * @ORM\OneToMany(targetEntity="Alastyn\AdminBundle\Entity\Suggestion", mappedBy="region")
+     * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
      */
     private $suggestions;
 
