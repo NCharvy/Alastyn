@@ -65,11 +65,13 @@ class Domaine
 
     /**
      * @ORM\OneToMany(targetEntity="Alastyn\AdminBundle\Entity\Flux", mappedBy="domaine")
+     * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
      */
     private $flux;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Alastyn\AdminBundle\Entity\Region", inversedBy="domaines") 
+     * @ORM\ManyToOne(targetEntity="Alastyn\AdminBundle\Entity\Region", inversedBy="domaines")
+     * @ORM\JoinColumn(referencedColumnName="id", nullable=true) 
      */
     private $region;
 
