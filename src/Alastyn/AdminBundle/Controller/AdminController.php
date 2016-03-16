@@ -599,4 +599,37 @@ class AdminController extends Controller
 
         return $this->redirectToRoute('_list_wine');
     }
+
+    /**
+     * @Route("/admin/suggestions/view/{page}", name="_view_suggests", defaults={"page", 1})
+     * @Template("AlastynAdminBundle:Suggestion:viewSuggestions.html.twig")
+     */
+    public function viewSuggestionAction($page){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        }
+        $em = $this->getDoctrine()->getManager();
+        $suggest = $em->createQueryBuilder()
+            ->select('suggestion')
+            ->from('AlastynAdminBundle:Suggestion','suggestion');
+        $sg = new Pagination($suggest);
+        $sg->setPage($page);
+        $suggest_count = $em->getRepository('AlastynAdminBundle:Suggestion')
+            ->createQueryBuilder('s')
+            ->select('COUNT(s)')
+            ->getQuery()
+            ->getSingleScalarResult();
+        $pagination = array(
+            'page' => $page,
+            'route' => '_view_suggests',
+            'pages_count' => ceil($suggest_count / $sg->getMaxPerPage()),
+            'route_params' => array()
+        );
+        $suggestions = $sg->getList();
+
+        return array(
+            'suggestions' => $suggestions,
+            'pagination' => $pagination
+        );
+    }
 }

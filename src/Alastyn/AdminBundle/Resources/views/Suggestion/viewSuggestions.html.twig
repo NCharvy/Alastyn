@@ -1,0 +1,30 @@
+{%  extends "AlastynAdminBundle::layout.html.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-xs-offset-0 col-sm-offset-3">
+            <h2 style="text-align : center;">{{ 'list.state'|trans }}</h2>
+            <table class="table table-hover table-bordered table-stripped">
+                <tr>
+                    <th>{{ 'name'|trans }}</th>
+                    <th>{{ 'link_rss'|trans }}</th>
+                    <th>{{ 'website'|trans }}</th>
+                    <th>{{ 'domain'|trans }}</th>
+                    <th>{{ 'operations'|trans }}</th>
+                </tr>
+                {% for suggestion in suggestions %}
+                    <tr>
+                        <td>{{ suggestion.nomDomaine }}</td>
+                        <td>{{ suggestion.rss }}</td>
+                        <td>{{ suggestion.site }}</td>
+                        <td>{{ suggestion.nomDomaine }}</td>
+                        <td>
+                            truc
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% include 'AlastynAdminBundle:Admin:paging.html.twig' %}
+        </div>
+    </div>
+{% endblock %}
