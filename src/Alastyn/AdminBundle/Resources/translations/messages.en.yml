@@ -49,6 +49,8 @@ region: Region
 state: Country
 status: Status
 url: URL
+url_rss: Rss url
+url_web: Web Url
 website: Website
 wine: Naming
 yes: Yes

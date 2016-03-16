@@ -49,6 +49,8 @@ region: Région
 state: Pays
 status: Statut
 url: URL
+url_rss: Url Rss
+url_web: Url Web
 website: Site web
 wine: Appellation
 yes: Oui

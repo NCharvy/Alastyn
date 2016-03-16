@@ -92,7 +92,8 @@ class Suggestion
     private $courriel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Alastyn\AdminBundle\Entity\Region", inversedBy="suggestions") 
+     * @ORM\ManyToOne(targetEntity="Alastyn\AdminBundle\Entity\Region", inversedBy="suggestions")
+     * @ORM\JoinColumn(referencedColumnName="id", nullable=true) 
      */
     private $region;
 
