@@ -6,6 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use PicoFeed\Reader\Reader;
+use Alastyn\AdminBundle\Entity\Suggestion;
+use Alastyn\AdminBundle\Form\SuggestionType;
+use Symfony\Component\HttpFoundation\Request;
 
 class FrontController extends Controller
 {
@@ -13,7 +16,7 @@ class FrontController extends Controller
      * @Route("/", name = "_index")
      * @Template()
      */
-	public function indexAction()
+	public function indexAction(Request $req)
     {
         $reader = new Reader;
         $resources = ['http://feeds.howtogeek.com/howtogeek',
@@ -63,6 +66,21 @@ class FrontController extends Controller
 
             $feeds[] = $feed;
         }
-        return array('feeds' => $feeds);
-    }
+
+
+          $em = $this->getDoctrine()->getManager();
+          $Suggestion = new Suggestion;
+          $form = $this->get('form.factory')->create(SuggestionType::class, $Suggestion);
+
+          if($form->handleRequest($req)->isValid()){
+              $em->persist($Suggestion);
+              $em->flush();
+
+              $req->getSession()->getFlashBag()->add('notice', 'La Suggestion a bien été evoyée.');
+
+              return $this->redirectToRoute('_index');
+          }
+          return array('feeds' => $feeds,'form' => $form->createView());    
+        }
+        
 }

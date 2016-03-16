@@ -1,7 +1,14 @@
 admin: Admin
+address: Address
 country: country
+email: Email
 get_more: More...
 home: Home
 language: language
+register: Register
+region: Region
 search: Search
 wine_grower_last_article: Last winegrower's articles
+your_first_name : Your First Name
+your_name : Your Name
+zip_code: ZIP code

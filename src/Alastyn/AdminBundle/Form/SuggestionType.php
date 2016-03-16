@@ -5,6 +5,8 @@ namespace Alastyn\AdminBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class SuggestionType extends AbstractType
 {
@@ -25,7 +27,15 @@ class SuggestionType extends AbstractType
             ->add('nom')
             ->add('prenom')
             ->add('courriel')
-            ->add('region')
+            ->add('region', EntityType::class, array(
+                'class'         =>  'AlastynAdminBundle:Region',
+                'choice_label'  =>  'nom',
+                'multiple'      =>  false,
+                'expanded'      =>  false
+            ))
+            ->add('enregistrer', SubmitType::class, array(
+                'attr' => array('class' => 'btn btn-primary')
+            ))
         ;
     }
     
