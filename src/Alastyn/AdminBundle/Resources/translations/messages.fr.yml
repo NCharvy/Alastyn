@@ -39,6 +39,8 @@ menu:
         add: Ajouter appellation
         list: Voit la liste des appellations
 name: Nom
+surname: Prénom
+email: Courriel
 no: Non
 operations: Opérations
 postcode: Code Postal
@@ -50,3 +52,4 @@ url: URL
 website: Site web
 wine: Appellation
 yes: Oui
+exists: Existe

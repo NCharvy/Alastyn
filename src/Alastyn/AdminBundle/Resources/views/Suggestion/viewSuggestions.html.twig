@@ -19,7 +19,9 @@
                         <td>{{ suggestion.site }}</td>
                         <td>{{ suggestion.nomDomaine }}</td>
                         <td>
-                            truc
+                            <a href="{{ path('_single_suggest', {'id': suggestion.id}) }}"><i class="fa fa-sheet"></i></a>
+                            <a href="{{ path('_accept_suggest', {'id': suggestion.id}) }}"><i class="fa fa-tick"></i></a>
+                            <a href="{{ path('_delete_suggest', {'id': suggestion.id}) }}"><i class="fa fa-cross"></i></a>
                         </td>
                     </tr>
                 {% endfor %}

@@ -38,7 +38,7 @@ class Suggestion
     /**
      * @var bool
      *
-     * @ORM\Column(name="domaine_existe", type="boolean")
+     * @ORM\Column(name="domaine_existe", type="boolean", nullable=true)
      */
     private $domaine_existe;
 

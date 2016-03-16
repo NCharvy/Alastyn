@@ -632,4 +632,54 @@ class AdminController extends Controller
             'pagination' => $pagination
         );
     }
+
+    /**
+     * @Route("/admin/suggestion/view/{id}", name="_single_suggest")
+     * @Template("AlastynAdminBundle:Suggestion:singleSuggestion.html.twig")
+     */
+    public function viewSingleSuggestionAction($id){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        }
+        $em = $this->getDoctrine()->getManager();
+        $suggestion = $em->getRepository('AlastynAdminBundle:Suggestion')->find($id);
+
+        return array(
+            'suggestion' => $suggestion
+        );
+    }
+
+    /**
+     * @Route("/admin/suggestion/check/{id}", name="_check_suggest")
+     * @Template("AlastynAdminBundle:Suggestion:checkSuggestion.html.twig")
+     */
+    public function checkSuggestionAction(Request $req, $id){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        }
+        $em = $this->getDoctrine()->getManager();
+        $suggest = $em->getRepository('AlastynAdminBundle:Suggestion')->find($id);
+        $form = $this->get('form.factory')->create(SuggestionType::class, $suggest);
+
+        if($form->handleRequest($req)->isValid()){
+            return redirectToRoute('_view_suggests', array('page' => 1));
+        }
+
+        return array('form' => $form->createView());
+    }
+
+    /**
+     * @Route("/admin/suggestion/view/{id}", name="_single_suggest")
+     */
+    public function deleteSuggestionAction($id){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        }
+        $em = $this->getDoctrine()->getManager();
+        $suggestion = $em->getRepository('AlastynAdminBundle:Suggestion')->find($id);
+        $em->remove($suggestion);
+        $em->flush();
+
+        return redirectToRoute('_view_suggests', array('page' => 1));
+    }
 }

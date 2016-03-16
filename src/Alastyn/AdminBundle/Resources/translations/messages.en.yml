@@ -39,6 +39,8 @@ menu:
         add: Add naming
         list: Show list of naming
 name: Name
+surname: Surname
+email: E-mail
 no: No
 operations: Operations
 postcode: Postcode (or Zip Code)
@@ -50,3 +52,4 @@ url: URL
 website: Website
 wine: Naming
 yes: Yes
+exists: Exists
