@@ -14,6 +14,10 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="{{ path("_index") }}">{{ 'home' |trans }}</a>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#suggerer">
+         Suggerer Un Flux
+        </button>
       </div>
       <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
@@ -42,4 +46,108 @@
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
   </nav>
+
+<!-- Modal -->
+<div class="modal fade" id="suggerer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <b>Suggerer Un Flux</b>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+
+      <div class="modal-body">
+        {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+        {{ form_errors(form) }}
+        <div class="row">
+            <!-- Text input-->
+            <div class="form-group col-md-6">
+              {{ form_label(form.rss, 'url_rss'|trans, {'label_attr': {'class': 'col-md-12 control-label'}}) }}
+              {{ form_errors(form.rss) }}
+              <div class="col-md-12">
+              {{ form_widget(form.rss, {'attr': {'class': 'form-control input-md'}}) }}
+              </div>
+            </div>
+            <!-- Text input-->
+            <div class="form-group col-md-6">
+              {{ form_label(form.site, 'url_web'|trans, {'label_attr': {'class': 'col-md-12 control-label'}}) }}
+              {{ form_errors(form.site) }}
+              <div class="col-md-12">
+              {{ form_widget(form.site, {'attr': {'class': 'form-control input-md'}}) }}
+              </div>
+            </div>
+            <!-- Text input-->
+            <div class="form-group col-md-6">
+              {{ form_label(form.nomDomaine, 'domaine'|trans, {'label_attr': {'class': 'col-md-12 control-label'}}) }}
+              {{ form_errors(form.nomDomaine) }}
+              <div class="col-md-12">
+              {{ form_widget(form.nomDomaine, {'attr': {'class': 'form-control input-md'}}) }}
+              </div>
+            </div>
+            <!-- Text input-->
+            <div class="form-group col-md-6">
+              {{ form_label(form.adresse, 'address'|trans, {'label_attr': {'class': 'col-md-12 control-label'}}) }}
+              {{ form_errors(form.adresse) }}
+              <div class="col-md-12">
+              {{ form_widget(form.adresse, {'attr': {'class': 'form-control input-md'}}) }}
+              </div>
+            </div>
+            <!-- Text input-->
+            <div class="form-group col-md-6">
+              {{ form_label(form.codepostal, 'zip_code'|trans, {'label_attr': {'class': 'col-md-12 control-label'}}) }}
+              {{ form_errors(form.codepostal) }}
+              <div class="col-md-12">
+              {{ form_widget(form.codepostal, {'attr': {'class': 'form-control input-md'}}) }}
+              </div>
+            </div>
+            <!-- Select input-->
+            <div class="form-group col-md-6">
+              {{ form_label(form.region, 'region'|trans, {'label_attr': {'class': 'col-md-12 control-label'}}) }}
+              {{ form_errors(form.region) }}
+              <div class="col-md-12">
+              {{ form_widget(form.region, {'attr': {'class': 'form-control input-md'}}) }}
+              </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <!-- Text input-->
+            <div class="form-group col-md-6">
+              {{ form_label(form.courriel, 'email'|trans, {'label_attr': {'class': 'col-md-12 control-label'}}) }}
+              {{ form_errors(form.courriel) }}
+              <div class="col-md-12">
+              {{ form_widget(form.courriel, {'attr': {'class': 'form-control input-md'}}) }}
+              </div>
+            </div>
+            <!-- Text input-->
+            <div class="form-group col-md-6">
+              {{ form_label(form.nom, 'your_first_name'|trans, {'label_attr': {'class': 'col-md-12 control-label'}}) }}
+              {{ form_errors(form.nom) }}
+              <div class="col-md-12">
+              {{ form_widget(form.nom, {'attr': {'class': 'form-control input-md'}}) }}
+              </div>
+            </div>
+            <!-- Text input-->
+            <div class="form-group col-md-6">
+              {{ form_label(form.prenom, 'your_name'|trans, {'label_attr': {'class': 'col-md-12 control-label'}}) }}
+              {{ form_errors(form.prenom) }}
+              <div class="col-md-12">
+              {{ form_widget(form.prenom, {'attr': {'class': 'form-control input-md'}}) }}
+              </div>
+            </div>
+        </div>
+        <div>
+            Ici mettre un Captcha
+        </div>
+      </form>
+    </div>
+  <div class="modal-footer">
+          <div class="col-md-3 col-md-offset-8">
+            {{ form_widget(form.enregistrer, {'attr': {'class': 'btn btn-primary'}, 'label': 'register'|trans}) }}
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
