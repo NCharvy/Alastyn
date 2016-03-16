@@ -3,15 +3,15 @@ namespace Alastyn\AdminBundle\Services;
 
 class Service
 {
-    public function Service_verification_rss( $xmlContent )
+    public function checkRss($feed)
 	{
 
-		if (@fopen($xmlContent, 'r')) 
+		if (@fopen($feed, 'r')) 
 		{
-				$xmlContent = file_get_contents($xmlContent);
+				$feed = file_get_contents($feed);
 				libxml_use_internal_errors(true);
 				$doc = new \DOMDocument('1.0', 'utf-8');
-				$doc->loadXML($xmlContent);
+				$doc->loadXML($feed);
 
 				$errors = libxml_get_errors();
 				if (empty($errors))
@@ -25,14 +25,14 @@ class Service
 				    return "Valide";
 				}
 
-				$lines = explode("r", $xmlContent);
+				$lines = explode("r", $feed);
 				$line = $lines[($error->line)-1];
 
 				return $message = $error->message . ' at line ' . $error->line . ': ' . htmlentities($line);
 	    }
 	    else
 	    {
-	    	return "URL INCORRECT";
+	    	return "URL incorrect";
 	    }
 	}
 }
