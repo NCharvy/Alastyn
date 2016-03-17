@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class RegionType extends AbstractType
 {
@@ -18,6 +19,9 @@ class RegionType extends AbstractType
     {
         $builder
             ->add('nom')
+            ->add('icone', FileType::class, array(
+                'data_class' => null
+            ))
             ->add('publication')
             ->add('pays', EntityType::class, array(
                 'class'         =>  'AlastynAdminBundle:Pays',

@@ -101,13 +101,13 @@ class AdminController extends Controller
 
         if($form->handleRequest($req)->isValid()){
             /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
-            $file = $state->getIcon();
+            $file = $state->getIcone();
             $fileName = $file->getClientOriginalName();
 
             $iconsDir = $this->container->getParameter('kernel.root_dir').'/../web/uploads/icons';
             $file->move($iconsDir, $fileName);
 
-            $state->setIcon($fileName);
+            $state->setIcone($fileName);
             $em->persist($state);
             $em->flush();
 
@@ -134,13 +134,13 @@ class AdminController extends Controller
 
         if($form->handleRequest($req)->isValid()){
             /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
-            $file = $state->getIcon();
+            $file = $state->getIcone();
             $fileName = $file->getClientOriginalName();
 
             $iconsDir = $this->container->getParameter('kernel.root_dir').'/../web/uploads/icons';
             $file->move($iconsDir, $fileName);
 
-            $state->setIcon($fileName);
+            $state->setIcone($fileName);
             $em->persist($state);
 
             $this->get('check_datas')->checkPublicationRegions($em, $state);
@@ -224,6 +224,14 @@ class AdminController extends Controller
         $form = $this->get('form.factory')->create(RegionType::class, $region);
 
         if($form->handleRequest($req)->isValid()){
+            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+            $file = $region->getIcone();
+            $fileName = $file->getClientOriginalName();
+
+            $iconsDir = $this->container->getParameter('kernel.root_dir').'/../web/uploads/icons';
+            $file->move($iconsDir, $fileName);
+
+            $region->setIcone($fileName);
             $em->persist($region);
             $em->flush();
 
@@ -249,7 +257,19 @@ class AdminController extends Controller
         $form = $this->get('form.factory')->create(RegionType::class, $region);
 
         if($form->handleRequest($req)->isValid()){
+            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+            $file = $region->getIcone();
+            $fileName = $file->getClientOriginalName();
+
+            $iconsDir = $this->container->getParameter('kernel.root_dir').'/../web/uploads/icons';
+            $file->move($iconsDir, $fileName);
+
+            $region->setIcone($fileName);
             $em->persist($region);
+
+            $this->get('check_datas')->checkPublicationDomains($em, $region);
+            $this->get('check_datas')->checkPublicationWines($em, $region);
+
             $em->flush();
 
             $req->getSession()->getFlashBag()->add('notice', 'La région a bien été ajoutée.');
@@ -395,6 +415,9 @@ class AdminController extends Controller
 
         if($form->handleRequest($req)->isValid()){
             $em->persist($domain);
+
+            $this->get('check_datas')->checkPublicationFlows($em, $domain);
+
             $em->flush();
 
             $req->getSession()->getFlashBag()->add('notice', 'Le domaine a bien été ajouté.');

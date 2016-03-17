@@ -32,6 +32,13 @@
                                 {{ form_widget(form.pays, {'attr': {'class': 'form-control'}}) }}
                             </div>
                         </div>
+                        <div class="form-group">
+                            {{ form_label(form.icone, 'icon'|trans, {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
+                            {{ form_errors(form.icone) }}
+                            <div class="col-sm-6">
+                                {{ form_widget(form.icone) }}
+                            </div>
+                        </div>
                         <div class="col-md-3 col-md-offset-8">
                             {{ form_widget(form.enregistrer, {'attr': {'class': 'btn btn-primary'}, 'label': 'form.save'|trans}) }}
                         </div>

@@ -7,6 +7,7 @@
             <table class="table table-hover table-bordered table-stripped">
                 <tr>
                     <th>{{ 'name'|trans }}</th>
+                    <th>{{ 'icon'|trans }}
                     <th>{{ 'publication'|trans }}</th>
                     <th>{{ 'state'|trans }}</th>
                     <th>{{ 'operations'|trans }}</th>
@@ -14,6 +15,7 @@
                 {% for region in regions %}
                     {% if region.pays is null %}<tr class="danger">{% else %}<tr>{% endif %}
                         <td>{{ region.nom }}</td>
+                        <td><img src="{{ asset("uploads/icons/#{region.icone}") }}" width="50" /></td>
                         <td>
                             {% if region.publication == 1 %}
                                 {{ 'yes'|trans }}

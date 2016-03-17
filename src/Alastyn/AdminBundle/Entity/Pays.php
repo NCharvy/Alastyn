@@ -45,9 +45,9 @@ class Pays
     /**
      * @var string
      *
-     * @ORM\Column(name="icon", type="string", length=255, nullable=true)
+     * @ORM\Column(name="icone", type="string", length=255, nullable=true)
      */
-    private $icon;
+    private $icone;
 
     /**
      * @ORM\OneToMany(targetEntity="Alastyn\AdminBundle\Entity\Region", mappedBy="pays")
@@ -55,6 +55,13 @@ class Pays
      */
     private $regions;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->regions = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -139,37 +146,6 @@ class Pays
     }
 
     /**
-     * Set icon
-     *
-     * @param string $icon
-     *
-     * @return Pays
-     */
-    public function setIcon($icon)
-    {
-        $this->icon = $icon;
-
-        return $this;
-    }
-
-    /**
-     * Get icon
-     *
-     * @return string
-     */
-    public function getIcon()
-    {
-        return $this->icon;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->regions = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
      * Add region
      *
      * @param \Alastyn\AdminBundle\Entity\Region $region
@@ -201,5 +177,29 @@ class Pays
     public function getRegions()
     {
         return $this->regions;
+    }
+
+    /**
+     * Set icone
+     *
+     * @param string $icone
+     *
+     * @return Pays
+     */
+    public function setIcone($icone)
+    {
+        $this->icone = $icone;
+
+        return $this;
+    }
+
+    /**
+     * Get icone
+     *
+     * @return string
+     */
+    public function getIcone()
+    {
+        return $this->icone;
     }
 }
