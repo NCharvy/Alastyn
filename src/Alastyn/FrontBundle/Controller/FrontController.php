@@ -72,6 +72,8 @@ class FrontController extends Controller
             $feeds[] = $feed;
         }
 
+        $pays = $em->getRepository('AlastynAdminBundle:Pays')->findByPublication(true);
+
           $Suggestion = new Suggestion;
           $form = $this->get('form.factory')->create(SuggestionType::class, $Suggestion);
 
@@ -83,7 +85,7 @@ class FrontController extends Controller
 
               return $this->redirectToRoute('_index');
           }
-          return array('feeds' => $feeds,'form' => $form->createView());    
+          return array('feeds' => $feeds, 'form' => $form->createView(), 'pays' => $pays);    
         }
         
 }

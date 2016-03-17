@@ -25,12 +25,9 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ 'country' |trans }} 
             <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="#">France</a></li>
-              <li><a href="#">France</a></li>
-              <li><a href="#">France</a></li>
-              <li><a href="#">France</a></li>
-              <li><a href="#">France</a></li>
-              <li><a href="#">France</a></li>
+              {% for p in pays %}
+                <li><a href="#">{{ p.nom }}</a></li>
+              {% endfor %}
             </ul>
           </li>
         </ul>
