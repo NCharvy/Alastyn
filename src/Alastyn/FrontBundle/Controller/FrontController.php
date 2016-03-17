@@ -2,6 +2,7 @@
 
 namespace Alastyn\FrontBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -74,11 +75,12 @@ class FrontController extends Controller
 
         $pays = $em->getRepository('AlastynAdminBundle:Pays')->findByPublication(true);
 
-          $Suggestion = new Suggestion;
-          $form = $this->get('form.factory')->create(SuggestionType::class, $Suggestion);
+          $em = $this->getDoctrine()->getManager();
+          $suggestion = new Suggestion;
+          $form = $this->get('form.factory')->create(SuggestionType::class, $suggestion);
 
           if($form->handleRequest($req)->isValid()){
-              $em->persist($Suggestion);
+              $em->persist($suggestion);
               $em->flush();
 
               $req->getSession()->getFlashBag()->add('notice', 'La Suggestion a bien été evoyée.');

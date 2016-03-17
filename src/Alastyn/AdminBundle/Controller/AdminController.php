@@ -15,12 +15,15 @@ use Alastyn\AdminBundle\Entity\Domaine;
 use Alastyn\AdminBundle\Entity\Flux;
 use Alastyn\AdminBundle\Entity\Appellation;
 use Alastyn\AdminBundle\Entity\Pagination;
+use Alastyn\AdminBundle\Entity\Suggestion;
 
 use Alastyn\AdminBundle\Form\PaysType;
 use Alastyn\AdminBundle\Form\DomaineType; 
 use Alastyn\AdminBundle\Form\FluxType;
 use Alastyn\AdminBundle\Form\RegionType;
 use Alastyn\AdminBundle\Form\AppellationType;
+use Alastyn\AdminBundle\Form\SuggestionType;
+use Alastyn\AdminBundle\Form\SuggestionCheckType;
 
 class AdminController extends Controller
 {
@@ -651,16 +654,36 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/wine/list", name="_list_wine")
+     * @Route("/admin/wine/list", name="_list_wine", defaults={"page", 1})
      * @Template("AlastynAdminBundle:Appellation:listWine.html.twig")
      */
-    public function listWineAction(){
-        $wines = $this->getDoctrine()
-            ->getRepository('AlastynAdminBundle:Appellation')
-            ->findAll()
-        ;
+    public function listWineAction(Request $req, $page){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        }
+        $em = $this->getDoctrine()->getManager();
+        $wine = $em->createQueryBuilder()
+            ->select('appellation')
+            ->from('AlastynAdminBundle:Appellation','appellation');
+        $wn = new Pagination($wine);
+        $wn->setPage($page);
+        $wine_count = $em->getRepository('AlastynAdminBundle:Appellation')
+            ->createQueryBuilder('a')
+            ->select('COUNT(a)')
+            ->getQuery()
+            ->getSingleScalarResult();
+        $pagination = array(
+            'page' => $page,
+            'route' => '_list_wine',
+            'pages_count' => ceil($wine_count / $wn->getMaxPerPage()),
+            'route_params' => array()
+        );
+        $wines = $wn->getList();
 
-        return array('wines' => $wines);
+        return array(
+            'wines' => $wines,
+            'pagination' => $pagination
+        );
     }
 
     /**
@@ -732,5 +755,57 @@ class AdminController extends Controller
             'suggestions' => $suggestions,
             'pagination' => $pagination
         );
+    }
+
+    /**
+     * @Route("/admin/suggestion/view/{id}", name="_single_suggest")
+     * @Template("AlastynAdminBundle:Suggestion:singleSuggestion.html.twig")
+     */
+    public function viewSingleSuggestionAction($id){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        }
+        $em = $this->getDoctrine()->getManager();
+        $suggestion = $em->getRepository('AlastynAdminBundle:Suggestion')->find($id);
+
+        return array(
+            'suggestion' => $suggestion
+        );
+    }
+
+    /**
+     * @Route("/admin/suggestion/check/{id}", name="_check_suggest")
+     * @Template("AlastynAdminBundle:Suggestion:checkSuggestion.html.twig")
+     */
+    public function checkSuggestionAction(Request $req, $id){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        }
+        $em = $this->getDoctrine()->getManager();
+        $suggest = $em->getRepository('AlastynAdminBundle:Suggestion')->find($id);
+        $nomD = $suggest->getNomDomaine();
+
+        $form = $this->get('form.factory')->create(SuggestionCheckType::class, $suggest, array('nomdomaine' => $nomD));
+
+        if($form->handleRequest($req)->isValid()){
+            return redirectToRoute('_view_suggests', array('page' => 1));
+        }
+
+        return array('form' => $form->createView());
+    }
+
+    /**
+     * @Route("/admin/suggestion/delete/{id}", name="_delete_suggest")
+     */
+    public function deleteSuggestionAction($id){
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        }
+        $em = $this->getDoctrine()->getManager();
+        $suggestion = $em->getRepository('AlastynAdminBundle:Suggestion')->find($id);
+        $em->remove($suggestion);
+        $em->flush();
+
+        return redirectToRoute('_view_suggests', array('page' => 1));
     }
 }

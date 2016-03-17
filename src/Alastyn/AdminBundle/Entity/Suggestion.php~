@@ -377,28 +377,4 @@ class Suggestion
     {
         return $this->region;
     }
-
-    /**
-     * Set domaine
-     *
-     * @param \Alastyn\AdminBundle\Entity\Domaine $domaine
-     *
-     * @return Suggestion
-     */
-    public function setDomaine(\Alastyn\AdminBundle\Entity\Domaine $domaine = null)
-    {
-        $this->domaine = $domaine;
-
-        return $this;
-    }
-
-    /**
-     * Get domaine
-     *
-     * @return \Alastyn\AdminBundle\Entity\Domaine
-     */
-    public function getDomaine()
-    {
-        return $this->domaine;
-    }
 }

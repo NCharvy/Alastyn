@@ -1,0 +1,45 @@
+{% extends "AlastynAdminBundle::layout.html.twig" %}
+
+{% block content %}
+    <main style="overflow : hidden;">
+        <div class="col-sm-7 col-sm-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 style="text-align : center;">{{ 'form.domain'|trans }}</h2>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-10">
+                        {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+                        {{ form_errors(form) }}
+                        <div class="form-group">
+                            {{ form_label(form.rss, 'url_rss'|trans, {'label_attr': {'class': 'col-md-6 control-label'}}) }}
+                            {{ form_errors(form.rss) }}
+                            <div class="col-sm-6">
+                                {{ form_widget(form.rss, {'attr': {'class': 'form-control input-md'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.nomDomaine, 'domaine'|trans, {'label_attr': {'class': 'col-md-6 control-label'}}) }}
+                            {{ form_errors(form.nomDomaine) }}
+                            <div class="col-sm-6">
+                                {{ form_widget(form.nomDomaine, {'attr': {'class': 'form-control input-md'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.domaine, 'domaine'|trans, {'label_attr': {'class': 'col-md-6 control-label'}}) }}
+                            {{ form_errors(form.domaine) }}
+                            <div class="col-sm-6">
+                                {{ form_widget(form.domaine) }}
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-md-offset-8">
+                            {{ form_widget(form.enregistrer, {'attr': {'class': 'btn btn-primary'}, 'label': 'form.save'|trans}) }}
+                        </div>
+                        {{ form_rest(form) }} {# Génération automatique de champs pas encore écrits, comme ceux générés automatiquement par Symfony #}
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
