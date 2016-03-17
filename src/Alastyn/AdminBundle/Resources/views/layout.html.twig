@@ -43,7 +43,7 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#flux"><i class="fa fa-fw fa-rss"></i> {{ 'flow'|trans }} <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="flux" class="collapse">
                             <li>
-                                <a href="{{ path('_list_flow', {'page': 1}) }}">{{ 'menu.flow.list'|trans }}</a>
+                                <a href="{{ path('_list_flow', {'page': 1, 'sort': 'domaine'}) }}">{{ 'menu.flow.list'|trans }}</a>
                             </li>
                             <li>
                                 <a href="{{ path('_create_flow') }}">{{ 'menu.flow.add'|trans }}</a>
@@ -54,7 +54,7 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#domain"><i class="fa fa-fw fa-leaf"></i> {{ 'domain'|trans }} <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="domain" class="collapse">
                             <li>
-                                <a href="{{ path('_list_domain', {'page': 1}) }}">{{ 'menu.domain.list'|trans }}</a>
+                                <a href="{{ path('_list_domain', {'page': 1, 'sort': 'nom'}) }}">{{ 'menu.domain.list'|trans }}</a>
                             </li>
                             <li>
                                 <a href="{{ path('_create_domain') }}">{{ 'menu.domain.add'|trans }}</a>
@@ -76,7 +76,7 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#region"><i class="fa fa-fw fa-map"></i> {{ 'region'|trans }} <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="region" class="collapse">
                             <li>
-                                <a href="{{ path('_view_regions', {'page': 1}) }}">{{ 'menu.region.list'|trans }}</a>
+                                <a href="{{ path('_view_regions', {'page': 1, 'sort': 'nom'}) }}">{{ 'menu.region.list'|trans }}</a>
                             </li>
                             <li>
                                 <a href="{{ path('_create_region') }}">{{ 'menu.region.add'|trans }}</a>
@@ -87,7 +87,7 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#state"><i class="fa fa-fw fa-globe"></i> {{ 'state'|trans }} <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="state" class="collapse">
                             <li>
-                                <a href="{{ path('_view_states', {'page': 1}) }}">{{ 'menu.state.list'|trans }}</a>
+                                <a href="{{ path('_view_states', {'page': 1, 'sort': 'nom'}) }}">{{ 'menu.state.list'|trans }}</a>
                             </li>
                             <li>
                                 <a href="{{ path('_create_state') }}">{{ 'menu.state.add'|trans }}</a>

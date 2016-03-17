@@ -7,9 +7,9 @@
             <table class="table table-hover table-bordered table-stripped">
                 <tr>
 					<th>{{ 'url'|trans }}</th>
-					<th>{{ 'status'|trans }}</th>
-					<th>{{ 'publication'|trans }}</th>
-					<th>{{ 'domain'|trans }}</th>
+					<th><a href="{{ path('_list_flow', {'page': 1, 'sort': 'statut'}) }}">{{ 'status'|trans }}</a></th>
+					<th><a href="{{ path('_list_flow', {'page': 1, 'sort': 'publication'}) }}">{{ 'publication'|trans }}</a></th>
+					<th><a href="{{ path('_list_flow', {'page': 1, 'sort': 'domaine'}) }}">{{ 'domain'|trans }}</a></th>
 					<th>{{ 'operations'|trans }}</th>
 				</tr>
 				{% for flow in flows %}

@@ -6,9 +6,9 @@
             <h2 style="text-align : center;">{{ 'list.state'|trans }}</h2>
             <table class="table table-hover table-bordered table-stripped">
                 <tr>
-                    <th>{{ 'name'|trans }}</th>
-                    <th>{{ 'abbreviation'|trans }}</th>
-                    <th>{{ 'publication'|trans }}</th>
+                    <th><a href="{{ path('_view_states', {'page': 1, 'sort': 'nom'}) }}">{{ 'name'|trans }}</a></th>
+                    <th><a href="{{ path('_view_states', {'page': 1, 'sort': 'abbr'}) }}">{{ 'abbreviation'|trans }}</a></th>
+                    <th><a href="{{ path('_view_states', {'page': 1, 'sort': 'publication'}) }}">{{ 'publication'|trans }}</a></th>
                     <th>{{ 'icon'|trans }}</th>
                     <th>{{ 'operations'|trans }}</th>
                 </tr>

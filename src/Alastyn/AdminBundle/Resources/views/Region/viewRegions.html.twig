@@ -6,10 +6,10 @@
             <h2 style="text-align : center;">{{ 'list.region'|trans }}</h2>
             <table class="table table-hover table-bordered table-stripped">
                 <tr>
-                    <th>{{ 'name'|trans }}</th>
+                    <th><a href="{{ path('_view_regions', {'page': 1, 'sort': 'nom'}) }}">{{ 'name'|trans }}</a></th>
                     <th>{{ 'icon'|trans }}
-                    <th>{{ 'publication'|trans }}</th>
-                    <th>{{ 'state'|trans }}</th>
+                    <th><a href="{{ path('_view_regions', {'page': 1, 'sort': 'publication'}) }}">{{ 'publication'|trans }}</a></th>
+                    <th><a href="{{ path('_view_regions', {'page': 1, 'sort': 'pays'}) }}">{{ 'state'|trans }}</a></th>
                     <th>{{ 'operations'|trans }}</th>
                 </tr>
                 {% for region in regions %}

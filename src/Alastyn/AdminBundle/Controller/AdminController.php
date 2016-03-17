@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use PicoFeed\Reader\Reader;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 use Alastyn\AdminBundle\Entity\Pays;
 use Alastyn\AdminBundle\Entity\Region; 
@@ -178,17 +179,33 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/states/view/{page}", name="_view_states", defaults={"page", 1})
+     * @Route("/admin/states/view/{sort}/{page}", name="_view_states", defaults={"page": 1, "sort": "nom"})
      * @Template("AlastynAdminBundle:Pays:viewStates.html.twig")
      */
-    public function viewStateAction($page){
+    public function viewStateAction($page, $sort){
+        $valid_sort = array('nom', 'abbr', 'publication');
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
             throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        } else if(!in_array($sort, $valid_sort)) {
+            throw new Exception('La classification de la table Pays n\'est pas valide.');
         }
+
         $em = $this->getDoctrine()->getManager();
         $pays = $em->createQueryBuilder()
             ->select('pays')
             ->from('AlastynAdminBundle:Pays','pays');
+        switch ($sort) {
+            case 'abbr':
+                $pays = $pays->orderBy('pays.abbr', 'ASC');
+                break;
+            case 'publication':
+                $pays = $pays->orderBy('pays.publication', 'ASC')->orderBy('pays.nom', 'ASC');
+                break;
+            default:
+                $pays = $pays->orderBy('pays.nom', 'ASC');
+                break;
+        }
+
         $domaines = new Pagination($pays);
         $domaines->setPage($page);
         $domains_count = $em->getRepository('AlastynAdminBundle:Pays')
@@ -206,7 +223,8 @@ class AdminController extends Controller
 
         return array(
             'states' => $states,
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'sort' => $sort
         );
     }
 
@@ -281,17 +299,33 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/regions/view/{page}", name="_view_regions", defaults={"page", 1})
+     * @Route("/admin/regions/view/{sort}/{page}", name="_view_regions", defaults={"page": 1, "sort": "nom"})
      * @Template("AlastynAdminBundle:Region:viewRegions.html.twig")
      */
-    public function viewRegionAction($page){
+    public function viewRegionAction($page, $sort){
+        $valid_sort = array('nom', 'pays', 'publication');
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
             throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        } else if(!in_array($sort, $valid_sort)) {
+            throw new Exception('La classification de la table Region n\'est pas valide.');
         }
+
         $em = $this->getDoctrine()->getManager();
         $region = $em->createQueryBuilder()
             ->select('region')
             ->from('AlastynAdminBundle:Region','region');
+        switch ($sort) {
+            case 'pays':
+                $region = $region->join('region.pays', 'pays')->orderBy('pays.abbr', 'ASC');
+                break;
+            case 'publication':
+                $region = $region->orderBy('region.publication', 'ASC')->orderBy('region.nom', 'ASC');
+                break;
+            default:
+                $region = $region->orderBy('region.nom', 'ASC');
+                break;
+        }
+            
         $reg = new Pagination($region);
         $reg->setPage($page);
         $regions_count = $em->getRepository('AlastynAdminBundle:Region')
@@ -309,7 +343,8 @@ class AdminController extends Controller
 
         return array(
             'regions' => $regions,
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'sort' => $sort
         );
     }
 
@@ -368,17 +403,33 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/domain/list/{page}", name="_list_domain", defaults={"page", 1})
+     * @Route("/admin/domain/list/{sort}/{page}", name="_list_domain", defaults={"page": 1, "sort": "nom"})
      * @Template("AlastynAdminBundle:Domaine:listDomain.html.twig")
      */
-    public function listDomainAction($page){
+    public function listDomainAction($page, $sort){
+        $valid_sort = array('nom', 'adresse', 'codepostal', 'ville', 'region', 'publication');
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
             throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        } else if(!in_array($sort, $valid_sort)) {
+            throw new Exception('La classification de la table Domaine n\'est pas valide.');
         }
+
         $em = $this->getDoctrine()->getManager();
         $domaine = $em->createQueryBuilder()
             ->select('domaine')
             ->from('AlastynAdminBundle:domaine','domaine');
+        switch ($sort) {
+            case 'region':
+                $domaine = $domaine->join('domaine.region', 'region')->orderBy('region.nom', 'ASC');
+                break;
+            case 'publication':
+                $domaine = $domaine->orderBy('domaine.publication', 'ASC')->orderBy('domaine.nom', 'ASC');
+                break;
+            default:
+                $domaine = $domaine->orderBy('domaine.'.$sort, 'ASC');
+                break;
+        }
+
         $domaines = new Pagination($domaine);
         $domaines->setPage($page);
         $domains_count = $em->getRepository('AlastynAdminBundle:Domaine')
@@ -396,7 +447,8 @@ class AdminController extends Controller
 
         return array(
             'domains' => $domains,
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'sort' => $sort
         );
     }
 
@@ -481,17 +533,33 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/flow/list/{page}", name="_list_flow", defaults={"page", 1})
+     * @Route("/admin/flow/list/{sort}/{page}", name="_list_flow", defaults={"page": 1, "sort": "domaine"})
      * @Template("AlastynAdminBundle:Flux:listFlow.html.twig")
      */
-    public function listFlowAction($page){
+    public function listFlowAction($page, $sort){
+        $valid_sort = array('statut', 'publication', 'domaine');
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
             throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        } else if(!in_array($sort, $valid_sort)) {
+            throw new Exception('La classification de la table Domaine n\'est pas valide.');
         }
+
         $em = $this->getDoctrine()->getManager();
         $flux = $em->createQueryBuilder()
             ->select('flux')
             ->from('AlastynAdminBundle:Flux','flux');
+        switch ($sort) {
+            case 'statut':
+                $flux = $flux->orderBy('flux.statut', 'ASC');
+                break;
+            case 'publication':
+                $flux = $flux->orderBy('flux.publication', 'ASC');
+                break;
+            default:
+                $flux = $flux->join('flux.domaine', 'domaine')->orderBy('domaine.nom', 'ASC');
+                break;
+        }
+
         $fl = new Pagination($flux);
         $fl->setPage($page);
         $flows_count = $em->getRepository('AlastynAdminBundle:Flux')
@@ -509,7 +577,8 @@ class AdminController extends Controller
 
         return array(
             'flows' => $flows,
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'sort' => $sort
         );
     }
 

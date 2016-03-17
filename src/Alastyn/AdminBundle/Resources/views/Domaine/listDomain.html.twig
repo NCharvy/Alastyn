@@ -6,13 +6,13 @@
             <h2 style="text-align : center;">{{ 'list.domain'|trans }}</h2>
             <table class="table table-hover table-bordered table-stripped">
                 <tr>
-					<th>{{ 'name'|trans }}</th>
+					<th><a href="{{ path('_list_domain', {'page': 1, 'sort': 'nom'}) }}">{{ 'name'|trans }}</a></th>
 					<th>{{ 'website'|trans }}</th>
-					<th>{{ 'address'|trans }}</th>
-					<th>{{ 'postcode'|trans }}</th>
-					<th>{{ 'city'|trans }}</th>
-					<th>{{ 'publication'|trans }}</th>
-					<th>{{ 'region'|trans }}</th>
+					<th><a href="{{ path('_list_domain', {'page': 1, 'sort': 'adresse'}) }}">{{ 'address'|trans }}</a></th>
+					<th><a href="{{ path('_list_domain', {'page': 1, 'sort': 'codepostal'}) }}">{{ 'postcode'|trans }}</a></th>
+					<th><a href="{{ path('_list_domain', {'page': 1, 'sort': 'ville'}) }}">{{ 'city'|trans }}</a></th>
+					<th><a href="{{ path('_list_domain', {'page': 1, 'sort': 'publication'}) }}">{{ 'publication'|trans }}</a></th>
+					<th><a href="{{ path('_list_domain', {'page': 1, 'sort': 'region'}) }}">{{ 'region'|trans }}</a></th>
 					<th>{{ 'operations'|trans }}</th>
 				</tr>
 				{% for domain in domains %}
