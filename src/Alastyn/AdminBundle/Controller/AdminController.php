@@ -54,7 +54,7 @@ class AdminController extends Controller
 
    //      foreach ($resources as $rss) 
    //      {
-   //          $Verfification_rss = $this->get('gbprod.my_service')->checkRss($rss);
+   //          $Verfification_rss = $this->get('check_rss')->checkRss($rss);
    //          if($Verfification_rss == "FLUX RSS VALIDER")
    //          {
 			// 	$resource = $reader->download($rss);
@@ -142,6 +142,9 @@ class AdminController extends Controller
 
             $state->setIcon($fileName);
             $em->persist($state);
+
+            $this->get('check_datas')->checkPublicationRegions($em, $state);
+
             $em->flush();
 
             $req->getSession()->getFlashBag()->add('notice', 'Le pays a bien été ajouté.');
@@ -438,7 +441,7 @@ class AdminController extends Controller
         $form = $this->get('form.factory')->create(FluxType::class, $flow);
 
         if($form->handleRequest($req)->isValid()){
-            $check_rss = $this->get('gbprod.my_service')->checkRss($flow->getUrl());
+            $check_rss = $this->get('check_rss')->checkRss($flow->getUrl());
             $flow->setStatut($check_rss);
             if($check_rss != 'Valide') {
                 $flow->setPublication(false);
@@ -501,7 +504,7 @@ class AdminController extends Controller
         $form = $this->get('form.factory')->create(FluxType::class, $flow);
 
         if($form->handleRequest($req)->isValid()){
-            $check_rss = $this->get('gbprod.my_service')->checkRss($flow->getUrl());
+            $check_rss = $this->get('check_rss')->checkRss($flow->getUrl());
             $flow->setStatut($check_rss);
             if($check_rss != 'Valide') {
                 $flow->setPublication(false);
