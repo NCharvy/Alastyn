@@ -286,6 +286,11 @@ class AdminController extends Controller
             $file->move($iconsDir, $fileName);
 
             $region->setIcone($fileName);
+
+            if(!$region->getPays()->getPublication()) {
+                $region->setPublication(false);
+            }
+
             $em->persist($region);
 
             $this->get('check_datas')->checkPublicationDomains($em, $region);
@@ -469,6 +474,9 @@ class AdminController extends Controller
         $form = $this->get('form.factory')->create(DomaineType::class, $domain);
 
         if($form->handleRequest($req)->isValid()){
+            if(!$domain->getRegion()->getPublication()) {
+                $domain->setPublication(false);
+            }
             $em->persist($domain);
 
             $this->get('check_datas')->checkPublicationFlows($em, $domain);
@@ -601,7 +609,7 @@ class AdminController extends Controller
         if($form->handleRequest($req)->isValid()){
             $check_rss = $this->get('check_rss')->checkRss($flow->getUrl());
             $flow->setStatut($check_rss);
-            if($check_rss != 'Valide') {
+            if($check_rss != 'Valide' || !$flow->getDomaine()->getPublication()) {
                 $flow->setPublication(false);
             }
             $em->persist($flow);
@@ -700,6 +708,9 @@ class AdminController extends Controller
         $form = $this->get('form.factory')->create(AppellationType::class, $wine);
 
         if($form->handleRequest($req)->isValid()){
+            if(!$wine->getRegion()->getPublication()) {
+                $wine->setPublication(false);
+            }
             $em->persist($wine);
             $em->flush();
 
