@@ -16,7 +16,7 @@
 					<th>{{ 'operations'|trans }}</th>
 				</tr>
 				{% for domain in domains %}
-	                <tr>
+	                {% if domain.region is null %}<tr class="danger">{% else %}<tr>{% endif %}
 	                    <td>{{ domain.nom }}</td>
 	                    <td>{{ domain.website }}</td>
 	                    <td>{{ domain.adresse }}</td>
@@ -29,7 +29,13 @@
                                 {{ 'no'|trans }}
                             {% endif %}
                         </td>
-	                    <td>{{ domain.region.nom }}</td>
+	                    <td>
+	                    	{% if domain.region is null %}
+	                    		<i>null</i>
+	                    	{% else %}
+	                    		{{ domain.region.nom }}
+	                    	{% endif %}
+	                    </td>
 	                    <td>
 	                        <a href="{{ path('_update_domain', {'id': domain.id}) }}"><i class="fa fa-pencil"></i></a>
 	                        <a href="{{ path('_delete_domain', {'id': domain.id}) }}"><i class="fa fa-trash"></i></a>

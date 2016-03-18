@@ -1,11 +1,9 @@
-{# src //Bundle/Resources/views/layout.html.twig #}
 {% extends "::base.html.twig" %}
 {% block title %} {{ parent() }} - {% endblock %} 
 {% block stylesheets %} {{ parent() }} 
    <link href="{{ asset('/bootstrap/css/business-casual.css') }}" rel="stylesheet" type="text/css" />
 {% endblock %}
 {% block body %}
-
 
   <!-- Navigation -->
     <nav class="navbar navbar-default" role="navigation">
@@ -27,11 +25,20 @@
                     <li>
                         <a href="{{ path("_index") }}">{{ 'home' |trans }}</a>
                     </li>
-                    <li>
-                        <a href="#" data-toggle="modal" data-target="#suggerer">Suggerer un Flux</a>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ 'country' |trans }} 
+                      <span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                        {% for p in pays %}
+                          <li><a href="#">{{ p.nom }}</a></li>
+                        {% endfor %}
+                      </ul>
                     </li>
                     <li>
-                        <a href="#">Nous Contacter</a>
+                        <a href="" data-toggle="modal" data-target="#suggerer">Suggerer un Flux</a>
+                    </li>
+                    <li>
+                        <a href="" data-toggle="modal" data-target="#contact">Nous Contacter</a>
                     </li>
                     <li>
                         <a href="{{ path("_indexAdmin") }}">{{ 'admin' |trans }}</a>
@@ -141,6 +148,66 @@
           <div class="col-md-3 col-md-offset-8">
             {{ form_widget(form.enregistrer, {'attr': {'class': 'btn btn-primary'}, 'label': 'register'|trans}) }}
           </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="contact" tabindex="-1" role="dialog" aria-labelledby="contactez">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Nous Contactez</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+          <div class="row">
+            <!-- Text input-->
+            <div class="form-group col-md-6">
+              <label class="col-md-3 control-label">Nom</label>  
+              <div class="col-md-12">
+              <input id="textinput" name="textinput" class="form-control input-md" type="text">
+              </div>
+            </div>
+            <!-- Text input-->
+            <div class="form-group col-md-6">
+              <label class="col-md-3 control-label">Prenom</label>  
+              <div class="col-md-12">
+              <input id="textinput" name="textinput" class="form-control input-md" type="text">
+              </div>
+            </div>
+            <!-- Text input-->
+            <div class="form-group col-md-6">
+              <label class="col-md-3 control-label">Domaine</label>  
+              <div class="col-md-12">
+              <input id="textinput" name="textinput" class="form-control input-md" type="text"> 
+              </div>
+            </div>
+            <!-- Text input-->
+            <div class="form-group col-md-6">
+              <label class="col-md-3 control-label">Email</label>  
+              <div class="col-md-12">
+              <input id="textinput" name="textinput" placeholder="exemple.exemple@mail.com" class="form-control input-md" type="text"> 
+              </div>
+            </div>
+            <!-- Textarea -->
+            <div class="form-group col-md-12">
+              <label class="col-md-6 control-label">Message</label>
+              <div class="col-md-12">                     
+                <textarea class="form-control" id="textarea" name="textarea"></textarea>
+              </div>
+            </div>
+          </div>
+          <div>
+              Ici mettre un Captcha
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Envoyer</button>
       </div>
     </div>
   </div>

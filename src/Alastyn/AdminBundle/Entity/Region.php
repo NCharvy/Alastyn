@@ -29,6 +29,13 @@ class Region
     private $nom;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="icone", type="string", length=255, nullable=true)
+     */
+    private $icone;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="publication", type="boolean")
@@ -249,5 +256,29 @@ class Region
     public function getSuggestions()
     {
         return $this->suggestions;
+    }
+
+    /**
+     * Set icone
+     *
+     * @param string $icone
+     *
+     * @return Region
+     */
+    public function setIcone($icone)
+    {
+        $this->icone = $icone;
+
+        return $this;
+    }
+
+    /**
+     * Get icone
+     *
+     * @return string
+     */
+    public function getIcone()
+    {
+        return $this->icone;
     }
 }

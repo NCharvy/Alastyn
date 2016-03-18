@@ -20,7 +20,7 @@ class PaysType extends AbstractType
             ->add('nom')
             ->add('abbr')
             ->add('publication')
-            ->add('icon', FileType::class, array(
+            ->add('icone', FileType::class, array(
                 'data_class' => null
             ))
             ->add('enregistrer', SubmitType::class, array(

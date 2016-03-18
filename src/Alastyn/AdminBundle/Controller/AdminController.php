@@ -54,7 +54,7 @@ class AdminController extends Controller
 
    //      foreach ($resources as $rss) 
    //      {
-   //          $Verfification_rss = $this->get('gbprod.my_service')->Service_verification_rss($rss);
+   //          $Verfification_rss = $this->get('check_rss')->checkRss($rss);
    //          if($Verfification_rss == "FLUX RSS VALIDER")
    //          {
 			// 	$resource = $reader->download($rss);
@@ -87,38 +87,6 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/add_rss")
-     * @Template()
-     */
-  //   public function addRssAction(Request $request)
-  //   {
-
-  //       $contentFile=file_get_contents("saved_rss/listeLiens.json");
-  //       $array=json_decode($contentFile);
-
-  //       if ($request->getMethod() == 'POST') 
-  //       {
-  //           $URL_SITE_NAME = $_POST["URL_VALEUR_NAME"];
-  //           $URL_SITE_RSS = $_POST["URL_VALEUR_RSS"];
-  //           $Verfification_rss = $this->get('gbprod.my_service')->Service_verification_rss($URL_SITE_RSS);
-
-  //      		if($Verfification_rss == "FLUX RSS VALIDER")
-  //      		{
-
-		// 		array_push($array,array("id"=>(count($array)),"site"=>$URL_SITE_NAME,"rss"=>$URL_SITE_RSS)); 
-		// 		$textResponse = json_encode($array,JSON_PRETTY_PRINT);
-		// 		file_put_contents("saved_rss/listeLiens.json", $textResponse);
-
-  //      		}
-		// }
-		// else
-		// {
-		// 	$Verfification_rss = "pas de donnée";
-		// }
-  //       return array('file' => $array, 'Verif_Exist' => $Verfification_rss);    
-  //   }
-
-    /**
      * @Route("/admin/state/create", name="_create_state")
      * @Template("AlastynAdminBundle:Pays:createState.html.twig")
      */
@@ -133,13 +101,13 @@ class AdminController extends Controller
 
         if($form->handleRequest($req)->isValid()){
             /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
-            $file = $state->getIcon();
+            $file = $state->getIcone();
             $fileName = $file->getClientOriginalName();
 
             $iconsDir = $this->container->getParameter('kernel.root_dir').'/../web/uploads/icons';
             $file->move($iconsDir, $fileName);
 
-            $state->setIcon($fileName);
+            $state->setIcone($fileName);
             $em->persist($state);
             $em->flush();
 
@@ -166,19 +134,22 @@ class AdminController extends Controller
 
         if($form->handleRequest($req)->isValid()){
             /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
-            $file = $state->getIcon();
+            $file = $state->getIcone();
             $fileName = $file->getClientOriginalName();
 
             $iconsDir = $this->container->getParameter('kernel.root_dir').'/../web/uploads/icons';
             $file->move($iconsDir, $fileName);
 
-            $state->setIcon($fileName);
+            $state->setIcone($fileName);
             $em->persist($state);
+
+            $this->get('check_datas')->checkPublicationRegions($em, $state);
+
             $em->flush();
 
             $req->getSession()->getFlashBag()->add('notice', 'Le pays a bien été ajouté.');
 
-            return $this->redirectToRoute('_indexAdmin');
+            return $this->redirectToRoute('_view_states', array('page' => 1));
         }
 
         return array('form' => $form->createView());
@@ -192,10 +163,18 @@ class AdminController extends Controller
         $em = $this->getDoctrine()->getManager();
         $state = $em->getRepository('AlastynAdminBundle:Pays')->find($id);
 
+        $regions = $state->getRegions();
+        foreach ($regions as $r) {
+            $region = $em->getRepository('AlastynAdminBundle:Region')->find($r->getId());
+            $region->setPays();
+            $region->setPublication(false);
+            $em->persist($region);
+        }
+
         $em->remove($state);
         $em->flush();
 
-        return $this->redirectToRoute('_view_states');
+        return $this->redirectToRoute('_view_states', array('page' => 1));
     }
 
     /**
@@ -245,6 +224,14 @@ class AdminController extends Controller
         $form = $this->get('form.factory')->create(RegionType::class, $region);
 
         if($form->handleRequest($req)->isValid()){
+            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+            $file = $region->getIcone();
+            $fileName = $file->getClientOriginalName();
+
+            $iconsDir = $this->container->getParameter('kernel.root_dir').'/../web/uploads/icons';
+            $file->move($iconsDir, $fileName);
+
+            $region->setIcone($fileName);
             $em->persist($region);
             $em->flush();
 
@@ -270,12 +257,24 @@ class AdminController extends Controller
         $form = $this->get('form.factory')->create(RegionType::class, $region);
 
         if($form->handleRequest($req)->isValid()){
+            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+            $file = $region->getIcone();
+            $fileName = $file->getClientOriginalName();
+
+            $iconsDir = $this->container->getParameter('kernel.root_dir').'/../web/uploads/icons';
+            $file->move($iconsDir, $fileName);
+
+            $region->setIcone($fileName);
             $em->persist($region);
+
+            $this->get('check_datas')->checkPublicationDomains($em, $region);
+            $this->get('check_datas')->checkPublicationWines($em, $region);
+
             $em->flush();
 
             $req->getSession()->getFlashBag()->add('notice', 'La région a bien été ajoutée.');
 
-            return $this->redirectToRoute('_indexAdmin');
+            return $this->redirectToRoute('_view_regions', array('page' => 1));
         }
 
         return array('form' => $form->createView());
@@ -321,10 +320,26 @@ class AdminController extends Controller
         $em = $this->getDoctrine()->getManager();
         $region = $em->getRepository('AlastynAdminBundle:Region')->find($id);
 
+        $domains = $region->getDomaines();
+        foreach ($domains as $d) {
+            $domain = $em->getRepository('AlastynAdminBundle:Domaine')->find($d->getId());
+            $domain->setRegion();
+            $domain->setPublication(false);
+            $em->persist($domain);
+        }
+
+        $wines = $region->getAppellations();
+        foreach ($wines as $w) {
+            $wine = $em->getRepository('AlastynAdminBundle:Appellation')->find($w->getId());
+            $wine->setRegion();
+            $wine->setPublication(false);
+            $em->persist($wine);
+        }
+
         $em->remove($region);
         $em->flush();
 
-        return $this->redirectToRoute('_view_regions');
+        return $this->redirectToRoute('_view_regions', array('page' => 1));
     }
 
     /**
@@ -400,11 +415,14 @@ class AdminController extends Controller
 
         if($form->handleRequest($req)->isValid()){
             $em->persist($domain);
+
+            $this->get('check_datas')->checkPublicationFlows($em, $domain);
+
             $em->flush();
 
             $req->getSession()->getFlashBag()->add('notice', 'Le domaine a bien été ajouté.');
 
-            return $this->redirectToRoute('_indexAdmin');
+            return $this->redirectToRoute('_list_domain', array('page' => 1));
         }
 
         return array('form' => $form->createView());
@@ -417,10 +435,19 @@ class AdminController extends Controller
         $em = $this->getDoctrine()->getManager();
         $domain = $em->getRepository('AlastynAdminBundle:Domaine')->find($id);
 
+        $flows = $domain->getFlux();
+        foreach ($flows as $f) {
+            $flow = $em->getRepository('AlastynAdminBundle:Flux')->find($f->getId());
+            $flow->setDomaine();
+            $flow->setStatut('Absence de liaison');
+            $flow->setPublication(false);
+            $em->persist($flow);
+        }
+
         $em->remove($domain);
         $em->flush();
 
-        return $this->redirectToRoute('_list_domain');
+        return $this->redirectToRoute('_list_domain', array('page' => 1));
     }
 
     /**
@@ -437,8 +464,8 @@ class AdminController extends Controller
         $form = $this->get('form.factory')->create(FluxType::class, $flow);
 
         if($form->handleRequest($req)->isValid()){
-            $check_rss = $this->get('gbprod.my_service')->Service_verification_rss($flow->getUrl());
-            $flow->setStatus($check_rss);
+            $check_rss = $this->get('check_rss')->checkRss($flow->getUrl());
+            $flow->setStatut($check_rss);
             if($check_rss != 'Valide') {
                 $flow->setPublication(false);
             }
@@ -500,12 +527,17 @@ class AdminController extends Controller
         $form = $this->get('form.factory')->create(FluxType::class, $flow);
 
         if($form->handleRequest($req)->isValid()){
+            $check_rss = $this->get('check_rss')->checkRss($flow->getUrl());
+            $flow->setStatut($check_rss);
+            if($check_rss != 'Valide') {
+                $flow->setPublication(false);
+            }
             $em->persist($flow);
             $em->flush();
 
             $req->getSession()->getFlashBag()->add('notice', 'Le flux a bien été ajouté.');
 
-            return $this->redirectToRoute('_indexAdmin');
+            return $this->redirectToRoute('_list_flow', array('page' => 1));
         }
 
         return array('form' => $form->createView());
@@ -521,7 +553,7 @@ class AdminController extends Controller
         $em->remove($domain);
         $em->flush();
 
-        return $this->redirectToRoute('_list_flow');
+        return $this->redirectToRoute('_list_flow', array('page' => 1));
     }
 
     /**
@@ -581,7 +613,7 @@ class AdminController extends Controller
 
             $req->getSession()->getFlashBag()->add('notice', 'L\'appellation a bien été ajoutée.');
 
-            return $this->redirectToRoute('_indexAdmin');
+            return $this->redirectToRoute('_list_wine', array('page' => 1));
         }
 
         return array('form' => $form->createView());
@@ -597,7 +629,7 @@ class AdminController extends Controller
         $em->remove($wine);
         $em->flush();
 
-        return $this->redirectToRoute('_list_wine');
+        return $this->redirectToRoute('_list_wine', array('page' => 1));
     }
 
     /**

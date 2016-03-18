@@ -12,7 +12,7 @@
 					<th>{{ 'operations'|trans }}</th>
 				</tr>
 				{% for wine in wines %}
-	                <tr>
+	                {% if wine.region is null %}<tr class="danger">{% else %}<tr>{% endif %}
 	                    <td>{{ wine.nom }}</td>
 	                    <td>
                             {% if wine.publication == 1 %}
@@ -21,7 +21,13 @@
                                 {{'no'|trans }}
                             {% endif %}
                         </td>
-	                    <td>{{ wine.region.nom }}</td>
+	                    <td>
+	                    	{% if wine.region is null %}
+	                    		<i>null</i>
+	                    	{% else %}
+	                    		{{ wine.region.nom }}
+	                    	{% endif %}
+	                    </td>
 	                    <td>
 	                        <a href="{{ path('_update_wine', {'id': wine.id}) }}"><i class="fa fa-pencil"></i></a>
 	                        <a href="{{ path('_delete_wine', {'id': wine.id}) }}"><i class="fa fa-trash"></i></a>

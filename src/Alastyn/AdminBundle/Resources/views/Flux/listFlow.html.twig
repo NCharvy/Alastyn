@@ -13,9 +13,9 @@
 					<th>{{ 'operations'|trans }}</th>
 				</tr>
 				{% for flow in flows %}
-	                <tr>
+	                {% if flow.domaine is null %}<tr class="danger">{% elseif flow.statut != 'Valide' %}<tr class="warning">{% else %}<tr>{% endif %}
 	                    <td>{{ flow.url }}</td>
-	                    <td>{{ flow.status }}</td>
+	                    <td>{{ flow.statut }}</td>
 	                    <td>
 	                    	{% if flow.publication == 1 %}
                                 {{ 'yes'|trans }}
@@ -23,7 +23,12 @@
                                 {{ 'no'|trans }}
                             {% endif %}
 	                    </td>
-	                    <td>{{ flow.domaine.nom }}</td>
+	                    <td>{% if flow.domaine is null %}
+	                    	 	<i>null</i>
+	                    	 {% else %}
+	                    		{{ flow.domaine.nom }}
+	                    	 {% endif %}
+	                    </td>
 	                    <td>
 	                        <a href="{{ path('_update_flow', {'id': flow.id}) }}"><i class="fa fa-pencil"></i></a>
 	                        <a href="{{ path('_delete_flow', {'id': flow.id}) }}"><i class="fa fa-trash"></i></a>

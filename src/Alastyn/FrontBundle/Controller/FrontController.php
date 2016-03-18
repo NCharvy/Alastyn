@@ -19,16 +19,21 @@ class FrontController extends Controller
 	public function indexAction(Request $req)
     {
         $reader = new Reader;
-        $resources = ['http://feeds.howtogeek.com/howtogeek',
-          'http://www.lemonde.fr/videos/rss_full.xml',
-          'http://www.begeek.fr/feed',
-          'http://feeds2.feedburner.com/LeJournalduGeek',
-          'http://www.journaldunet.com/rss/',
-          'http://feeds.feedburner.com/fubiz'];
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery('SELECT f FROM AlastynAdminBundle:Flux f WHERE f.publication = true');
+        $resources = $query->getResult();
         $feeds = [];
 
+        if (!$resources) {
+            throw $this->createNotFoundException('No RSS feeds found ! ');
+        }
+
         foreach ($resources as $rss) {
-            $resource = $reader->download($rss);
+          try {
+            $resource = $reader->download($rss->getUrl());
+          } catch(Exception $e) {
+            echo 'Exception reçue : ', $e->getMessage(), "\n";
+          }
 
             $parser = $reader->getParser(
                 $resource->getUrl(),
@@ -67,8 +72,8 @@ class FrontController extends Controller
             $feeds[] = $feed;
         }
 
+        $pays = $em->getRepository('AlastynAdminBundle:Pays')->findByPublication(true);
 
-          $em = $this->getDoctrine()->getManager();
           $Suggestion = new Suggestion;
           $form = $this->get('form.factory')->create(SuggestionType::class, $Suggestion);
 
@@ -80,7 +85,7 @@ class FrontController extends Controller
 
               return $this->redirectToRoute('_index');
           }
-          return array('feeds' => $feeds,'form' => $form->createView());    
+          return array('feeds' => $feeds, 'form' => $form->createView(), 'pays' => $pays);    
         }
         
 }

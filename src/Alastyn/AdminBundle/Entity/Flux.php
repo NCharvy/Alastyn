@@ -31,9 +31,9 @@ class Flux
     /**
      * @var string
      *
-     * @ORM\Column(name="status", type="string", length=255)
+     * @ORM\Column(name="statut", type="string", length=255)
      */
-    private $status;
+    private $statut;
 
     /**
      * @var bool
@@ -84,27 +84,27 @@ class Flux
     }
 
     /**
-     * Set status
+     * Set statut
      *
-     * @param string $status
+     * @param string $statut
      *
      * @return Flux
      */
-    public function setStatus($status)
+    public function setStatut($statut)
     {
-        $this->status = $status;
+        $this->statut = $statut;
 
         return $this;
     }
 
     /**
-     * Get status
+     * Get statut
      *
      * @return string
      */
-    public function getStatus()
+    public function getStatut()
     {
-        return $this->status;
+        return $this->statut;
     }
 
     /**
