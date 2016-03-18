@@ -88,6 +88,7 @@ class AdminController extends Controller
    //              return array('feeds' => $Verfification_rss);
    //          }          
    //      }
+        return array('notif' => $this->getNotif());
     }
 
     /**
@@ -120,7 +121,7 @@ class AdminController extends Controller
             return $this->redirectToRoute('_create_state');
         }
 
-        return array('form' => $form->createView());
+        return array('form' => $form->createView(), 'notif' => $this->getNotif());
     }
 
     /**
@@ -156,7 +157,7 @@ class AdminController extends Controller
             return $this->redirectToRoute('_view_states', array('page' => 1));
         }
 
-        return array('form' => $form->createView());
+        return array('form' => $form->createView(), 'notif' => $this->getNotif());
     }
 
     /**
@@ -227,7 +228,8 @@ class AdminController extends Controller
         return array(
             'states' => $states,
             'pagination' => $pagination,
-            'sort' => $sort
+            'sort' => $sort,
+            'notif' => $this->getNotif()
         );
     }
 
@@ -261,7 +263,7 @@ class AdminController extends Controller
             return $this->redirectToRoute('_create_region');
         }
 
-        return array('form' => $form->createView());
+        return array('form' => $form->createView(), 'notif' => $this->getNotif());
     }
 
     /**
@@ -303,7 +305,7 @@ class AdminController extends Controller
             return $this->redirectToRoute('_view_regions', array('page' => 1));
         }
 
-        return array('form' => $form->createView());
+        return array('form' => $form->createView(), 'notif' => $this->getNotif());
     }
 
     /**
@@ -352,7 +354,8 @@ class AdminController extends Controller
         return array(
             'regions' => $regions,
             'pagination' => $pagination,
-            'sort' => $sort
+            'sort' => $sort,
+            'notif' => $this->getNotif()
         );
     }
 
@@ -407,7 +410,7 @@ class AdminController extends Controller
             return $this->redirectToRoute('_create_domain');
         }
 
-        return array('form' => $form->createView());
+        return array('form' => $form->createView(), 'notif' => $this->getNotif());
     }
 
     /**
@@ -456,7 +459,8 @@ class AdminController extends Controller
         return array(
             'domains' => $domains,
             'pagination' => $pagination,
-            'sort' => $sort
+            'sort' => $sort,
+            'notif' => $this->getNotif()
         );
     }
 
@@ -488,7 +492,7 @@ class AdminController extends Controller
             return $this->redirectToRoute('_list_domain', array('page' => 1));
         }
 
-        return array('form' => $form->createView());
+        return array('form' => $form->createView(), 'notif' => $this->getNotif());
     }
 
     /**
@@ -540,7 +544,7 @@ class AdminController extends Controller
             return $this->redirectToRoute('_create_flow');
         }
 
-        return array('form' => $form->createView());
+        return array('form' => $form->createView(), 'notif' => $this->getNotif());
     }
 
     /**
@@ -589,7 +593,8 @@ class AdminController extends Controller
         return array(
             'flows' => $flows,
             'pagination' => $pagination,
-            'sort' => $sort
+            'sort' => $sort,
+            'notif' => $this->getNotif()
         );
     }
 
@@ -620,7 +625,7 @@ class AdminController extends Controller
             return $this->redirectToRoute('_list_flow', array('page' => 1));
         }
 
-        return array('form' => $form->createView());
+        return array('form' => $form->createView(), 'notif' => $this->getNotif());
     }
 
     /**
@@ -658,7 +663,7 @@ class AdminController extends Controller
             return $this->redirectToRoute('_create_wine');
         }
 
-        return array('form' => $form->createView());
+        return array('form' => $form->createView(), 'notif' => $this->getNotif());
     }
 
     /**
@@ -690,7 +695,8 @@ class AdminController extends Controller
 
         return array(
             'wines' => $wines,
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'notif' => $this->getNotif()
         );
     }
 
@@ -719,7 +725,7 @@ class AdminController extends Controller
             return $this->redirectToRoute('_list_wine', array('page' => 1));
         }
 
-        return array('form' => $form->createView());
+        return array('form' => $form->createView(), 'notif' => $this->getNotif());
     }
 
     /**
@@ -764,7 +770,8 @@ class AdminController extends Controller
 
         return array(
             'suggestions' => $suggestions,
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'notif' => $this->getNotif()
         );
     }
 
@@ -780,7 +787,8 @@ class AdminController extends Controller
         $suggestion = $em->getRepository('AlastynAdminBundle:Suggestion')->find($id);
 
         return array(
-            'suggestion' => $suggestion
+            'suggestion' => $suggestion,
+            'notif' => $this->getNotif()
         );
     }
 
@@ -799,10 +807,39 @@ class AdminController extends Controller
         $form = $this->get('form.factory')->create(SuggestionCheckType::class, $suggest, array('nomdomaine' => $nomD));
 
         if($form->handleRequest($req)->isValid()){
+            if($suggest->getDomaine() != null){
+                $domaine = $em->getRepository('AlastynAdminBundle:Domaine')->findBy('nom', $nomD);
+            }
+            else{
+                $domaine = new Domaine();
+                $domaine->setNom($nomD);
+                $domaine->setAdresse($suggest->getAdresse());
+                $domaine->setVille($suggest->getVille());
+                $domaine->setCodepostal($suggest->getCodepostal());
+                $domaine->setRegion($suggest->getRegion());
+                $domaine->setPublication($domaine->getRegion()->getPublication());
+
+                $em->persist($domaine);
+            }
+            $flow = new Flux;
+            $flow->setUrl($suggest->getRss());
+            $check_rss = $this->get('check_rss')->checkRss($flow->getUrl());
+            $flow->setStatut($check_rss);
+            if($check_rss != 'Valide') {
+                $flow->setPublication(false);
+            }
+            else{
+                $flow->setPublication($domaine->getPublication());
+            }
+            $flow->setDomaine($domaine);
+
+            $em->persist($flow);
+            $em->flush();
+
             return redirectToRoute('_view_suggests', array('page' => 1));
         }
 
-        return array('form' => $form->createView());
+        return array('form' => $form->createView(), 'notif' => $this->getNotif());
     }
 
     /**
@@ -818,5 +855,17 @@ class AdminController extends Controller
         $em->flush();
 
         return redirectToRoute('_view_suggests', array('page' => 1));
+    }
+
+    public function getNotif(){
+        $notif = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('AlastynAdminBundle:Suggestion')
+            ->createQueryBuilder('s')
+            ->select('COUNT(s)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $notif;
     }
 }
