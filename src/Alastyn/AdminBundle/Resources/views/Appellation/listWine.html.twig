@@ -1,40 +1,53 @@
 {% extends "AlastynAdminBundle::layout.html.twig" %}
 
 {% block content %}
-	<div class="row">
+    <div class="row">
         <div class="col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2">
             <h2 style="text-align : center;">{{ 'list.wine'|trans }}</h2>
-            <table class="table table-hover table-bordered table-stripped">
-                <tr>
-					<th>{{ 'name'|trans }}</th>
-					<th>{{ 'publication'|trans }}</th>
-					<th>{{ 'region'|trans }}</th>
-					<th>{{ 'operations'|trans }}</th>
-				</tr>
-				{% for wine in wines %}
-	                {% if wine.region is null %}<tr class="danger">{% else %}<tr>{% endif %}
-	                    <td>{{ wine.nom }}</td>
-	                    <td>
+            <table id="wines_table" class="table table-hover table-bordered table-stripped">
+                <thead>
+                    <tr>
+                        <th>{{ 'name'|trans }}</th>
+                        <th>{{ 'publication'|trans }}</th>
+                        <th>{{ 'region'|trans }}</th>
+                        <th>{{ 'operations'|trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for wine in wines %}
+                    {% if wine.region is null %}<tr class="danger">{% else %}<tr>{% endif %}
+                        <td>{{ wine.nom }}</td>
+                        <td>
                             {% if wine.publication == 1 %}
                                 {{ 'yes'|trans }}
                             {% else %}
                                 {{'no'|trans }}
                             {% endif %}
                         </td>
-	                    <td>
-	                    	{% if wine.region is null %}
-	                    		<i>null</i>
-	                    	{% else %}
-	                    		{{ wine.region.nom }}
-	                    	{% endif %}
-	                    </td>
-	                    <td>
-	                        <a href="{{ path('_update_wine', {'id': wine.id}) }}"><i class="fa fa-pencil"></i></a>
-	                        <a href="{{ path('_delete_wine', {'id': wine.id}) }}"><i class="fa fa-trash"></i></a>
-	                    </td>
-	                </tr>
-	            {% endfor %}
+                        <td>
+                           {% if wine.region is null %}
+                             <i>null</i>
+                           {% else %}
+                             {{ wine.region.nom }}
+                           {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path('_update_wine', {'id': wine.id}) }}"><i class="fa fa-pencil"></i></a>
+                            <a href="{{ path('_delete_wine', {'id': wine.id}) }}"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
             </table>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+    $(document).ready(function() {
+        $('#wines_table').DataTable();
+    } );
+</script>
 {% endblock %}

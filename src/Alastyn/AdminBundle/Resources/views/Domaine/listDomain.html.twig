@@ -1,49 +1,60 @@
 {% extends "AlastynAdminBundle::layout.html.twig" %}
 
 {% block content %}
-	<div class="row">
+    <div class="row">
         <div class="col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2">
             <h2 style="text-align : center;">{{ 'list.domain'|trans }}</h2>
-            <table class="table table-hover table-bordered table-stripped">
-                <tr>
-					<th><a href="{{ path('_list_domain', {'page': 1, 'sort': 'nom'}) }}">{{ 'name'|trans }}</a></th>
-					<th>{{ 'website'|trans }}</th>
-					<th><a href="{{ path('_list_domain', {'page': 1, 'sort': 'adresse'}) }}">{{ 'address'|trans }}</a></th>
-					<th><a href="{{ path('_list_domain', {'page': 1, 'sort': 'codepostal'}) }}">{{ 'postcode'|trans }}</a></th>
-					<th><a href="{{ path('_list_domain', {'page': 1, 'sort': 'ville'}) }}">{{ 'city'|trans }}</a></th>
-					<th><a href="{{ path('_list_domain', {'page': 1, 'sort': 'publication'}) }}">{{ 'publication'|trans }}</a></th>
-					<th><a href="{{ path('_list_domain', {'page': 1, 'sort': 'region'}) }}">{{ 'region'|trans }}</a></th>
-					<th>{{ 'operations'|trans }}</th>
-				</tr>
-				{% for domain in domains %}
-	                {% if domain.region is null %}<tr class="danger">{% else %}<tr>{% endif %}
-	                    <td>{{ domain.nom }}</td>
-	                    <td>{{ domain.website }}</td>
-	                    <td>{{ domain.adresse }}</td>
-	                    <td>{{ domain.codepostal }}</td>
-	                    <td>{{ domain.ville }}</td>
-	                    <td>
+            <table id="domains_table" class="table table-hover table-bordered table-stripped">
+                <thead>
+                    <tr>
+                        <th>{{ 'name'|trans }}</th>
+                        <th>{{ 'website'|trans }}</th>
+                        <th>{{ 'address'|trans }}</th>
+                        <th>{{ 'postcode'|trans }}</th>
+                        <th>{{ 'city'|trans }}</th>
+                        <th>{{ 'publication'|trans }}</th>
+                        <th>{{ 'region'|trans }}</th>
+                        <th>{{ 'operations'|trans }}</th>
+                    </tr>
+                <tbody>
+                {% for domain in domains %}
+                    {% if domain.region is null %}<tr class="danger">{% else %}<tr>{% endif %}
+                        <td>{{ domain.nom }}</td>
+                        <td>{{ domain.website }}</td>
+                        <td>{{ domain.adresse }}</td>
+                        <td>{{ domain.codepostal }}</td>
+                        <td>{{ domain.ville }}</td>
+                        <td>
                             {% if domain.publication == 1 %}
                                 {{ 'yes'|trans }}
                             {% else %}
                                 {{ 'no'|trans }}
                             {% endif %}
                         </td>
-	                    <td>
-	                    	{% if domain.region is null %}
-	                    		<i>null</i>
-	                    	{% else %}
-	                    		{{ domain.region.nom }}
-	                    	{% endif %}
-	                    </td>
-	                    <td>
-	                        <a href="{{ path('_update_domain', {'id': domain.id}) }}"><i class="fa fa-pencil"></i></a>
-	                        <a href="{{ path('_delete_domain', {'id': domain.id}) }}"><i class="fa fa-trash"></i></a>
-	                    </td>
-	                </tr>
-	            {% endfor %}
+                        <td>
+                           {% if domain.region is null %}
+                             <i>null</i>
+                           {% else %}
+                             {{ domain.region.nom }}
+                           {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path('_update_domain', {'id': domain.id}) }}"><i class="fa fa-pencil"></i></a>
+                            <a href="{{ path('_delete_domain', {'id': domain.id}) }}"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
             </table>
-			{% include 'AlastynAdminBundle:Admin:paging.html.twig' %}
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+    $(document).ready(function() {
+        $('#domains_table').DataTable();
+    } );
+</script>
 {% endblock %}
