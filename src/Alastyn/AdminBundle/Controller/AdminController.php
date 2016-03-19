@@ -672,9 +672,13 @@ class AdminController extends Controller
             throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
         }
         $em = $this->getDoctrine()->getManager();
-        $suggest = $em->createQueryBuilder()
+        $suggestions = $em->createQueryBuilder()
             ->select('suggestion')
-            ->from('AlastynAdminBundle:Suggestion','suggestion');
+            ->from('AlastynAdminBundle:Suggestion','suggestion')
+            ->getQuery()
+            ->getResult();
+
+        /*    
         $sg = new Pagination($suggest);
         $sg->setPage($page);
         $suggest_count = $em->getRepository('AlastynAdminBundle:Suggestion')
@@ -689,10 +693,11 @@ class AdminController extends Controller
             'route_params' => array()
         );
         $suggestions = $sg->getList();
+        */
 
         return array(
             'suggestions' => $suggestions,
-            'pagination' => $pagination,
+            //'pagination' => $pagination,
             'notif' => $this->getNotif()
         );
     }
