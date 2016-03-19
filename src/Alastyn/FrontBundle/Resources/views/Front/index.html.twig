@@ -5,8 +5,12 @@
 {% block title %} {{ parent() }}{{ 'home' |trans }}{% endblock %}
 
 {% block body %}
+	 <div class="brand">Alastyn</div>
+	 <div class="address-bar">Blog de flux vigneron</div>
+
 {{ parent() }}
 
+<div class="container">
 <h2>{{ 'wine_grower_last_article' |trans }}</h2>
 {% set cont = 0 %}
 {% for feed in feeds %}
@@ -35,11 +39,11 @@
 		</div>
 		<div class="row">
 	{% else %}	
-	{% if (cont - 1) % 6 == 0 %}
+	{% if (cont - 1) % 4 == 0 %}
 		</div>
 		<div class="row">
 	{% endif %}
-			<div class="col-md-2">
+			<div class="col-md-3">
 			   	<div class="thumbnail">
 					<ul class="img-list">
 						<li>
@@ -47,7 +51,7 @@
 						<span class="text-content"><span>
 						    <p hidden>{{ feed.items[0].id }}</p>
 							{% if (feed.items[0].author is empty) == false %}
-						    <p><strong>{{ feed.items[0].author }}</strong>,
+						    <p class="author-rss"><strong>{{ feed.items[0].author }}</strong>,
 							{% endif %}
 						    <i>{{ feed.items[0].date|date('d/m/Y H:i:s', "Europe/Paris") }}</i></p>
 						    {% set tmp = feed.items[0].content | raw %}
@@ -62,4 +66,20 @@
 {% set cont = cont + 1 %}
 {% endfor %}
 	</div>
+
+
+
+    </div>
+    <!-- /.container -->
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <p>Copyright &copy; Your Website 2016</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
 {% endblock %}

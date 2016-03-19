@@ -1,48 +1,54 @@
-{# src //Bundle/Resources/views/layout.html.twig #}
 {% extends "::base.html.twig" %}
 {% block title %} {{ parent() }} - {% endblock %} 
+{% block stylesheets %} {{ parent() }} 
+   <link href="{{ asset('/bootstrap/css/business-casual.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
 {% block body %}
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" 
-        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="{{ path("_index") }}">{{ 'home' |trans }}</a>
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#suggerer">
-         Suggerer Un Flux
-        </button>
-      </div>
-      <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ 'country' |trans }} 
-            <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              {% for p in pays %}
-                <li><a href="#">{{ p.nom }}</a></li>
-              {% endfor %}
-            </ul>
-          </li>
-        </ul>
-        <form class="navbar-form navbar-left" role="search">
-          <div class="form-group">
-            <input type="text" class="form-control" placeholder="Recherches">
-          </div>
-          <button type="submit" class="btn btn-default">{{ 'search' |trans }}</button>
-        </form>
-              <ul class="nav navbar-nav navbar-right">
-          <li><a href="{{ path("_indexAdmin") }}">{{ 'admin' |trans }}</a></li>
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
+
+  <!-- Navigation -->
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
+                <a class="navbar-brand" href="{{ path("_index") }}">{{ 'home' |trans }}</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="{{ path("_index") }}">{{ 'home' |trans }}</a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ 'country' |trans }} 
+                      <span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                        {% for p in pays %}
+                          <li><a href="#">{{ p.nom }}</a></li>
+                        {% endfor %}
+                      </ul>
+                    </li>
+                    <li>
+                        <a href="" data-toggle="modal" data-target="#suggerer">Suggerer un Flux</a>
+                    </li>
+                    <li>
+                        <a href="" data-toggle="modal" data-target="#contact">Nous Contacter</a>
+                    </li>
+                    <li>
+                        <a href="{{ path("_indexAdmin") }}">{{ 'admin' |trans }}</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
 
 <!-- Modal -->
 <div class="modal fade" id="suggerer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -151,6 +157,66 @@
       </div>
       {{ form_rest(form) }} {# Génération automatique de champs pas encore écrits, comme ceux générés automatiquement par Symfony #}
       {{ form_end(form) }}
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="contact" tabindex="-1" role="dialog" aria-labelledby="contactez">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Nous Contactez</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+          <div class="row">
+            <!-- Text input-->
+            <div class="form-group col-md-6">
+              <label class="col-md-3 control-label">Nom</label>  
+              <div class="col-md-12">
+              <input id="textinput" name="textinput" class="form-control input-md" type="text">
+              </div>
+            </div>
+            <!-- Text input-->
+            <div class="form-group col-md-6">
+              <label class="col-md-3 control-label">Prenom</label>  
+              <div class="col-md-12">
+              <input id="textinput" name="textinput" class="form-control input-md" type="text">
+              </div>
+            </div>
+            <!-- Text input-->
+            <div class="form-group col-md-6">
+              <label class="col-md-3 control-label">Domaine</label>  
+              <div class="col-md-12">
+              <input id="textinput" name="textinput" class="form-control input-md" type="text"> 
+              </div>
+            </div>
+            <!-- Text input-->
+            <div class="form-group col-md-6">
+              <label class="col-md-3 control-label">Email</label>  
+              <div class="col-md-12">
+              <input id="textinput" name="textinput" placeholder="exemple.exemple@mail.com" class="form-control input-md" type="text"> 
+              </div>
+            </div>
+            <!-- Textarea -->
+            <div class="form-group col-md-12">
+              <label class="col-md-6 control-label">Message</label>
+              <div class="col-md-12">                     
+                <textarea class="form-control" id="textarea" name="textarea"></textarea>
+              </div>
+            </div>
+          </div>
+          <div>
+              Ici mettre un Captcha
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Envoyer</button>
+      </div>
     </div>
   </div>
 </div>
