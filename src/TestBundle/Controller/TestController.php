@@ -9,6 +9,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use PicoFeed\Reader\Reader;
 use Alastyn\AdminBundle\Entity;
+use PicoFeed\Client\Url;
+
+
 
 class TestController extends Controller
 {
@@ -42,4 +45,62 @@ class TestController extends Controller
     }
     return new response(json_encode(array("data" => $Region)));
   }
+
+
+  /**
+  * @Route("/flux_rss")
+  */
+  public function flux_rssAction()
+  {
+    $wikipediaURL = 'https://champagnecharlierbilliard.com/category/actualites-de-la-maison/feed/';
+
+        // create curl resource
+        $ch = \curl_init();
+
+        // set url
+        curl_setopt($ch, CURLOPT_URL, $wikipediaURL);
+
+        //return the transfer as a string
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        // $output contains the output string
+        $r = curl_exec($ch);
+
+        // close curl resource to free up system resources
+        curl_close($ch);   
+
+
+   // $r = \http_get('http://www.chaigne.fr/blog/feed');
+
+/*
+$aContext = array(
+    'http' => array(
+        'proxy' => 'proxy:8080',
+        'request_fulluri' => true,
+    ),
+);
+$cxContext = stream_context_create($aContext);
+
+$r = var_dump(file_get_contents("http://moulin-garreau.over-blog.com/rss", False, $cxContext));
+*/
+/*$url = \Purl\Url::parse('moulin-garreau.over-blog.com/rss')
+    ->set('Host', 'moulin-garreau.over-blog.com')
+    ->set('User-Agent', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:45.0) Gecko/20100101 Firefox/45.0')
+    ->set('Accept-language', 'en-US,en;q=0.5')
+    ->set('Connection', "keep-alive");
+
+  //$r = file_get_contents(Request::create("http://moulin-garreau.over-blog.com/rss"));
+    $r = $GET_[Request::create("http://moulin-garreau.over-blog.com/rss")];
+*/
+    $url = 'https://champagnecharlierbilliard.com/category/actualites-de-la-maison/feed/';
+    $r = var_dump($r);
+
+
+    return new response(json_encode(array("data" => $r)));
+  }
+
+
+
+
+
 }
