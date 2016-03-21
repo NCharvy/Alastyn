@@ -13,24 +13,28 @@ class CheckRSS
             $message = 'Erreur HTTP : 403 Forbidden';
         } else if($file) {
             $content = file_get_contents($feed);
-            libxml_use_internal_errors(true);
-            $doc = new \DOMDocument('1.0', 'utf-8');
-            $doc->loadXML($content);
+            if($content != '') {
+                libxml_use_internal_errors(true);
+                $doc = new \DOMDocument('1.0', 'utf-8');
+                $doc->loadXML($content);
 
-            $errors = libxml_get_errors();
-            if(empty($errors) || $errors[0]->level < 3) {
-                $message = 'Valide';
-            } else {
-                if ($http == 'HTTP/1.0 200 OK') {
-                    $message = 'Flux malformé';
-                } else if ($doc->validate()) {
-                    $lines = explode('\r', $content);
-                    $line = $lines[($errors[0]->line)-1];
-                    $message = $errors[0]->message .' at line '.$errors[0]->line.': '.htmlentities($line);
+                $errors = libxml_get_errors();
+                if(empty($errors) || $errors[0]->level < 3) {
+                    $message = 'Valide';
                 } else {
-                    $message = 'Format du Document invalide';
-                }
+                    if ($http == 'HTTP/1.0 200 OK') {
+                        $message = 'Flux malformé';
+                    } else if ($doc->validate()) {
+                        $lines = explode('\r', $content);
+                        $line = $lines[($errors[0]->line)-1];
+                        $message = $errors[0]->message .' at line '.$errors[0]->line.': '.htmlentities($line);
+                    } else {
+                        $message = 'Format du Document invalide';
+                    }
 
+                }
+            } else {
+                $message = 'Contenu non reconnu';
             }
 
             fclose($file);

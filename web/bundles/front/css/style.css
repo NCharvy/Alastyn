@@ -50,3 +50,9 @@ span.text-content {
 .content-rss .author-rss{
   font-size: 0.8em !important;
 }
+/******************************************************************************/
+.img-article {
+  height:200px !important;
+  width:100% !important;
+  overflow:hidden !important;
+}

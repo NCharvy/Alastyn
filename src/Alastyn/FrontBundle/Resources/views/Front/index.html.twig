@@ -14,32 +14,38 @@
 <h2>{{ 'wine_grower_last_article' |trans }}</h2>
 {% set cont = 0 %}
 {% for feed in feeds %}
-	{% if feed == feeds[0] %}
+	{% if feed == feeds[0] or feed == feeds[1] %}
+		{% if cont == 0 %}
 		<div class="row">
-		  <div class="col-md-offset-4 col-md-4">
+		<div class="col-md-offset-1 col-md-5">
+		{% else %}
+		<div class="col-md-5">
+		{% endif %}
 		    <div class="thumbnail">
 				<ul class="img-list">
 					<li>
-					{{ feed.items[0].preimage|raw }}  <!--maybe use image du domaine(logo)-->
-					 <span class="text-content"><span>
-					    <p><i> {{ 'language' |trans }} {{ feed.items[0].language }}</i></p>
-					    <p hidden>{{ feed.items[0].id }}</p>
-					    {% if (feed.items[0].author is empty) == false %}
-					    <p><strong>{{ feed.items[0].author }}</strong>,
-					    {% endif %} 
-					    <i>{{ feed.items[0].date|date('d/m/Y H:i:s', "Europe/Paris") }}</i></p>
-					    {% set tmp = feed.items[0].content | raw %}
-						<p>{{ tmp|slice(0, 140)|striptags }}...</p>
-						<p><a href="{{ feed.items[0].url }}" class="btn btn-primary" role="button" target="_blank">{{ 'get_more' |trans }}</a></p>
-					</span></span>
+						{{ feed.items[0].preimage|raw }}  <!--maybe use image du domaine(logo)-->
+						 <span class="text-content">
+						    <p hidden>{{ feed.items[0].id }}</p>
+						    {% if (feed.items[0].author is empty) == false %}
+						    <p><strong>{{ feed.items[0].author }}</strong>,</p>
+						    {% endif %} 
+						    <i>{{ feed.items[0].date|date('d/m/Y H:i:s', "Europe/Paris") }}</i></p>
+						    {% set tmp = feed.items[0].content | raw %}
+							<p>{{ tmp|slice(0, 140)|striptags }}...</p>
+							<p><a href="{{ feed.items[0].url }}" class="btn btn-primary btn-xs" role="button" target="_blank">{{ 'get_more' |trans }}</a></p>
+						</span>
+					</li>
 				</ul>
-				<h4>{{ feed.items[0].title }}</h4>
+				<b>{{ feed.items[0].title }}</b>
 		    </div>
-		  </div>
+		</div>
+		{% if cont == 1 %} 
 		</div>
 		<div class="row">
+		{% endif %}
 	{% else %}	
-	{% if (cont - 1) % 4 == 0 %}
+	{% if (cont - 2) % 4 == 0 %}
 		</div>
 		<div class="row">
 	{% endif %}
@@ -47,17 +53,20 @@
 			   	<div class="thumbnail">
 					<ul class="img-list">
 						<li>
-						{{ feed.items[0].preimage|raw }} <!--maybe use image du domaine(logo)-->
-						<span class="text-content"><span>
-						    <p hidden>{{ feed.items[0].id }}</p>
-							{% if (feed.items[0].author is empty) == false %}
-						    <p class="author-rss"><strong>{{ feed.items[0].author }}</strong>,
-							{% endif %}
-						    <i>{{ feed.items[0].date|date('d/m/Y H:i:s', "Europe/Paris") }}</i></p>
-						    {% set tmp = feed.items[0].content | raw %}
-							<p class="content-rss">{{ tmp|slice(0, 140)|striptags }}...</p>
-							<p><a href="{{ feed.items[0].url }}" class="btn btn-primary btn-xs" role="button" target="_blank">{{ 'get_more' |trans }}</a></p>
-						</span></span>
+							<p class="img-article">
+							{{ feed.items[0].preimage|raw }} <!--maybe use image du domaine(logo)-->
+							</p>
+							<span class="text-content">
+							    <p hidden>{{ feed.items[0].id }}</p>
+								{% if (feed.items[0].author is empty) == false %}
+							    <p class="author-rss"><strong>{{ feed.items[0].author }}</strong>,
+								{% endif %}
+							    <i>{{ feed.items[0].date|date('d/m/Y H:i:s', "Europe/Paris") }}</i></p>
+							    {% set tmp = feed.items[0].content | raw %}
+								<p class="content-rss">{{ tmp|slice(0, 140)|striptags }}...</p>
+								<p><a href="{{ feed.items[0].url }}" class="btn btn-primary btn-xs" role="button" target="_blank">{{ 'get_more' |trans }}</a></p>
+							</span>
+						</li>
 					</ul>
 						<b class="title-rss">{{ feed.items[0].title }}</b>
 			  	</div>
@@ -66,17 +75,13 @@
 {% set cont = cont + 1 %}
 {% endfor %}
 	</div>
-
-
-
     </div>
     <!-- /.container -->
-
     <footer>
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <p>Copyright &copy; Your Website 2016</p>
+                    <p>Copyright &copy; Université d'Orléans 2016</p>
                 </div>
             </div>
         </div>
