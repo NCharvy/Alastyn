@@ -52,21 +52,13 @@ class FrontController extends Controller
                     $feed->items[$i]->preimage=$result[0];
 
                     $feed->items[$i]->preimage = preg_replace("/src/",
-                    'width="100%!important;" class="img-responsive" src',
+                    'width="100%!important;" src',
                     $feed->items[$i]->preimage);
-                  /*  
-                    if ( mettre la bonne image correspondand au flux) {
-                      $feed->items[$i]->preimage=
-                    }
-                  */
-                    $feed->items[$i]->preimage=
-                    '<img width="100%!important;" class="img-responsive" 
-                    src="http://www.allvectors.com/wp-content/uploads/2012/06/abstract-white-background.jpg" />';
                 }
                 else{
                     $feed->items[$i]->preimage=
-                    '<img width="100%!important;" class="img-responsive" 
-                    src="http://www.allvectors.com/wp-content/uploads/2012/06/abstract-white-background.jpg" />';
+                    '<img class="img-responsive img-article" 
+                    src="bundles/front/img/verre3.jpg" />';
                 }
             }
 
