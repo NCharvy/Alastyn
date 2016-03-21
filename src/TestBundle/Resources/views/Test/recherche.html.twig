@@ -1,0 +1,76 @@
+{% block body  %}
+
+<p>Page test twig</p>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
+
+
+
+<script>
+	function getState(val) 
+	{
+		$.ajax
+		(
+			{
+				type: "POST",
+				dataType: "json",
+				url: "recherche_region_json",
+				data:"[{\"country_id\":"+val+"}]",
+				success: function(data)
+				{
+					while(document.getElementById("MenuDeroulantRegion") != null)
+					{
+						document.getElementById("state-list").removeChild(document.getElementById("MenuDeroulantRegion"));
+					}
+					
+					for (i = 0; i <= data.data[2]; i++)
+					{
+						$("#state-list").append("<option id=\"MenuDeroulantRegion\" value=\""+ data.data[1][i]+"\" >"+ data.data[0][i]+"</option>");
+					}
+					data = "";
+				}
+			}
+		);
+	}
+
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+  $(".js-example-placeholder-multiple").select2();
+});
+</script>
+
+<body>
+
+	<div class="row col-md-6">
+		<div>
+		<label>Pays:</label>
+		<br/>
+		<select class="col-md-6 js-example-placeholder-multiple" name="country" id="country-list" onChange="getState(this.value);">
+			<option value="value">test valeur</option>
+			{% for state in states %}
+			    {% if state.publication == 1 %}
+			    	<option value="{{ state.id }}">
+			        {{ state.nom }}
+			        </option>
+			    {% endif %}
+			{% endfor %}    
+		</select>
+	</div>
+
+	<div>
+		<label>Domaine:</label><br/>
+		<select name="state" id="state-list">
+		</select>
+	</div>
+
+	
+
+</body>
+
+{% endblock %}
