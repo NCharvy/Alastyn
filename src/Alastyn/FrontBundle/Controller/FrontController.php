@@ -24,6 +24,7 @@ class FrontController extends Controller
         $query = $em->createQuery('SELECT f FROM AlastynAdminBundle:Flux f WHERE f.publication = true');
         $resources = $query->getResult();
         $feeds = [];
+        $tmp_feeds = [];
 
         if (!$resources) {
             throw $this->createNotFoundException('No RSS feeds found ! ');
@@ -45,6 +46,7 @@ class FrontController extends Controller
             $feed = $parser->execute();
 
             $result = [];
+            $keydate ="";
             for($i = 0;$i<count($feed->items);$i++) {
                 preg_match("/(\<img).*((\/\>)|(\<\/img))/",$feed->items[$i]->content,$result);
 
@@ -68,10 +70,28 @@ class FrontController extends Controller
                     '<img width="100%!important;" class="img-responsive" 
                     src="http://www.allvectors.com/wp-content/uploads/2012/06/abstract-white-background.jpg" />';
                 }
+
+
+
+              $var= json_encode($feed->items[$i]->date);
+              $test_date = json_decode($var)->date;
+
+              if($test_date > $keydate){
+                $keydate = $test_date;
+              }
+
             }
 
-            $feeds[] = $feed;
+            
+            $tmp_feeds[$keydate] = $feed;
         }
+
+        krsort($tmp_feeds);
+
+        foreach ($tmp_feeds as $key => $value) {
+          $feeds[] = $value;
+        }
+
 
         $pays = $em->getRepository('AlastynAdminBundle:Pays')->findByPublication(true);
 
