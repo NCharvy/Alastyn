@@ -10,14 +10,15 @@ use PicoFeed\Reader\Reader;
 use Alastyn\AdminBundle\Entity\Suggestion;
 use Alastyn\AdminBundle\Form\SuggestionType;
 use Symfony\Component\HttpFoundation\Request;
+use Alastyn\AdminBundle\Entity\Pagination;
 
 class FrontController extends Controller
 {
     /**
-     * @Route("/", name = "_index")
+     * @Route("/{page}", name = "_index", defaults={"page": 1})
      * @Template()
      */
-	public function indexAction(Request $req)
+	public function indexAction(Request $req, $page)
     {
         $reader = new Reader;
         $em = $this->getDoctrine()->getManager();
@@ -87,7 +88,23 @@ class FrontController extends Controller
 
               return $this->redirectToRoute('_index');
           }
-          return array('feeds' => $feeds, 'form' => $form->createView(), 'pays' => $pays);    
+
+        $reg = new Pagination($feeds);
+        $reg->setPage($page);
+        $pagination = array(
+            'page' => $page,
+            'route' => '_index',
+            'pages_count' => ceil(count($feeds) / $reg->getMaxPerPage()),
+            'route_params' => array()
+        );
+        $feeds = $reg->getList();
+
+          return array(
+              'feeds' => $feeds,
+              'form' => $form->createView(),
+              'pays' => $pays,
+              'pagination' => $pagination
+          );
         }
         
 }

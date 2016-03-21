@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use PicoFeed\Reader\Reader;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 use Alastyn\AdminBundle\Entity\Pays;
@@ -154,7 +155,7 @@ class AdminController extends Controller
 
             $req->getSession()->getFlashBag()->add('notice', 'Le pays a bien été ajouté.');
 
-            return $this->redirectToRoute('_view_states', array('page' => 1));
+            return $this->redirectToRoute('_view_states');
         }
 
         return array('form' => $form->createView(), 'notif' => $this->getNotif());
@@ -347,7 +348,7 @@ class AdminController extends Controller
             ->getQuery()
             ->getResult();
 
-        return array('regions' => $regions);
+        return array('regions' => $regions, 'notif' => $this->getNotif());
     }
 
     /**
@@ -451,7 +452,7 @@ class AdminController extends Controller
 
             $req->getSession()->getFlashBag()->add('notice', 'Le domaine a bien été ajouté.');
 
-            return $this->redirectToRoute('_list_domain', array('page' => 1));
+            return $this->redirectToRoute('_list_domain');
         }
 
         return array('form' => $form->createView(), 'notif' => $this->getNotif());
@@ -476,7 +477,7 @@ class AdminController extends Controller
         $em->remove($domain);
         $em->flush();
 
-        return $this->redirectToRoute('_list_domain', array('page' => 1));
+        return $this->redirectToRoute('_list_domain');
     }
 
     /**
@@ -556,7 +557,7 @@ class AdminController extends Controller
 
             $req->getSession()->getFlashBag()->add('notice', 'Le flux a bien été ajouté.');
 
-            return $this->redirectToRoute('_list_flow', array('page' => 1));
+            return $this->redirectToRoute('_list_flow');
         }
 
         return array('form' => $form->createView(), 'notif' => $this->getNotif());
@@ -572,7 +573,7 @@ class AdminController extends Controller
         $em->remove($domain);
         $em->flush();
 
-        return $this->redirectToRoute('_list_flow', array('page' => 1));
+        return $this->redirectToRoute('_list_flow');
     }
 
     /**
@@ -644,7 +645,7 @@ class AdminController extends Controller
 
             $req->getSession()->getFlashBag()->add('notice', 'L\'appellation a bien été ajoutée.');
 
-            return $this->redirectToRoute('_list_wine', array('page' => 1));
+            return $this->redirectToRoute('_list_wine');
         }
 
         return array('form' => $form->createView(), 'notif' => $this->getNotif());
@@ -660,14 +661,14 @@ class AdminController extends Controller
         $em->remove($wine);
         $em->flush();
 
-        return $this->redirectToRoute('_list_wine', array('page' => 1));
+        return $this->redirectToRoute('_list_wine');
     }
 
     /**
-     * @Route("/admin/suggestions/view/{page}", name="_view_suggests", defaults={"page", 1})
+     * @Route("/admin/suggestions/view", name="_view_suggests")
      * @Template("AlastynAdminBundle:Suggestion:viewSuggestions.html.twig")
      */
-    public function viewSuggestionAction($page){
+    public function viewSuggestionAction(){
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
             throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
         }
@@ -735,13 +736,14 @@ class AdminController extends Controller
 
         if($form->handleRequest($req)->isValid()){
             if($suggest->getDomaine() != null){
-                $domaine = $em->getRepository('AlastynAdminBundle:Domaine')->findBy('nom', $nomD);
+                $domaine = $em->getRepository('AlastynAdminBundle:Domaine')->findOneByNom($nomD);
             }
             else{
                 $domaine = new Domaine();
                 $domaine->setNom($nomD);
                 $domaine->setAdresse($suggest->getAdresse());
                 $domaine->setVille($suggest->getVille());
+                $domaine->setWebsite($suggest->getSite());
                 $domaine->setCodepostal($suggest->getCodepostal());
                 $domaine->setRegion($suggest->getRegion());
                 $domaine->setPublication($domaine->getRegion()->getPublication());
@@ -760,10 +762,12 @@ class AdminController extends Controller
             }
             $flow->setDomaine($domaine);
 
+            $em->remove($suggest);
+
             $em->persist($flow);
             $em->flush();
 
-            return redirectToRoute('_view_suggests', array('page' => 1));
+            return $this->redirectToRoute('_view_suggests', array('page' => 1));
         }
 
         return array('form' => $form->createView(), 'notif' => $this->getNotif());
@@ -781,7 +785,7 @@ class AdminController extends Controller
         $em->remove($suggestion);
         $em->flush();
 
-        return redirectToRoute('_view_suggests', array('page' => 1));
+        return $this->redirectToRoute('_view_suggests');
     }
 
     public function getNotif(){

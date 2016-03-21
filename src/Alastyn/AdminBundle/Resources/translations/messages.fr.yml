@@ -21,6 +21,7 @@ list:
     region: Liste des régions
     state: Liste des pays
     wine: Liste des appellations
+    suggest: Liste des suggestions
 log_out: Déconnexion
 menu:
     domain:
@@ -38,6 +39,8 @@ menu:
     wine:
         add: Ajouter appellation
         list: Voit la liste des appellations
+    suggest:
+        list: Voir la liste des suggestions
 name: Nom
 surname: Prénom
 email: Courriel

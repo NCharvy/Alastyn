@@ -23,6 +23,6 @@ class SecurityController extends Controller{
         $this->get('security.authorization_checker')->setToken(null);
         $this->get('req')->getSession()->invalidate();
 
-        return $this->redirectToRoute('/index');
+        return $this->redirectToRoute('_index');
     }
 }
