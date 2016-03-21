@@ -80,9 +80,8 @@ class FrontController extends Controller
 
         krsort($tmp_feeds);
 
-        foreach ($tmp_feeds as $key => $value) {
-          $feeds[] = $value;
-        }
+        $feeds = array_values($tmp_feeds);
+
 
 
         $pays = $em->getRepository('AlastynAdminBundle:Pays')->findByPublication(true);
