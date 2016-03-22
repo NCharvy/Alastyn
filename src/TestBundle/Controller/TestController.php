@@ -26,9 +26,6 @@ class TestController extends Controller
     return array("states" => $pays);
   }
 
-  /**
-  * @Route("/recherche_region_json")
-  */
   public function recherche_region_jsonAction(Request $request)
   {
     if($request->getMethod() == 'POST')
@@ -59,12 +56,13 @@ class TestController extends Controller
             ->getQuery()
             ->getResult();
 
-        // foreach ($flows as $flow) {
-        for ($i=20; $i < 50; $i++) {
-            $flow = $flows[$i];
+        foreach ($flows as $flow) {
+        // for ($i=20; $i < 40; $i++) {
+            // $flow = $flows[$i];
             $check_rss = $this->get('check_rss')->checkRss($flow->getUrl());
-            $flow->setStatut($check_rss);
-            if($check_rss != 'Valide' || !$flow->getDomaine()->getPublication()) {
+            if($check_rss == 'Valide' && $flow->getDomaine()->getPublication()) {
+                $flow->setPublication(true);
+            } else {
                 $flow->setPublication(false);
             }
             $em->persist($flow);

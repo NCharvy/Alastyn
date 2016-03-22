@@ -1,10 +1,18 @@
 {% extends "::base.html.twig" %}
-{% block title %} {{ parent() }} - {% endblock %} 
-{% block stylesheets %} {{ parent() }} 
-   <link href="{{ asset('/bundles/front/css/business-casual.css') }}" rel="stylesheet" type="text/css" />
-{% endblock %}
-{% block body %}
+{% block title %} {{ parent() }} - {% endblock %}
 
+{% block javascripts %} {{ parent() }} 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
+<script src="{{ asset('/bundles/front/js/menu.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %} {{ parent() }} 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"> 
+<link href="{{ asset('/bundles/front/css/business-casual.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block body %}
   <!-- Navigation -->
     <nav class="navbar navbar-default" role="navigation">
         <div class="container">
@@ -25,24 +33,32 @@
                     <li>
                         <a href="{{ path("_index") }}">{{ 'home' |trans }}</a>
                     </li>
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ 'country' |trans }} 
-                      <span class="caret"></span></a>
-                      <ul class="dropdown-menu">
-                        {% for p in pays %}
-                          <li><a href="#">{{ p.nom }}</a></li>
-                        {% endfor %}
-                      </ul>
+                    <li>
+                        <a href="" data-toggle="modal" data-target="#suggerer">{{ 'Suggest_a_feed' |trans }}</a>
                     </li>
                     <li>
-                        <a href="" data-toggle="modal" data-target="#suggerer">Suggerer un Flux</a>
-                    </li>
-                    <li>
-                        <a href="" data-toggle="modal" data-target="#contact">Nous Contacter</a>
+                        <a href="" data-toggle="modal" data-target="#contact">{{ 'Contact_us' |trans }}</a>
                     </li>
                     <li>
                         <a href="{{ path("_indexAdmin") }}">{{ 'admin' |trans }}</a>
                     </li>
+               <!-- **************************************** -->
+                 <div class="form-group"> 
+                        <select class="form-control selectpicker" name="country" id="country-list" placeholder="Pays" onChange="getState(this.value);">
+                          <option value="" selected>{{ 'Choose_country' |trans }}</option>
+                          {% for state in states %}
+                              {% if state.publication == 1 %}
+                                <option value="{{ state.id }}">
+                                  {{ state.nom }}
+                                  </option>
+                              {% endif %}
+                          {% endfor %}    
+                        </select>
+                        <select class="form-control selectpicker" name="state" id="state-list" placeholder="Region">
+                          <option value="">{{ 'Choose_a_region' |trans }}</option>
+                        </select>
+                  </div>
+              <!-- **************************************** -->
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -64,7 +80,7 @@
         <div class="row">
             <!-- Text input-->
             <div class="form-group col-md-6">
-              {{ form_label(form.rss, 'url_rss'|trans, {'label_attr': {'class': 'col-md-12 control-label'}}) }}
+              {{ form_label(form.rss, 'url_rss'|trans, {'label_attr': {'class': 'col-md-6 control-label'}}) }}
               {{ form_errors(form.rss) }}
               <div class="col-md-12">
               {{ form_widget(form.rss, {'attr': {'class': 'form-control input-md'}}) }}
@@ -72,7 +88,7 @@
             </div>
             <!-- Text input-->
             <div class="form-group col-md-6">
-              {{ form_label(form.site, 'url_web'|trans, {'label_attr': {'class': 'col-md-12 control-label'}}) }}
+              {{ form_label(form.site, 'url_web'|trans, {'label_attr': {'class': 'col-md-6 control-label'}}) }}
               {{ form_errors(form.site) }}
               <div class="col-md-12">
               {{ form_widget(form.site, {'attr': {'class': 'form-control input-md'}}) }}
@@ -80,7 +96,7 @@
             </div>
             <!-- Text input-->
             <div class="form-group col-md-6">
-              {{ form_label(form.nomDomaine, 'domaine'|trans, {'label_attr': {'class': 'col-md-12 control-label'}}) }}
+              {{ form_label(form.nomDomaine, 'domaine'|trans, {'label_attr': {'class': 'col-md-6 control-label'}}) }}
               {{ form_errors(form.nomDomaine) }}
               <div class="col-md-12">
               {{ form_widget(form.nomDomaine, {'attr': {'class': 'form-control input-md'}}) }}
@@ -88,7 +104,7 @@
             </div>
             <!-- Text input-->
             <div class="form-group col-md-6">
-              {{ form_label(form.adresse, 'address'|trans, {'label_attr': {'class': 'col-md-12 control-label'}}) }}
+              {{ form_label(form.adresse, 'address'|trans, {'label_attr': {'class': 'col-md-6 control-label'}}) }}
               {{ form_errors(form.adresse) }}
               <div class="col-md-12">
               {{ form_widget(form.adresse, {'attr': {'class': 'form-control input-md'}}) }}
@@ -96,7 +112,7 @@
             </div>
             <!-- Text input-->
             <div class="form-group col-md-6">
-              {{ form_label(form.codepostal, 'zip_code'|trans, {'label_attr': {'class': 'col-md-12 control-label'}}) }}
+              {{ form_label(form.codepostal, 'zip_code'|trans, {'label_attr': {'class': 'col-md-6 control-label'}}) }}
               {{ form_errors(form.codepostal) }}
               <div class="col-md-12">
               {{ form_widget(form.codepostal, {'attr': {'class': 'form-control input-md'}}) }}
@@ -104,7 +120,7 @@
             </div>
           <!-- Text input-->
           <div class="form-group col-md-6">
-            {{ form_label(form.ville, 'city'|trans, {'label_attr': {'class': 'col-md-12 control-label'}}) }}
+            {{ form_label(form.ville, 'city'|trans, {'label_attr': {'class': 'col-md-6 control-label'}}) }}
             {{ form_errors(form.ville) }}
             <div class="col-md-12">
               {{ form_widget(form.ville, {'attr': {'class': 'form-control input-md'}}) }}
@@ -112,7 +128,7 @@
           </div>
             <!-- Select input-->
             <div class="form-group col-md-6">
-              {{ form_label(form.region, 'region'|trans, {'label_attr': {'class': 'col-md-12 control-label'}}) }}
+              {{ form_label(form.region, 'region'|trans, {'label_attr': {'class': 'col-md-6 control-label'}}) }}
               {{ form_errors(form.region) }}
               <div class="col-md-12">
               {{ form_widget(form.region, {'attr': {'class': 'form-control input-md'}}) }}
@@ -123,7 +139,7 @@
         <div class="row">
             <!-- Text input-->
             <div class="form-group col-md-6">
-              {{ form_label(form.courriel, 'email'|trans, {'label_attr': {'class': 'col-md-12 control-label'}}) }}
+              {{ form_label(form.courriel, 'email'|trans, {'label_attr': {'class': 'col-md-6 control-label'}}) }}
               {{ form_errors(form.courriel) }}
               <div class="col-md-12">
               {{ form_widget(form.courriel, {'attr': {'class': 'form-control input-md'}}) }}
@@ -131,7 +147,7 @@
             </div>
             <!-- Text input-->
             <div class="form-group col-md-6">
-              {{ form_label(form.nom, 'your_first_name'|trans, {'label_attr': {'class': 'col-md-12 control-label'}}) }}
+              {{ form_label(form.nom, 'your_first_name'|trans, {'label_attr': {'class': 'col-md-6 control-label'}}) }}
               {{ form_errors(form.nom) }}
               <div class="col-md-12">
               {{ form_widget(form.nom, {'attr': {'class': 'form-control input-md'}}) }}
@@ -139,7 +155,7 @@
             </div>
             <!-- Text input-->
             <div class="form-group col-md-6">
-              {{ form_label(form.prenom, 'your_name'|trans, {'label_attr': {'class': 'col-md-12 control-label'}}) }}
+              {{ form_label(form.prenom, 'your_name'|trans, {'label_attr': {'class': 'col-md-6 control-label'}}) }}
               {{ form_errors(form.prenom) }}
               <div class="col-md-12">
               {{ form_widget(form.prenom, {'attr': {'class': 'form-control input-md'}}) }}

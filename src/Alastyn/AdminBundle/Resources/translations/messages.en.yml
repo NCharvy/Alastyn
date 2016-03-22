@@ -50,6 +50,7 @@ postcode: Postcode (or Zip Code)
 publication: Published
 region: Region
 state: Country
+statistics: Statistics
 status: Status
 url: URL
 url_rss: Rss url

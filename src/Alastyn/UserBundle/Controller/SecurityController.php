@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\SecurityContext;
 class SecurityController extends Controller{
     public function loginAction(Request $req){
         if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')){
-            return $this->redirectToRoute('/admin');
+            return $this->redirectToRoute('_indexAdmin');
         }
         $authUtils = $this->get('security.authentication_utils');
 

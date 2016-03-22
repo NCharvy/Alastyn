@@ -28,7 +28,6 @@ security:
                 check_path: login_check
             logout:
                 path:   logout
-                target: /index
 
     access_control:
         - { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }

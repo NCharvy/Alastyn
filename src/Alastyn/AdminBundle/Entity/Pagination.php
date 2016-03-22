@@ -25,7 +25,7 @@
          */
         public function getList()
         {
-            $query = $this->getQuery()->setFirstResult(($this->getPage()-1) * $this->getMaxPerPage())
+            $query = $this->getQuery()->setFirstResult((($this->getPage())-1) * $this->getMaxPerPage())
                 ->setMaxResults($this->getMaxPerPage());
 
             return new Paginator($query);

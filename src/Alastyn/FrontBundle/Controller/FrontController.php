@@ -7,10 +7,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use PicoFeed\Reader\Reader;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+use Alastyn\AdminBundle\Entity\Pagination;
 use Alastyn\AdminBundle\Entity\Suggestion;
 use Alastyn\AdminBundle\Form\SuggestionType;
-use Symfony\Component\HttpFoundation\Request;
-use Alastyn\AdminBundle\Entity\Pagination;
 
 class FrontController extends Controller
 {
@@ -18,8 +20,7 @@ class FrontController extends Controller
      * @Route("/{page}", name = "_index", defaults={"page": 1}), requirements={"page": "\d+"}
      * @Template()
      */
-	public function indexAction(Request $req, $page)
-    {
+	public function indexAction(Request $req, $page) {
         $reader = new Reader;
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery('SELECT f FROM AlastynAdminBundle:Flux f WHERE f.publication = true');
@@ -62,7 +63,7 @@ class FrontController extends Controller
                 }
                 else{
                     $feed->items[$i]->preimage=
-                    '<img class="img-responsive img-article" 
+                    '<img class="img-responsive img-article_une" 
                     src="bundles/front/img/verre3.jpg" />';
                 }
 
@@ -76,8 +77,6 @@ class FrontController extends Controller
               }
 
             }
-
-
             $tmp_feeds[$keydate] = $feed;
         }
 
@@ -115,14 +114,32 @@ class FrontController extends Controller
             'pages_count' => ceil($flows_count / $flow->getMaxPerPage()),
             'route_params' => array()
         );
-        $flows = $flow->getList();
-
 
           return array(
               'feeds' => $feeds,
               'form' => $form->createView(),
-              'pays' => $pays,
+              'states' => $pays,
               'pagination' => $pagination
           );
         }
+
+    /**
+    * @Route("/recherche_region_json")
+    */
+  public function recherche_region_jsonAction(Request $request)
+  {
+    if($request->getMethod() == 'POST')
+    {
+      $id = json_decode($request->getContent());
+      $em = $this->getDoctrine()->getManager();
+      $Regions = $em->getRepository('AlastynAdminBundle:Region')->findByPays($id[0]->country_id);
+      foreach ($Regions as $key => $value) 
+      { 
+        $Region[0][$key] = $value->getNom();
+        $Region[1][$key] = $value->getId();
+        $Region[2] = $key;
+      }
+    }
+    return new response(json_encode(array("data" => $Region)));
+  }
 }
