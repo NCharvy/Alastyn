@@ -39,6 +39,7 @@ class AdminController extends Controller
         }
         $stats_flows = [];
         $country_flows = [];
+        $region_flows = [];
 
         $em = $this->getDoctrine()->getManager();
 
@@ -95,10 +96,30 @@ class AdminController extends Controller
             ->getSingleScalarResult();
         }
 
+        // Nombre de flux par régions
+        $regions = $em->createQueryBuilder()
+            ->select('region')
+            ->from('AlastynAdminBundle:Pays','region')
+            ->getQuery()
+            ->getResult();
+
+        foreach ($regions as $region) {
+            $region_flows[$region->getNom()] = $em->getRepository('AlastynAdminBundle:Flux')
+            ->createQueryBuilder('f')
+            ->select('COUNT(f)')
+            ->join('f.domaine', 'd')
+            ->join('d.region', 'r')
+            ->where('r.nom = :region')
+            ->setParameter('region', $region->getNom())
+            ->getQuery()
+            ->getSingleScalarResult();
+        }
+
         return array(
             'notif' => $this->getNotif(), 
             'stats_flows' => $stats_flows,
-            'country_flows' => $country_flows
+            'country_flows' => $country_flows,
+            'region_flows' => $region_flows
         );
     }
 
