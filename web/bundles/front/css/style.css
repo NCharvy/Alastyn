@@ -1,3 +1,26 @@
+.display-i {
+  display: inline-block !important;
+}
+
+.form-group label {
+    float: left;
+    text-align: left;
+    font-weight: normal;
+}
+
+.form-group select {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+}
+
+.form-group input {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+}
+
+
 ul.img-list {
   list-style-type: none !important;
   margin: 0 !important;
@@ -51,6 +74,12 @@ span.text-content {
   font-size: 0.8em !important;
 }
 /******************************************************************************/
+.img-article_une {
+  height:300px !important;
+  width:100% !important;
+  overflow:hidden !important;
+}
+
 .img-article {
   height:200px !important;
   width:100% !important;

@@ -26,9 +26,6 @@ class TestController extends Controller
     return array("states" => $pays);
   }
 
-  /**
-  * @Route("/recherche_region_json")
-  */
   public function recherche_region_jsonAction(Request $request)
   {
     if($request->getMethod() == 'POST')

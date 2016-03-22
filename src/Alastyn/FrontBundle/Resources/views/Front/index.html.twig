@@ -24,7 +24,9 @@
 		    <div class="thumbnail">
 				<ul class="img-list">
 					<li>
+						<p class="img-article_une">
 						{{ feed.items[0].preimage|raw }}  <!--maybe use image du domaine(logo)-->
+						</p>
 						 <span class="text-content">
 						    <p hidden>{{ feed.items[0].id }}</p>
 						    {% if (feed.items[0].author is empty) == false %}

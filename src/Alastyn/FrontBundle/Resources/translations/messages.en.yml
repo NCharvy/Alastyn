@@ -1,6 +1,9 @@
 admin: Admin
 address: Address
 country: country
+Contact_us: Contact us
+Choose_country: Choose country
+Choose_a_region: Choose a region
 email: Email
 get_more: More...
 home: Home
@@ -8,6 +11,7 @@ language: language
 register: Register
 region: Region
 search: Search
+Suggest_a_feed: Suggest a feed
 wine_grower_last_article: Last winegrower's articles
 your_first_name : Your First Name
 your_name : Your Name
