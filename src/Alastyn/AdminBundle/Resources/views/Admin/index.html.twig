@@ -9,8 +9,12 @@
 <div class="row">
     <div class="col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-2">
         <h2>{{ 'statistics'|trans }}</h2>
-        <div id="chart_flow"></div>
-        <p>{{ valid_flows }}</p>
+
+        <h3>{{ 'kind_flows.title'|trans }}</h3>
+        <div id="chart_kind_flows"></div>
+
+        <h3>{{ 'country_flows.title'|trans }}</h3>
+        <div id="chart_country_flows"></div>
     </div>
 </div>
 {% endblock %}
@@ -21,14 +25,45 @@
     <script src="{{ asset('/c3-0.4.10/c3.min.js') }}"></script>
 
     <script type="text/javascript">
-    var chart = c3.generate({
-        bindto: '#chart_flow',
-        data: {
-          columns: [
-            ['data1', 30, 200, 100, 400, 150, 250],
-            ['data2', 50, 20, 10, 40, 15, 25]
-          ]
-        }
-    });
+        var chart_kind_flows = c3.generate({
+            bindto: '#chart_kind_flows',
+            data: {
+                columns: [
+                    ["{{ 'kind_flows.valid'|trans }}", {{ stats_flows['valid'] }}],
+                    ["{{ 'kind_flows.incorrect'|trans }}", {{ stats_flows['incorrect'] }}],
+                    ["{{ 'kind_flows.forbidden'|trans }}", {{ stats_flows['forbidden'] }}],
+                    ["{{ 'kind_flows.malformed'|trans }}", {{ stats_flows['malformed'] }}]
+                ],
+                type : 'pie'
+            },
+            pie: {
+                label: {
+                    format: function (value, ratio, id) {
+                        return d3.format('')(value);
+                    }
+                }
+            }
+        });
+
+        var chart_country_flows = c3.generate({
+            bindto: '#chart_country_flows',
+            data: {
+                columns: [
+                    {% set i=0 %}
+                    {% for key_country, data_country in country_flows %}
+                        {% set i = i + 1 %}
+                        ["{{ key_country }}", {{ data_country }}] {% if i < country_flows|length %},{% endif %}
+                    {% endfor %}
+                ],
+                type : 'pie'
+            },
+            pie: {
+                label: {
+                    format: function (value, ratio, id) {
+                        return d3.format('')(value);
+                    }
+                }
+            }
+        });
     </script>
 {% endblock %}

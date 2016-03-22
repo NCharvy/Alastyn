@@ -37,9 +37,13 @@ class AdminController extends Controller
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
             throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
         }
+        $stats_flows = [];
+        $country_flows = [];
 
         $em = $this->getDoctrine()->getManager();
-        $valid_flows = $em->getRepository('AlastynAdminBundle:Flux')
+
+        // Etat des flux
+        $stats_flows['valid'] = $em->getRepository('AlastynAdminBundle:Flux')
             ->createQueryBuilder('f')
             ->select('COUNT(f)')
             ->where('f.statut = :statut')
@@ -47,9 +51,54 @@ class AdminController extends Controller
             ->getQuery()
             ->getSingleScalarResult();
 
+        $stats_flows['incorrect'] = $em->getRepository('AlastynAdminBundle:Flux')
+            ->createQueryBuilder('f')
+            ->select('COUNT(f)')
+            ->where('f.statut = :statut')
+            ->setParameter('statut', 'URL incorrect')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $stats_flows['forbidden'] = $em->getRepository('AlastynAdminBundle:Flux')
+            ->createQueryBuilder('f')
+            ->select('COUNT(f)')
+            ->where('f.statut = :statut')
+            ->setParameter('statut', 'Erreur HTTP : 403 Forbidden')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $stats_flows['malformed'] = $em->getRepository('AlastynAdminBundle:Flux')
+            ->createQueryBuilder('f')
+            ->select('COUNT(f)')
+            ->where('f.statut = :statut')
+            ->setParameter('statut', 'Flux malformé')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        // Nombre de flux par pays
+        $states = $em->createQueryBuilder()
+            ->select('pays')
+            ->from('AlastynAdminBundle:Pays','pays')
+            ->getQuery()
+            ->getResult();
+
+        foreach ($states as $state) {
+            $country_flows[$state->getNom()] = $em->getRepository('AlastynAdminBundle:Flux')
+            ->createQueryBuilder('f')
+            ->select('COUNT(f)')
+            ->join('f.domaine', 'd')
+            ->join('d.region', 'r')
+            ->join('r.pays', 'p')
+            ->where('p.nom = :pays')
+            ->setParameter('pays', $state->getNom())
+            ->getQuery()
+            ->getSingleScalarResult();
+        }
+
         return array(
             'notif' => $this->getNotif(), 
-            'valid_flows' => $valid_flows
+            'stats_flows' => $stats_flows,
+            'country_flows' => $country_flows
         );
     }
 

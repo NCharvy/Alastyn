@@ -1,6 +1,8 @@
 abbreviation: Abbreviation
 address: Address
 city: City
+country_flows:
+    title: Feeds by country
 dashboard: Dashboard
 domain: Domain
 flow: RSS feed
@@ -14,6 +16,12 @@ form:
     website: website (URL)
     wine: Saving Naming
 icon: Icon
+kind_flows:
+    forbidden: 403 Forbidden
+    incorrect: Incorrect URL
+    malformed: Malformed feed
+    title: Feeds state
+    valid: Valid feeds
 link_rss: Link RSS
 list:
     domain: List of domains

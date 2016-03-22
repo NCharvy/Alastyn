@@ -1,6 +1,8 @@
 abbreviation: Abréviation
 address: Adresse
 city: Ville
+country_flows:
+    title: Flux par pays
 dashboard: Tableau de bord
 domain: Domaine
 flow: Flux
@@ -14,6 +16,12 @@ form:
     website: URL du site
     wine: Enregistrement d'appellations
 icon: Icône
+kind_flows:
+    forbidden: Erreur 403
+    incorrect: URL incorrectes
+    malformed: Flux malformés
+    title: Etat des flux
+    valid: Flux valides
 link_rss: Lien RSS
 list:
     domain: Liste des domaines
