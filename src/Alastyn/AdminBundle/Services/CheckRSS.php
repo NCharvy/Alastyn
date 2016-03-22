@@ -42,7 +42,7 @@ class CheckRSS
             if ($http == 'HTTP/1.0 200 OK') {
                 $message = "Flux malformé";
             } else {
-                $message = 'URL incorrect';
+                $message = 'URL incorrecte';
             }
         }
 

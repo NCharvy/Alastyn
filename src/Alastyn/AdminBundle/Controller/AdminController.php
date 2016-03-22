@@ -34,62 +34,23 @@ class AdminController extends Controller
      */
     public function indexAction(Request $request)
     {
-   //  	$reader = new Reader;
-   //      $file=file_get_contents('saved_rss/listeLiens.json');
-   //      $datas=json_decode($file);
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            throw new AccessDeniedException('Accès limité aux administateurs authentifiés.');
+        }
 
-   //      if ($request->getMethod() == 'POST')
-   //      {
-   //          $name = $request->request->get('name');
-   //          $rss = $request->request->get('rss_link');
-            
-   //          $datas[] = array('id'=>(count($datas)),'site'=>$name,'rss'=>$rss); 
-   //          $textResponse = json_encode($datas,JSON_PRETTY_PRINT);
-   //          file_put_contents('saved_rss/listeLiens.json', $textResponse);
+        $em = $this->getDoctrine()->getManager();
+        $valid_flows = $em->getRepository('AlastynAdminBundle:Flux')
+            ->createQueryBuilder('f')
+            ->select('COUNT(f)')
+            ->where('f.statut = :statut')
+            ->setParameter('statut', 'Valide')
+            ->getQuery()
+            ->getSingleScalarResult();
 
-   //          $file=file_get_contents('saved_rss/listeLiens.json');
-   //          $datas=json_decode($file);
-   //      }
-
-   //      $resources = [];
-   //      foreach ($datas as $data) {
-   //          $resources[] = $data->rss;
-   //      }
-   //      $feeds = [];
-
-   //      foreach ($resources as $rss) 
-   //      {
-   //          $Verfification_rss = $this->get('check_rss')->checkRss($rss);
-   //          if($Verfification_rss == "FLUX RSS VALIDER")
-   //          {
-			// 	$resource = $reader->download($rss);
-				
-			// 	$parser = $reader->getParser(
-			// 		$resource->getUrl(),
-			// 		$resource->getContent(),
-			// 		$resource->getEncoding()
-			// 	);
-				
-			// 	$feed = $parser->execute();
-
-			// 	$result = [];
-			// 	for($i = 0;$i<count($feed->items);$i++) {
-			// 		preg_match('/(\<img).*((\/\>)|(\<\/img))/',$feed->items[$i]->content,$result);
-			// 		if (count($result) > 0) {
-			// 			$feed->items[$i]->preimage=$result[0];
-			// 		}else{
-			// 			$feed->items[$i]->preimage="";
-			// 		}
-			// 	}
-			// 	$feeds[] = $feed;
-			// 	return array('feeds' => $feeds);
-			// } 
-   //          else
-   //          {
-   //              return array('feeds' => $Verfification_rss);
-   //          }          
-   //      }
-        return array('notif' => $this->getNotif());
+        return array(
+            'notif' => $this->getNotif(), 
+            'valid_flows' => $valid_flows
+        );
     }
 
     /**

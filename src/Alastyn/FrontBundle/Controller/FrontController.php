@@ -15,7 +15,7 @@ use Alastyn\AdminBundle\Entity\Pagination;
 class FrontController extends Controller
 {
     /**
-     * @Route("/{page}", name = "_index", defaults={"page": 1})
+     * @Route("/", name = "_index")
      * @Template()
      */
 	public function indexAction(Request $req, $page)
