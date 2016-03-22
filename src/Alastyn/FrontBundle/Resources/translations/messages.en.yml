@@ -1,13 +1,15 @@
 admin: Admin
 address: Address
+city: City
 country: country
+domaine: domain
 email: Email
 get_more: More...
 home: Home
-language: language
 register: Register
 region: Region
-search: Search
+url_rss: Rss url
+url_web: Web url
 wine_grower_last_article: Last winegrower's articles
 your_first_name : Your First Name
 your_name : Your Name
