@@ -48,7 +48,6 @@ class Flux
      */
     private $domaine;
 
-
     /**
      * Get id
      *

@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Alastyn\AdminBundle\Repository\DomaineRepository;
 
 class FluxType extends AbstractType
 {
@@ -23,7 +24,14 @@ class FluxType extends AbstractType
                 'class'         =>  'AlastynAdminBundle:Domaine',
                 'choice_label'  =>  'nom',
                 'multiple'      =>  false,
-                'expanded'      =>  false
+                'expanded'      =>  false,
+                'placeholder'   =>  '-- Sélectionner un domaine --',
+                'empty_data'   =>  null,
+                'query_builder' =>  function(DomaineRepository $repository) use ($options){
+                                        return $repository->createQueryBuilder('domaine')
+                                                          ->select('domaine')
+                                                          ->orderBy('domaine.nom');
+                                    }
             ))
             ->add('enregistrer', SubmitType::class, array(
                 'attr' => array('class' => 'btn btn-primary'),

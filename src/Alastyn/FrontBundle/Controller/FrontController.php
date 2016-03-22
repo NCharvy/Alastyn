@@ -15,7 +15,7 @@ use Alastyn\AdminBundle\Entity\Pagination;
 class FrontController extends Controller
 {
     /**
-     * @Route("/{page}", name = "_index", defaults={"page": 1})
+     * @Route("/{page}", name = "_index", defaults={"page": 1}), requirements={"page": "\d+"}
      * @Template()
      */
 	public function indexAction(Request $req, $page)
@@ -23,7 +23,9 @@ class FrontController extends Controller
         $reader = new Reader;
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery('SELECT f FROM AlastynAdminBundle:Flux f WHERE f.publication = true');
-        $resources = $query->getResult();
+        $flow = new Pagination($query, $page, 10);
+        $resources = $query->setFirstResult(($flow->getPage()-1) * $flow->getMaxPerPage())
+            ->setMaxResults($flow->getMaxPerPage())->getResult();
         $feeds = [];
         $tmp_feeds = [];
 
@@ -75,7 +77,7 @@ class FrontController extends Controller
 
             }
 
-            
+
             $tmp_feeds[$keydate] = $feed;
         }
 
@@ -100,15 +102,21 @@ class FrontController extends Controller
               return $this->redirectToRoute('_index');
           }
 
-        $reg = new Pagination($feeds);
-        $reg->setPage($page);
+
+        $flows_count = $em->getRepository('AlastynAdminBundle:Flux')
+            ->createQueryBuilder('f')
+            ->select('COUNT(f)')
+            ->where('f.publication = true')
+            ->getQuery()
+            ->getSingleScalarResult();
         $pagination = array(
-            'page' => $page,
+            'page' => $flow->getPage(),
             'route' => '_index',
-            'pages_count' => ceil(count($feeds) / $reg->getMaxPerPage()),
+            'pages_count' => ceil($flows_count / $flow->getMaxPerPage()),
             'route_params' => array()
         );
-        $feeds = $reg->getList();
+        $flows = $flow->getList();
+
 
           return array(
               'feeds' => $feeds,
@@ -117,5 +125,4 @@ class FrontController extends Controller
               'pagination' => $pagination
           );
         }
-        
 }
