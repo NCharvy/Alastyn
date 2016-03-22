@@ -77,8 +77,6 @@ class FrontController extends Controller
               }
 
             }
-
-
             $tmp_feeds[$keydate] = $feed;
         }
 
@@ -122,7 +120,7 @@ class FrontController extends Controller
             'states' => $pays,
             'pagination' => $pagination
         );
-        }
+    }
 
     /**
     * @Route("/recherche_region_json")

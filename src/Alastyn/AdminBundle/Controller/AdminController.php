@@ -29,7 +29,7 @@ use Alastyn\AdminBundle\Form\SuggestionCheckType;
 class AdminController extends Controller
 {
     /**
-     * @Route("/admin", name = "_indexAdmin")
+     * @Route("/admin/index", name = "_indexAdmin")
      * @Template()
      */
     public function indexAction(Request $request)
