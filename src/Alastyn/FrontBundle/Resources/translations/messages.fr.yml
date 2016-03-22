@@ -1,13 +1,24 @@
 admin: Admin
 address: Adresse
+Adresse: Adresse
+code postale: code postale 
 country: Pays
+domaine : domaine
 email: Mail
+Enregistrer: Enregistrer
 get_more: Lire la suite
 home: Accueil
 language: langue
+Mail: Mail
 register: Enregistrer
 region: Region
+Region: Region
 search: Recherche
+Url Rss: Url rss
+Url Web: Url du site
+Ville: Ville
+Votre Nom: Votre Nom
+Votre Prenom : Votre Prenom 
 wine_grower_last_article: Derniers articles des vignerons
 your_first_name : Votre Nom
 your_name : Votre Prenom
