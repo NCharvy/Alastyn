@@ -32,8 +32,9 @@ class SuggestionCheckType extends AbstractType
                         return $repository->createQueryBuilder('domaine')
                                         ->select('domaine')
                                         ->where('domaine.nom LIKE :nomD')
-                                        ->setParameter('nomD', $options['nomdomaine']);
-                        }
+                                        ->setParameter('nomD', '%' . $options['nomdomaine'] . '%');
+                        },
+                'required' => false
             ))
             ->add('enregistrer', SubmitType::class, array(
                 'attr' => array('class' => 'btn btn-primary')

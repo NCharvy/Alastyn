@@ -46,6 +46,36 @@ class TestController extends Controller
     return new response(json_encode(array("data" => $Region)));
   }
 
+    /**
+    * @Route("/checkAllFeeds")
+    * @Template("TestBundle:Test:checkAllFeeds.html.twig")
+    */
+    public function checkAllFeedsAction() {
+        $em = $this->getDoctrine()->getManager();
+
+        $flows = $em->createQueryBuilder()
+            ->select('flux')
+            ->from('AlastynAdminBundle:Flux','flux')
+            ->getQuery()
+            ->getResult();
+
+        // foreach ($flows as $flow) {
+        for ($i=20; $i < 50; $i++) {
+            $flow = $flows[$i];
+            $check_rss = $this->get('check_rss')->checkRss($flow->getUrl());
+            $flow->setStatut($check_rss);
+            if($check_rss != 'Valide' || !$flow->getDomaine()->getPublication()) {
+                $flow->setPublication(false);
+            }
+            $em->persist($flow);
+            echo '<p>'.$flow->getStatut().'</p>';
+        }
+        $em->flush();
+
+        $test = 'done';
+
+        return array('test' => $test);
+    }
 
   /**
   * @Route("/flux_rss")
@@ -98,9 +128,4 @@ $r = var_dump(file_get_contents("http://moulin-garreau.over-blog.com/rss", False
 
     return new response(json_encode(array("data" => $r)));
   }
-
-
-
-
-
 }

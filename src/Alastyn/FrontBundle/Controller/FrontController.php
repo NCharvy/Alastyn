@@ -10,20 +10,22 @@ use PicoFeed\Reader\Reader;
 use Alastyn\AdminBundle\Entity\Suggestion;
 use Alastyn\AdminBundle\Form\SuggestionType;
 use Symfony\Component\HttpFoundation\Request;
+use Alastyn\AdminBundle\Entity\Pagination;
 
 class FrontController extends Controller
 {
     /**
-     * @Route("/", name = "_index")
+     * @Route("/{page}", name = "_index", defaults={"page": 1})
      * @Template()
      */
-	public function indexAction(Request $req)
+	public function indexAction(Request $req, $page)
     {
         $reader = new Reader;
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery('SELECT f FROM AlastynAdminBundle:Flux f WHERE f.publication = true');
         $resources = $query->getResult();
         $feeds = [];
+        $tmp_feeds = [];
 
         if (!$resources) {
             throw $this->createNotFoundException('No RSS feeds found ! ');
@@ -45,6 +47,7 @@ class FrontController extends Controller
             $feed = $parser->execute();
 
             $result = [];
+            $keydate ="";
             for($i = 0;$i<count($feed->items);$i++) {
                 preg_match("/(\<img).*((\/\>)|(\<\/img))/",$feed->items[$i]->content,$result);
 
@@ -52,26 +55,35 @@ class FrontController extends Controller
                     $feed->items[$i]->preimage=$result[0];
 
                     $feed->items[$i]->preimage = preg_replace("/src/",
-                    'width="100%!important;" class="img-responsive" src',
+                    'width="100%!important;" src',
                     $feed->items[$i]->preimage);
-                  /*  
-                    if ( mettre la bonne image correspondand au flux) {
-                      $feed->items[$i]->preimage=
-                    }
-                  */
-                    $feed->items[$i]->preimage=
-                    '<img width="100%!important;" class="img-responsive" 
-                    src="http://www.allvectors.com/wp-content/uploads/2012/06/abstract-white-background.jpg" />';
                 }
                 else{
                     $feed->items[$i]->preimage=
-                    '<img width="100%!important;" class="img-responsive" 
-                    src="http://www.allvectors.com/wp-content/uploads/2012/06/abstract-white-background.jpg" />';
+                    '<img class="img-responsive img-article" 
+                    src="bundles/front/img/verre3.jpg" />';
                 }
+
+
+
+              $var= json_encode($feed->items[$i]->date);
+              $test_date = json_decode($var)->date;
+
+              if($test_date > $keydate){
+                $keydate = $test_date;
+              }
+
             }
 
-            $feeds[] = $feed;
+            
+            $tmp_feeds[$keydate] = $feed;
         }
+
+        krsort($tmp_feeds);
+
+        $feeds = array_values($tmp_feeds);
+
+
 
         $pays = $em->getRepository('AlastynAdminBundle:Pays')->findByPublication(true);
 
@@ -87,7 +99,23 @@ class FrontController extends Controller
 
               return $this->redirectToRoute('_index');
           }
-          return array('feeds' => $feeds, 'form' => $form->createView(), 'pays' => $pays);    
+
+        $reg = new Pagination($feeds);
+        $reg->setPage($page);
+        $pagination = array(
+            'page' => $page,
+            'route' => '_index',
+            'pages_count' => ceil(count($feeds) / $reg->getMaxPerPage()),
+            'route_params' => array()
+        );
+        $feeds = $reg->getList();
+
+          return array(
+              'feeds' => $feeds,
+              'form' => $form->createView(),
+              'pays' => $pays,
+              'pagination' => $pagination
+          );
         }
         
 }

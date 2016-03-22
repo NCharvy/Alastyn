@@ -21,6 +21,7 @@ list:
     region: List of regions
     state: List of countries
     wine: List of naming
+    suggest: List of suggestions
 log_out: Log Out
 menu:
     domain:
@@ -38,6 +39,8 @@ menu:
     wine:
         add: Add naming
         list: Show list of naming
+    suggest:
+            list: Voir la liste des suggestions
 name: Name
 surname: Surname
 email: E-mail
