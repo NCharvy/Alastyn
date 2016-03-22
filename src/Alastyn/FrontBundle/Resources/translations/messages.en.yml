@@ -1,24 +1,15 @@
 admin: Admin
 address: Address
-Adresse: Address
-code postale: ZIP code
+city: City
 country: country
-domaine : domaine
+domaine: domain
 email: Email
-Enregistrer: Save
 get_more: More...
 home: Home
-language: language
-Mail: Email
 register: Register
 region: Region
-Region: Region
-search: Search
-Url Rss: Url rss
-Url Web: Url web
-Ville: City
-Votre Nom: Your name
-Votre Prenom: Your surname
+url_rss: Rss url
+url_web: Web url
 wine_grower_last_article: Last winegrower's articles
 your_first_name : Your First Name
 your_name : Your Name
