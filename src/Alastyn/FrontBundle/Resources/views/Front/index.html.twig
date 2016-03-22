@@ -2,7 +2,7 @@
 {% block stylesheets %}{{ parent() }}
  <link href="{{ asset('/bundles/front/css/style.css') }}" rel="stylesheet" type="text/css" />
 {% endblock %}
-{% block title %} {{ parent() }}{{ 'home' |trans }}{% endblock %}
+{% block title %} {{ parent() }}{{ 'home'|trans }}{% endblock %}
 
 {% block body %}
 	 <div class="brand">Alastyn</div>
@@ -24,7 +24,9 @@
 		    <div class="thumbnail">
 				<ul class="img-list">
 					<li>
+						<p class="img-article_une">
 						{{ feed.items[0].preimage|raw }}  <!--maybe use image du domaine(logo)-->
+						</p>
 						 <span class="text-content">
 						    <p hidden>{{ feed.items[0].id }}</p>
 						    {% if (feed.items[0].author is empty) == false %}
