@@ -20,9 +20,8 @@ form:
     wine: Saving Naming
 icon: Icon
 kind_flows:
-    forbidden: 403 Forbidden
-    incorrect: Incorrect URL
-    malformed: Malformed feed
+    invalid: Invalid document format
+    not_found: Page not found
     title: Feeds state
     valid: Valid feeds
 link_rss: Link RSS

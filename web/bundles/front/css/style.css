@@ -2,6 +2,21 @@
   display: inline-block !important;
 }
 
+.region {
+  position:absolute;
+  width: 100px;
+  height: 100px;
+  z-index:1;
+  overflow: hidden;
+}
+.region-sm {
+  position:absolute;
+  width: 70px;
+  height: 70px;
+  z-index:1;
+  overflow: hidden;
+}
+
 .form-group label {
     float: left;
     text-align: left;
@@ -44,6 +59,7 @@ span.text-content span {
 
 ul.img-list li:hover span.text-content {
   opacity: 1 !important;
+  z-index: 1;
 }
 
 span.text-content {

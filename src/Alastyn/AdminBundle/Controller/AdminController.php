@@ -52,27 +52,19 @@ class AdminController extends Controller
             ->getQuery()
             ->getSingleScalarResult();
 
-        $stats_flows['incorrect'] = $em->getRepository('AlastynAdminBundle:Flux')
+        $stats_flows['not_found'] = $em->getRepository('AlastynAdminBundle:Flux')
             ->createQueryBuilder('f')
             ->select('COUNT(f)')
             ->where('f.statut = :statut')
-            ->setParameter('statut', 'URL incorrecte')
+            ->setParameter('statut', 'page introuvable')
             ->getQuery()
             ->getSingleScalarResult();
 
-        $stats_flows['forbidden'] = $em->getRepository('AlastynAdminBundle:Flux')
+        $stats_flows['invalid'] = $em->getRepository('AlastynAdminBundle:Flux')
             ->createQueryBuilder('f')
             ->select('COUNT(f)')
             ->where('f.statut = :statut')
-            ->setParameter('statut', 'Erreur HTTP : 403 Forbidden')
-            ->getQuery()
-            ->getSingleScalarResult();
-
-        $stats_flows['malformed'] = $em->getRepository('AlastynAdminBundle:Flux')
-            ->createQueryBuilder('f')
-            ->select('COUNT(f)')
-            ->where('f.statut = :statut')
-            ->setParameter('statut', 'Flux malformé')
+            ->setParameter('statut', 'Format du Document invalide ou page introuvable')
             ->getQuery()
             ->getSingleScalarResult();
 

@@ -67,9 +67,8 @@
             data: {
                 columns: [
                     ["{{ 'kind_flows.valid'|trans }}", {{ stats_flows['valid'] }}],
-                    ["{{ 'kind_flows.incorrect'|trans }}", {{ stats_flows['incorrect'] }}],
-                    ["{{ 'kind_flows.forbidden'|trans }}", {{ stats_flows['forbidden'] }}],
-                    ["{{ 'kind_flows.malformed'|trans }}", {{ stats_flows['malformed'] }}]
+                    ["{{ 'kind_flows.not_found'|trans }}", {{ stats_flows['not_found'] }}],
+                    ["{{ 'kind_flows.invalid'|trans }}", {{ stats_flows['invalid'] }}]
                 ],
                 type : 'pie'
             },
