@@ -57,7 +57,7 @@ class TestController extends Controller
             ->getResult();
 
         //foreach ($flows as $flow) {
-        for ($i=780; $i < 785; $i++) {
+        for ($i=785; $i < 800; $i++) {
              $flow = $flows[$i];
             $check_rss = $this->get('check_rss')->checkRss($flow->getUrl());
             if($check_rss == 'Valide' && $flow->getDomaine()->getPublication()) {
