@@ -60,6 +60,7 @@ class TestController extends Controller
         // for ($i=20; $i < 40; $i++) {
             // $flow = $flows[$i];
             $check_rss = $this->get('check_rss')->checkRss($flow->getUrl());
+            $flow->setStatut($check_rss);
             if($check_rss == 'Valide' && $flow->getDomaine()->getPublication()) {
                 $flow->setPublication(true);
             } else {

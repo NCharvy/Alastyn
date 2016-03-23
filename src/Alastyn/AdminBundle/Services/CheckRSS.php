@@ -23,7 +23,7 @@ class CheckRSS
             if($content != '') 
             {
                 // Réparation du xml
-                $tidy = tidy_parse_string($content);
+                $tidy = \tidy::parseString($content);
                 if($tidy->cleanRepair()) {
                     $content = $tidy;
                 }
