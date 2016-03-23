@@ -16,15 +16,41 @@
         </div>
 
         <div class="row">
+            <h3>{{ 'country_stats'|trans }}</h3>
+
             <div class="col-xs-12 col-sm-6">
-                <h3>{{ 'country_flows.title'|trans }}</h3>
+                <h4>{{ 'country_title.flows'|trans }}</h4>
                 <div id="chart_country_flows"></div>
             </div>
 
             <div class="col-xs-12 col-sm-6">
-                <h3>{{ 'country_wines.title'|trans }}</h3>
+                <h4>{{ 'country_title.wines'|trans }}</h4>
                 <div id='chart_country_wines'></div>
             </div>
+        </div>
+
+        <div class="row">
+            <h3>{{ 'region_stats'|trans }}</h3>
+            <div class="form-group">
+                <label for="country">{{ 'Choose_country'|trans }}</label>
+                <select class="form-control selectpicker" name="country" id="country-list" placeholder="Pays" onChange="getState(this.value);">
+                    {% for state in states %}
+                        <option value="{{ state.id }}">{{ state.nom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-xs-12 col-sm-6">
+                <h4>{{ 'region_title.flows'|trans }}</h4>
+                <div id="chart_region_flows"></div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6">
+                <h4>{{ 'region_title.wines'|trans }}</h4>
+                <div id='chart_region_wines'></div>
+            </div>
+        </div>
+
         </div>
     </div>
 </div>

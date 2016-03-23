@@ -1,10 +1,10 @@
 abbreviation: Abréviation
 address: Adresse
 city: Ville
-country_flows:
-    title: Flux par pays
-country_wines:
-    title: Appellations par pays
+country_stats: Informations sur les pays enregistrées
+country_title:
+    flows: Flux par pays
+    wines: Appellations par pays
 dashboard: Tableau de bord
 domain: Domaine
 flow: Flux
@@ -59,6 +59,10 @@ operations: Opérations
 postcode: Code Postal
 publication: Publié
 region: Région
+region_stats: Informations sur les régions enregistrées
+region_title:
+    flows: Flux par région
+    wines: Appellations par région
 state: Pays
 statistics: Statistiques
 status: Statut

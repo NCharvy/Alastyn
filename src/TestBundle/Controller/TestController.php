@@ -44,7 +44,7 @@ class TestController extends Controller
   }
 
     /**
-    * @Route("/checkAllFeeds")
+    * @Route("/test/checkAllFeeds")
     * @Template("TestBundle:Test:checkAllFeeds.html.twig")
     */
     public function checkAllFeedsAction() {

@@ -107,7 +107,8 @@ class AdminController extends Controller
         }
 
         return array(
-            'notif' => $this->getNotif(), 
+            'notif' => $this->getNotif(),
+            'states' => $states,
             'stats_flows' => $stats_flows,
             'country_flows' => $country_flows,
             'country_wines' => $country_wines

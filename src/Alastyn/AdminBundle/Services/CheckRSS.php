@@ -22,6 +22,12 @@ class CheckRSS
 
             if($content != '') 
             {
+                // Réparation du xml
+                $tidy = tidy_parse_string($content);
+                if($tidy->cleanRepair()) {
+                    $content = $tidy;
+                }
+
                 libxml_use_internal_errors(true);
                 $doc = new \DOMDocument('1.0', 'UTF-8');
                 $doc->loadXML($content);
@@ -33,7 +39,7 @@ class CheckRSS
                 }
                 else 
                 {
-
+                    // On regarde si le document est valide
                     if ($doc->validate()) 
                     {
                         $lines = explode('\r', $content);
@@ -42,7 +48,7 @@ class CheckRSS
                     } 
                     else 
                     {
-                        if($message == nll)
+                        if($errors[0]->message == null)
                         {
                             $message = 'Format du Document invalide ou page introuvable';
                         }

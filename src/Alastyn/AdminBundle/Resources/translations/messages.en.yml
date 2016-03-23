@@ -1,10 +1,10 @@
 abbreviation: Abbreviation
 address: Address
 city: City
-country_flows:
-    title: Feeds by country
-country_wines:
-    title: Naming par pays
+country_stats: Informations about registered countries
+country_title:
+    flows: Feeds by country
+    wines: Naming by country
 dashboard: Dashboard
 domain: Domain
 flow: RSS feed
@@ -59,6 +59,10 @@ operations: Operations
 postcode: Postcode (or Zip Code)
 publication: Published
 region: Region
+region_stats: Informations about registered regions
+region_title:
+    flows: Feeds by region
+    wines: Naming by region
 state: Country
 statistics: Statistics
 status: Status
