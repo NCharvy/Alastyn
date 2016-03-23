@@ -56,9 +56,10 @@ class TestController extends Controller
             ->getQuery()
             ->getResult();
 
-        //foreach ($flows as $flow) {
-        for ($i=780; $i < 785; $i++) {
-             $flow = $flows[$i];
+        $i = 1;
+        foreach ($flows as $flow) {
+        // for ($i=780; $i < 785; $i++) {
+             // $flow = $flows[$i];
             $check_rss = $this->get('check_rss')->checkRss($flow->getUrl());
             $flow->setStatut($check_rss);
             if($check_rss == 'Valide' && $flow->getDomaine()->getPublication()) {
@@ -68,6 +69,7 @@ class TestController extends Controller
             }
             $em->persist($flow);
             echo '<p>'.$flow->getStatut().'   '.$i.'</p>';
+            $i++;
         }
         $em->flush();
 

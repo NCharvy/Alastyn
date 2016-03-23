@@ -1,5 +1,6 @@
 abbreviation: Abréviation
 address: Adresse
+administration: Administration
 city: Ville
 country_stats: Informations sur les pays enregistrées
 country_title:
@@ -66,6 +67,7 @@ region_title:
 state: Pays
 statistics: Statistiques
 status: Statut
+suggestions: Suggestions
 url: URL
 url_rss: Url Rss
 url_web: Url Web
