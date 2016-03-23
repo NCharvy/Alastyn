@@ -123,7 +123,7 @@ class FrontController extends Controller
     }
 
     /**
-    * @Route("/recherche_region_json")
+    * @Route("/api/recherche_region_json")
     */
   public function recherche_region_jsonAction(Request $request)
   {
@@ -141,4 +141,41 @@ class FrontController extends Controller
     }
     return new response(json_encode(array("data" => $Region)));
   }
+
+    /**
+     * @Route("/api/recherche_good_region_json")
+     */
+    public function rechercheGoodJsonAction(Request $request)
+    {
+        if($request->getMethod() == 'POST')
+        {
+            $id = json_decode($request->getContent());
+            $em = $this->getDoctrine()->getManager();
+            $region = [];
+            $wines = [];
+            $Regions = $em->getRepository('AlastynAdminBundle:Region')->findByPays($id->idpays);
+            foreach ($Regions as $r)
+            {
+                $nb_flux = $em->getRepository('AlastynAdminBundle:Flux')
+                              ->createQueryBuilder('f')
+                              ->select('COUNT(f)')
+                              ->innerJoin('f.domaine', 'd')
+                              ->innerJoin('d.region', 'r')
+                              ->where('r.id = ' . $r->getId())
+                              ->getQuery()
+                              ->getSingleScalarResult();
+                $region[] = array($r->getNom(), $nb_flux);
+
+                $nb_wines = $em->getRepository('AlastynAdminBundle:Appellation')
+                               ->createQueryBuilder('a')
+                               ->select('COUNT(a)')
+                               ->innerJoin('a.region', 'r')
+                               ->where('r.id = ' . $r->getId())
+                               ->getQuery()
+                               ->getSingleScalarResult();
+                $wines[] = array($r->getNom(), $nb_wines);
+            }
+        }
+        return new response(json_encode(array("data" => $region, "wines" => $wines)));
+    }
 }
