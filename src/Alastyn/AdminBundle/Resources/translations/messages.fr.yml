@@ -20,9 +20,8 @@ form:
     wine: Enregistrement d'appellations
 icon: Icône
 kind_flows:
-    forbidden: Erreur 403
-    incorrect: URL incorrectes
-    malformed: Flux malformés
+    invalid: Format du document invalide
+    not_found: Page introuvable
     title: Etat des flux
     valid: Flux valides
 link_rss: Lien RSS
