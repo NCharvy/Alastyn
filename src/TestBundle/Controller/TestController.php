@@ -56,9 +56,9 @@ class TestController extends Controller
             ->getQuery()
             ->getResult();
 
-        foreach ($flows as $flow) {
-        // for ($i=20; $i < 40; $i++) {
-            // $flow = $flows[$i];
+        //foreach ($flows as $flow) {
+        for ($i=780; $i < 785; $i++) {
+             $flow = $flows[$i];
             $check_rss = $this->get('check_rss')->checkRss($flow->getUrl());
             $flow->setStatut($check_rss);
             if($check_rss == 'Valide' && $flow->getDomaine()->getPublication()) {
@@ -67,7 +67,7 @@ class TestController extends Controller
                 $flow->setPublication(false);
             }
             $em->persist($flow);
-            echo '<p>'.$flow->getStatut().'</p>';
+            echo '<p>'.$flow->getStatut().'   '.$i.'</p>';
         }
         $em->flush();
 
@@ -81,7 +81,7 @@ class TestController extends Controller
   */
   public function flux_rssAction()
   {
-    $wikipediaURL = 'http://www.vins-lelievre.com/fr/actualites-blog-vins-lelievre?format=feed&type=rss';
+    $wikipediaURL = 'http://cavesvictor.blogspirit.com/atom.xml';
 
     $check_rss = $this->get('check_rss')->checkRss($wikipediaURL);
 

@@ -30,40 +30,48 @@ class CheckRSS
 
                 libxml_use_internal_errors(true);
                 $doc = new \DOMDocument('1.0', 'UTF-8');
-                $doc->loadXML($content);
-
+                $doc->load($content);
                 $errors = libxml_get_errors();
-                if(empty($errors) || $errors[0]->level < 3) 
+            
+                if(strstr($content,"404")==false)
                 {
-                    $message = 'Valide';
-                }
-                else 
-                {
-                    // On regarde si le document est valide
-                    if ($doc->validate()) 
+                    if(empty($errors) || $errors[0]->level < 3) 
                     {
-                        $lines = explode('\r', $content);
-                        $line = $lines[($errors[0]->line)-1];
-                        $message = $errors[0]->message .' at line '.$errors[0]->line.': '.htmlentities($line);
-                    } 
-                    else 
-                    {
-                        if($errors[0]->message == null)
-                        {
-                            $message = 'Format du Document invalide ou page introuvable';
-                        }
-                        else
-                        {
-                           $message = $errors[0]->message; 
-                        }
+                        $message = 'Valide';
                     }
+                    else 
+                        {
+
+                            if ($doc->validate()) 
+                            {
+                                $lines = explode('\r', $content);
+                                $line = $lines[($errors[0]->line)-1];
+                                $message = $errors[0]->message .' at line '.$errors[0]->line.': '.htmlentities($line);
+                            } 
+                            else 
+                            {
+                                if($errors[0]->message == null)
+                                {
+                                    $message = 'Format du Document invalide ou page introuvable';
+                                }
+                                else
+                                {
+                                   $message = $errors[0]->message; 
+                                }
+                            }
+                        }
                 }
+                else
+                {
+                    $message = 'page introuvable';
+                }   
 
             }
             else
             {
                 $message = 'page introuvable';
             }
+            
         return $message;
     }
 }
