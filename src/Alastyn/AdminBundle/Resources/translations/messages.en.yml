@@ -1,8 +1,11 @@
 abbreviation: Abbreviation
 address: Address
+adminstration: Administration
 city: City
-country_flows:
-    title: Feeds by country
+country_stats: Informations about registered countries
+country_title:
+    flows: Feeds by country
+    wines: Naming by country
 dashboard: Dashboard
 domain: Domain
 flow: RSS feed
@@ -57,9 +60,14 @@ operations: Operations
 postcode: Postcode (or Zip Code)
 publication: Published
 region: Region
+region_stats: Informations about registered regions
+region_title:
+    flows: Feeds by region
+    wines: Naming by region
 state: Country
 statistics: Statistics
 status: Status
+suggestions: Suggestions
 url: URL
 url_rss: Rss url
 url_web: Web Url

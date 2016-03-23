@@ -7,15 +7,19 @@ Contact_us: Contact us
 Choose_country: Choose country
 Choose_a_region: Choose a region
 email: Email
+first_name: First name
 get_more: More...
 home: Home
+message: Message
 register: Register
 region: Region
 url_rss: Rss url
 url_web: Web url
 search: Search
-Suggest_a_feed: Suggest a feed
-wine_grower_last_article: Last winegrower's articles
+send: Send
+subtitle: Blog of wine growers' feeds
+Suggest_a_feed: Suggest a blog
+wine_grower_last_article: Last wine grower's articles
 your_first_name : Your First Name
 your_name : Your Name
 zip_code: ZIP code

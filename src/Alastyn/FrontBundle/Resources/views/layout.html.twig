@@ -1,5 +1,5 @@
 {% extends "::base.html.twig" %}
-{% block title %} {{ parent() }} - {% endblock %}
+{% block title %} {{ parent() }} - {{ 'home'|trans }}{% endblock %}
 
 {% block javascripts %} {{ parent() }} 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
@@ -10,6 +10,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"> 
 <link href="{{ asset('/bundles/front/css/business-casual.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/bundles/admin/lib/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block body %}
@@ -25,27 +26,27 @@
                     <span class="icon-bar"></span>
                 </button>
                 <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
-                <a class="navbar-brand" href="{{ path("_index") }}">{{ 'home' |trans }}</a>
+                <a class="navbar-brand" href="{{ path("_index") }}">{{ 'home'|trans }}</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="{{ path("_index") }}">{{ 'home' |trans }}</a>
+                        <a href="{{ path("_index") }}">{{ 'home'|trans }}</a>
                     </li>
                     <li>
-                        <a href="" data-toggle="modal" data-target="#suggerer">{{ 'Suggest_a_feed' |trans }}</a>
+                        <a href="" data-toggle="modal" data-target="#suggerer">{{ 'Suggest_a_feed'|trans }}</a>
                     </li>
                     <li>
-                        <a href="" data-toggle="modal" data-target="#contact">{{ 'Contact_us' |trans }}</a>
+                        <a href="" data-toggle="modal" data-target="#contact">{{ 'Contact_us'|trans }}</a>
                     </li>
                     <li>
-                        <a href="{{ path("_indexAdmin") }}">{{ 'admin' |trans }}</a>
+                        <a href="{{ path("_indexAdmin") }}">{{ 'admin'|trans }}</a>
                     </li>
                <!-- **************************************** -->
                  <div class="form-group"> 
                         <select class="form-control selectpicker" name="country" id="country-list" placeholder="Pays" onChange="getState(this.value);">
-                          <option value="" selected>{{ 'Choose_country' |trans }}</option>
+                          <option value="" selected>{{ 'Choose_country'|trans }}</option>
                           {% for state in states %}
                               {% if state.publication == 1 %}
                                 <option value="{{ state.id }}">
@@ -55,7 +56,7 @@
                           {% endfor %}    
                         </select>
                         <select class="form-control selectpicker" name="state" id="state-list" placeholder="Region">
-                          <option value="">{{ 'Choose_a_region' |trans }}</option>
+                          <option value="">{{ 'Choose_a_region'|trans }}</option>
                         </select>
                   </div>
               <!-- **************************************** -->
@@ -71,7 +72,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <b>Suggerer Un Flux</b>
+        <b>{{ 'Suggest_a_feed'|trans }}</b>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
@@ -183,7 +184,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4>Nous Contactez</h4>
+        <h4>{{ 'Contact_us'|trans }}</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
@@ -191,47 +192,44 @@
           <div class="row">
             <!-- Text input-->
             <div class="form-group col-md-6">
-              <label class="col-md-3 control-label">Nom</label>  
+              <label class="col-md-3 control-label">{{ 'name'|trans }}</label>  
               <div class="col-md-12">
               <input id="textinput" name="textinput" class="form-control input-md" type="text">
               </div>
             </div>
             <!-- Text input-->
             <div class="form-group col-md-6">
-              <label class="col-md-3 control-label">Prenom</label>  
+              <label class="col-md-3 control-label">{{ 'first_name'|trans }}</label>  
               <div class="col-md-12">
               <input id="textinput" name="textinput" class="form-control input-md" type="text">
               </div>
             </div>
             <!-- Text input-->
             <div class="form-group col-md-6">
-              <label class="col-md-3 control-label">Domaine</label>  
+              <label class="col-md-3 control-label">{{ 'domain_title'|trans }}</label>  
               <div class="col-md-12">
               <input id="textinput" name="textinput" class="form-control input-md" type="text"> 
               </div>
             </div>
             <!-- Text input-->
             <div class="form-group col-md-6">
-              <label class="col-md-3 control-label">Email</label>  
+              <label class="col-md-3 control-label">{{ 'email'|trans }}</label>  
               <div class="col-md-12">
               <input id="textinput" name="textinput" placeholder="exemple.exemple@mail.com" class="form-control input-md" type="text"> 
               </div>
             </div>
             <!-- Textarea -->
             <div class="form-group col-md-12">
-              <label class="col-md-6 control-label">Message</label>
+              <label class="col-md-6 control-label">{{ 'message'|trans }}</label>
               <div class="col-md-12">                     
                 <textarea class="form-control" id="textarea" name="textarea"></textarea>
               </div>
             </div>
           </div>
-          <div>
-              Ici mettre un Captcha
-          </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Envoyer</button>
+        <button type="button" class="btn btn-primary">{{ 'send'|trans }}</button>
       </div>
     </div>
   </div>

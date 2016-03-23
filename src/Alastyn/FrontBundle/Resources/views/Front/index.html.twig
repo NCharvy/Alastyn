@@ -2,11 +2,10 @@
 {% block stylesheets %}{{ parent() }}
  <link href="{{ asset('/bundles/front/css/style.css') }}" rel="stylesheet" type="text/css" />
 {% endblock %}
-{% block title %} {{ parent() }}{{ 'home'|trans }}{% endblock %}
 
 {% block body %}
 	 <div class="brand">Alastyn</div>
-	 <div class="address-bar">Blog de flux vigneron</div>
+	 <div class="address-bar">{{ 'subtitle'|trans }}</div>
 
 {{ parent() }}
 
@@ -76,8 +75,8 @@
 	{% endif %}
 {% set cont = cont + 1 %}
 {% endfor %}
-			{% include 'AlastynAdminBundle:Admin:paging.html.twig' %}
 	</div>
+			{% include 'AlastynAdminBundle:Admin:paging.html.twig' %}
     </div>
     <!-- /.container -->
     <footer>

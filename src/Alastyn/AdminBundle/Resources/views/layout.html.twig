@@ -1,7 +1,7 @@
 {# src //Bundle/Resources/views/layout.html.twig #}
 
 {% extends "::base.html.twig" %}
-{% block title %} {{ parent() }} - Administration{% endblock %}
+{% block title %} {{ parent() }} - {{ 'administration'|trans }}{% endblock %}
 {%  block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('/bundles/admin/css/sb-admin.css') }}" rel="stylesheet" type="text/css" />
@@ -96,7 +96,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="{{ path('_view_suggests') }}"><i class="fa fa-fw fa-bell"></i> Suggestions {% if notif != 0 %}<span>{{ notif }}</span>{% endif %} </a>
+                        <a href="{{ path('_view_suggests') }}"><i class="fa fa-fw fa-bell"></i> {{ 'sugestions'|trans }} {% if notif != 0 %}<span>{{ notif }}</span>{% endif %} </a>
                     </li>
                 </ul>
             </div>

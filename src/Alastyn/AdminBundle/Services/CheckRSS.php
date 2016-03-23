@@ -20,52 +20,57 @@ class CheckRSS
             // close curl resource to free up system resources
             curl_close($curl);
 
+            if($content != '') 
+            {
+                // Réparation du xml
+                $tidy = \tidy_parse_string($content);
+                if($tidy->cleanRepair()) {
+                    $content = $tidy;
+                }
 
-                if($content != '') 
+                libxml_use_internal_errors(true);
+                $doc = new \DOMDocument('1.0', 'UTF-8');
+                $doc->load($content);
+                $errors = libxml_get_errors();
+            
+                if(strstr($content,"404")==false)
                 {
-                    libxml_use_internal_errors(true);
-                    $doc = new \DOMDocument('1.0', 'UTF-8');
-                    $doc->load($content);
-                    $errors = libxml_get_errors();
-
-                    if(strstr($content,"404")==false)
+                    if(empty($errors) || $errors[0]->level < 3) 
                     {
-                        if(empty($errors) || $errors[0]->level < 3) 
+                        $message = 'Valide';
+                    }
+                    else 
                         {
-                            $message = 'Valide';
-                        }
-                        else 
-                            {
 
-                                if ($doc->validate()) 
+                            if ($doc->validate()) 
+                            {
+                                $lines = explode('\r', $content);
+                                $line = $lines[($errors[0]->line)-1];
+                                $message = $errors[0]->message .' at line '.$errors[0]->line.': '.htmlentities($line);
+                            } 
+                            else 
+                            {
+                                if($errors[0]->message == null)
                                 {
-                                    $lines = explode('\r', $content);
-                                    $line = $lines[($errors[0]->line)-1];
-                                    $message = $errors[0]->message .' at line '.$errors[0]->line.': '.htmlentities($line);
-                                } 
-                                else 
+                                    $message = 'Format du Document invalide ou page introuvable';
+                                }
+                                else
                                 {
-                                    if($errors[0]->message == null)
-                                    {
-                                        $message = 'Format du Document invalide ou page introuvable';
-                                    }
-                                    else
-                                    {
-                                       $message = $errors[0]->message; 
-                                    }
+                                   $message = $errors[0]->message; 
                                 }
                             }
-                    }
-                    else
-                    {
-                        $message = 'page introuvable';
-                    }   
-
+                        }
                 }
                 else
                 {
                     $message = 'page introuvable';
-                }
+                }   
+
+            }
+            else
+            {
+                $message = 'page introuvable';
+            }
             
         return $message;
     }

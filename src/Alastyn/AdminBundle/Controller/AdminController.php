@@ -39,7 +39,7 @@ class AdminController extends Controller
         }
         $stats_flows = [];
         $country_flows = [];
-        $region_flows = [];
+        $country_wines = [];
 
         $em = $this->getDoctrine()->getManager();
 
@@ -56,7 +56,7 @@ class AdminController extends Controller
             ->createQueryBuilder('f')
             ->select('COUNT(f)')
             ->where('f.statut = :statut')
-            ->setParameter('statut', 'URL incorrect')
+            ->setParameter('statut', 'URL incorrecte')
             ->getQuery()
             ->getSingleScalarResult();
 
@@ -85,21 +85,33 @@ class AdminController extends Controller
 
         foreach ($states as $state) {
             $country_flows[$state->getNom()] = $em->getRepository('AlastynAdminBundle:Flux')
-            ->createQueryBuilder('f')
-            ->select('COUNT(f)')
-            ->join('f.domaine', 'd')
-            ->join('d.region', 'r')
-            ->join('r.pays', 'p')
-            ->where('p.nom = :pays')
-            ->setParameter('pays', $state->getNom())
-            ->getQuery()
-            ->getSingleScalarResult();
+                ->createQueryBuilder('f')
+                ->select('COUNT(f)')
+                ->join('f.domaine', 'd')
+                ->join('d.region', 'r')
+                ->join('r.pays', 'p')
+                ->where('p.nom = :pays')
+                ->setParameter('pays', $state->getNom())
+                ->getQuery()
+                ->getSingleScalarResult();
+
+            $country_wines[$state->getNom()] = $em->getRepository('AlastynAdminBundle:Appellation')
+                ->createQueryBuilder('a')
+                ->select('COUNT(a)')
+                ->join('a.region', 'r')
+                ->join('r.pays', 'p')
+                ->where('p.nom = :pays')
+                ->setParameter('pays', $state->getNom())
+                ->getQuery()
+                ->getSingleScalarResult();
         }
 
         return array(
-            'notif' => $this->getNotif(), 
+            'notif' => $this->getNotif(),
+            'states' => $states,
             'stats_flows' => $stats_flows,
-            'country_flows' => $country_flows
+            'country_flows' => $country_flows,
+            'country_wines' => $country_wines
         );
     }
 
