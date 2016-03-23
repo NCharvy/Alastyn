@@ -30,7 +30,7 @@ class CheckRSS
 
                 libxml_use_internal_errors(true);
                 $doc = new \DOMDocument('1.0', 'UTF-8');
-                $doc->load($content);
+                $doc->loadXML($content);
                 $errors = libxml_get_errors();
             
                 if(strstr($content,"404")==false)

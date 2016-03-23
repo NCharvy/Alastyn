@@ -68,7 +68,8 @@
                 columns: [
                     ["{{ 'kind_flows.valid'|trans }}", {{ stats_flows['valid'] }}],
                     ["{{ 'kind_flows.not_found'|trans }}", {{ stats_flows['not_found'] }}],
-                    ["{{ 'kind_flows.invalid'|trans }}", {{ stats_flows['invalid'] }}]
+                    ["{{ 'kind_flows.invalid'|trans }}", {{ stats_flows['invalid'] }}],
+                    ["{{ 'kind_flows.error'|trans }}", {{ stats_flows['error'] }}]
                 ],
                 type : 'pie'
             },
