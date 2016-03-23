@@ -76,7 +76,7 @@ class TestController extends Controller
     }
 
   /**
-  * @Route("/flux_rss")
+  * @Route("/test/flux_rss")
   */
   public function flux_rssAction()
   {

@@ -196,3 +196,14 @@ footer p {
         clear: both;
     }
 }
+
+/******* Custom ******/
+
+.paging{
+    display : table !important;
+    margin : 0 auto !important;
+    margin-bottom : 20px !important;
+}
+.paging a{
+    color : #4F1E38 !important;
+}
