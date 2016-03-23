@@ -22,7 +22,8 @@ class FrontController extends Controller
     {
         $reader = new Reader;
         $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery('SELECT f FROM AlastynAdminBundle:Flux f WHERE f.publication = true');
+        $query = $em->createQuery('SELECT f,d,r FROM AlastynAdminBundle:Flux f inner JOIN f.domaine d inner JOIN d.region r 
+          WHERE f.publication = true');
         $resources = $query->getResult();
         $feeds = [];
         $tmp_feeds = [];
@@ -64,15 +65,13 @@ class FrontController extends Controller
                     src="bundles/front/img/verre3.jpg" />';
                 }
 
-
-
               $var= json_encode($feed->items[$i]->date);
               $test_date = json_decode($var)->date;
 
               if($test_date > $keydate){
                 $keydate = $test_date;
               }
-
+              $feed->items[$i]->icone = $rss->getDomaine()->getRegion()->getIcone();
             }
 
             
