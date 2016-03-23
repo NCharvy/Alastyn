@@ -82,6 +82,7 @@ class AdminController extends Controller
         $states = $em->createQueryBuilder()
             ->select('pays')
             ->from('AlastynAdminBundle:Pays','pays')
+            ->orderBy('pays.nom', 'ASC')
             ->getQuery()
             ->getResult();
 
@@ -824,4 +825,6 @@ class AdminController extends Controller
 
         return $notif;
     }
+
+
 }

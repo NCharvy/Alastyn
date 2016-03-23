@@ -5,7 +5,7 @@ function getState(val)
 			{
 				type: "POST",
 				dataType: "json",
-				url: "recherche_region_json",
+				url: "/api/recherche_region_json",
 				data:"[{\"country_id\":"+val+"}]",
 				success: function(data)
 				{
