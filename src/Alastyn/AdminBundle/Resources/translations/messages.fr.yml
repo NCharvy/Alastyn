@@ -3,6 +3,8 @@ address: Adresse
 city: Ville
 country_flows:
     title: Flux par pays
+country_wines:
+    title: Appellations par pays
 dashboard: Tableau de bord
 domain: Domaine
 flow: Flux
@@ -46,7 +48,7 @@ menu:
         list: Voir la liste des pays
     wine:
         add: Ajouter appellation
-        list: Voit la liste des appellations
+        list: Voir la liste des appellations
     suggest:
         list: Voir la liste des suggestions
 name: Nom

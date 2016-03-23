@@ -3,6 +3,8 @@ address: Address
 city: City
 country_flows:
     title: Feeds by country
+country_wines:
+    title: Naming par pays
 dashboard: Dashboard
 domain: Domain
 flow: RSS feed
