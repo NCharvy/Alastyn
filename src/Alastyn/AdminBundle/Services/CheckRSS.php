@@ -5,47 +5,59 @@ class CheckRSS
 {
     public function checkRss($feed)
     {
-        $message = '';
-        $file = @fopen($feed, 'r');
-        $http = @get_headers($feed)[0];
+            // create curl resource
+            $curl = \curl_init();
 
-        if ($http == 'HTTP/1.0 403 Forbidden') {
-            $message = 'Erreur HTTP : 403 Forbidden';
-        } else if($file) {
-            $content = file_get_contents($feed);
-            if($content != '') {
+            // set url
+            curl_setopt($curl, CURLOPT_URL, $feed);
+
+            //return the transfer as a string
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+            // $output contains the output string
+            $content = curl_exec($curl);
+
+            // close curl resource to free up system resources
+            curl_close($curl);
+
+            if($content != '') 
+            {
                 libxml_use_internal_errors(true);
-                $doc = new \DOMDocument('1.0', 'utf-8');
+                $doc = new \DOMDocument('1.0', 'UTF-8');
                 $doc->loadXML($content);
 
                 $errors = libxml_get_errors();
-                if(empty($errors) || $errors[0]->level < 3) {
+                if(empty($errors) || $errors[0]->level < 3) 
+                {
                     $message = 'Valide';
-                } else {
-                    if ($http == 'HTTP/1.0 200 OK') {
-                        $message = 'Flux malformé';
-                    } else if ($doc->validate()) {
+                }
+                else 
+                {
+
+                    if ($doc->validate()) 
+                    {
                         $lines = explode('\r', $content);
                         $line = $lines[($errors[0]->line)-1];
                         $message = $errors[0]->message .' at line '.$errors[0]->line.': '.htmlentities($line);
-                    } else {
-                        $message = 'Format du Document invalide';
+                    } 
+                    else 
+                    {
+                        if($message == nll)
+                        {
+                            $message = 'Format du Document invalide ou page introuvable';
+                        }
+                        else
+                        {
+                           $message = $errors[0]->message; 
+                        }
                     }
-
                 }
-            } else {
-                $message = 'Contenu non reconnu';
-            }
 
-            fclose($file);
-        } else {
-            if ($http == 'HTTP/1.0 200 OK') {
-                $message = "Flux malformé";
-            } else {
-                $message = 'URL incorrecte';
             }
-        }
-
+            else
+            {
+                $message = 'page introuvable';
+            }
         return $message;
     }
 }
