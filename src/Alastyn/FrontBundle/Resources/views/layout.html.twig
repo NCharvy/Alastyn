@@ -3,6 +3,7 @@
 
 {% block javascripts %} {{ parent() }} 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script src="{{ asset('/bundles/front/js/menu.js') }}"></script>
 {% endblock %}
 
@@ -55,7 +56,7 @@
                               {% endif %}
                           {% endfor %}    
                         </select>
-                        <select class="form-control selectpicker" name="state" id="state-list" placeholder="Region">
+                        <select class="form-control selectpicker" name="state" id="state-list" placeholder="Region" onChange="getStateDomaine(this.value);"">
                           <option value="">{{ 'Choose_a_region'|trans }}</option>
                         </select>
                   </div>

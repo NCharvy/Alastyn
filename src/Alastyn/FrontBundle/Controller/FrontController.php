@@ -17,14 +17,20 @@ use Alastyn\AdminBundle\Form\SuggestionType;
 class FrontController extends Controller
 {
     /**
-     * @Route("/{page}", name = "_index", defaults={"page": 1}), requirements={"page": "\d+"}
+     * @Route("/home/{region}/{page}", name = "_index", defaults={"page": 1, "region": "NoRegion"}), requirements={"page": "\d+"}
      * @Template()
      */
-	public function indexAction(Request $req, $page) {
+	public function indexAction(Request $req, $page, $region) {
         $reader = new Reader;
         $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery('SELECT f,d,r FROM AlastynAdminBundle:Flux f inner JOIN f.domaine d inner JOIN d.region r 
-          WHERE f.publication = true');
+        if($region == 'NoRegion')
+        {
+          $query = $em->createQuery('SELECT f,d,r FROM AlastynAdminBundle:Flux f INNER JOIN f.domaine d INNER JOIN d.region r WHERE f.publication = true');
+        }
+        else
+        {
+          $query = $em->createQuery('SELECT f,d,r FROM AlastynAdminBundle:Flux f INNER JOIN f.domaine d INNER JOIN d.region r WHERE f.publication = true AND r.id = \''.$region.'\'');
+        }
         // $query = $em->createQuery('SELECT f FROM AlastynAdminBundle:Flux f WHERE f.publication = true');
         $flow = new Pagination($query, $page, 10);
         $resources = $query->setFirstResult(($flow->getPage()-1) * $flow->getMaxPerPage())
