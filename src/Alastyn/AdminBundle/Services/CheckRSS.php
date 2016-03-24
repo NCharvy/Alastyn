@@ -7,35 +7,47 @@ class CheckRSS
     {
             // create curl resource
             $curl = \curl_init();
-
             // set url
             curl_setopt($curl, CURLOPT_URL, $feed);
-
             //return the transfer as a string
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-
+            curl_setopt($curl, CURLOPT_TIMEOUT,10);
             // $output contains the output string
             $content = curl_exec($curl);
-
+            $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             // close curl resource to free up system resources
             curl_close($curl);
 
-            if($content != '' && !strstr($content,"403") && !strstr($content,"404") && !strstr($content,"not found")) 
+            $handle = @fopen($feed, 'r');
+
+            if($content != '' && $handle && $feed) 
             {
-                $content = file_get_contents($feed);
+                /*
+                // Configuration de tidy
+                $config = array(
+                    'indent'     => true,
+                    'input-xml'  => true,
+                    'output-xml' => true,
+                    'wrap'       => false
+                );
 
                 // Réparation du xml
-                // $tidy = \tidy_parse_string($content);
-                // if($tidy->cleanRepair()) {
-                //     $content = $tidy;
-                // }
+                $tidy = new \Tidy();
+                $tidy->parseFile($feed, $config, 'utf8');
+                $tidy->cleanRepair();
+
+                // Permet de ne pas avoir l'erreur "timeout"
+                ini_set('max_execution_time', 0);
+                */
+
+                $content = file_get_contents($feed);
 
                 libxml_use_internal_errors(true);
                 $doc = new \DOMDocument('1.0', 'utf-8');
                 $doc->loadXML($content);
                 $errors = libxml_get_errors();
             
-                if(strstr($content,"404")==false)
+                if($http_status != 404)
                 {
                     if(empty($errors) || $errors[0]->level < 3) 
                     {
@@ -55,7 +67,6 @@ class CheckRSS
                                 }
                                 else
                                 {
-                                   
                                     $message = $errors[0]->message; 
                                 }
                             }
@@ -64,8 +75,9 @@ class CheckRSS
                 else
                 {
                     $message = 'page introuvable';
-                }   
+                }
 
+                @fclose($handle);
             }
             else
             {

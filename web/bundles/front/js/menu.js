@@ -19,16 +19,10 @@ function getState(val)
 					$("#state-list").append("<option id=\"MenuDeroulantRegion\" value=\""+ data.data[1][i]+"\" >"+ data.data[0][i]+"</option>");
 				}
 			}
-		}
-	);
+
+		);
+	}
+
+function loadRegion(id){
+	document.location = "/region/" + id;
 }
-
-function getStateDomaine(val) 
-{
-	var liste, ValueDomaine;
-	liste = document.getElementById("state-list");
-	ValueDomaine = liste.options[liste.selectedIndex].text;
-	document.location.href="/home/"+val+"/1"
-
-}
-

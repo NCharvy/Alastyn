@@ -207,3 +207,8 @@ footer p {
 .paging a{
     color : #4F1E38 !important;
 }
+
+.paging a.active{
+    color : #EEEEEE !important;
+    background-color : #4F1E38 !important;
+}

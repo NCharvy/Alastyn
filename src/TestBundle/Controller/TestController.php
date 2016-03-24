@@ -71,9 +71,10 @@ class TestController extends Controller
             ->getQuery()
             ->getResult();
 
-        foreach ($flows as $flow) {
-        // for ($i=780; $i < 785; $i++) {
-            // $flow = $flows[$i];
+        // $i = 0;
+        // foreach ($flows as $flow) {
+        for ($i=1211; $i < 1727; $i++) {
+            $flow = $flows[$i];
             $check_rss = $this->get('check_rss')->checkRss($flow->getUrl());
             $flow->setStatut($check_rss);
             if($check_rss == 'Valide' && $flow->getDomaine()->getPublication()) {
@@ -97,7 +98,8 @@ class TestController extends Controller
   */
   public function flux_rssAction()
   {
-    $url = 'null';
+
+    $url = 'http://applewoodwinery.com/index.php?option=com_myblog&amp;Itemid=58&amp;task=rss';
 
     $check_rss = $this->get('check_rss')->checkRss($url);
 
