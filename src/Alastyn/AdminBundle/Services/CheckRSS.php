@@ -20,17 +20,19 @@ class CheckRSS
             // close curl resource to free up system resources
             curl_close($curl);
 
-            if($content != '') 
+            if($content != '' && !strstr($content,"403") && !strstr($content,"404") && !strstr($content,"not found")) 
             {
+                $content = file_get_contents($feed);
+
                 // Réparation du xml
-                $tidy = \tidy_parse_string($content);
-                if($tidy->cleanRepair()) {
-                    $content = $tidy;
-                }
+                // $tidy = \tidy_parse_string($content);
+                // if($tidy->cleanRepair()) {
+                //     $content = $tidy;
+                // }
 
                 libxml_use_internal_errors(true);
-                $doc = new \DOMDocument('1.0', 'UTF-8');
-                $doc->load($content);
+                $doc = new \DOMDocument('1.0', 'utf-8');
+                $doc->loadXML($content);
                 $errors = libxml_get_errors();
             
                 if(strstr($content,"404")==false)
@@ -41,12 +43,9 @@ class CheckRSS
                     }
                     else 
                         {
-
                             if ($doc->validate()) 
                             {
-                                $lines = explode('\r', $content);
-                                $line = $lines[($errors[0]->line)-1];
-                                $message = $errors[0]->message .' at line '.$errors[0]->line.': '.htmlentities($line);
+                                $message = 'Valide';
                             } 
                             else 
                             {
@@ -56,7 +55,8 @@ class CheckRSS
                                 }
                                 else
                                 {
-                                   $message = $errors[0]->message; 
+                                   
+                                    $message = $errors[0]->message; 
                                 }
                             }
                         }

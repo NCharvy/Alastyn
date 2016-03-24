@@ -20,6 +20,7 @@ form:
     wine: Enregistrement d'appellations
 icon: Icône
 kind_flows:
+    error: Erreur serveur
     invalid: Format du document invalide
     not_found: Page introuvable
     title: Etat des flux

@@ -20,6 +20,7 @@ form:
     wine: Saving Naming
 icon: Icon
 kind_flows:
+    error: Server error
     invalid: Invalid document format
     not_found: Page not found
     title: Feeds state

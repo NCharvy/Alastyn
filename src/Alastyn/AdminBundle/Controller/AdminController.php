@@ -68,10 +68,21 @@ class AdminController extends Controller
             ->getQuery()
             ->getSingleScalarResult();
 
+        $stats_flows['error'] = $em->getRepository('AlastynAdminBundle:Flux')
+            ->createQueryBuilder('f')
+            ->select('COUNT(f)')
+            ->where('f.statut <> :valid AND f.statut <> :not_found AND f.statut <> :invalid')
+            ->setParameter('valid', 'Valide')
+            ->setParameter('not_found', 'page introuvable')
+            ->setParameter('invalid', 'Format du Document invalide ou page introuvable')
+            ->getQuery()
+            ->getSingleScalarResult();
+
         // Nombre de flux par pays
         $states = $em->createQueryBuilder()
             ->select('pays')
             ->from('AlastynAdminBundle:Pays','pays')
+            ->orderBy('pays.nom', 'ASC')
             ->getQuery()
             ->getResult();
 
@@ -814,4 +825,6 @@ class AdminController extends Controller
 
         return $notif;
     }
+
+
 }
