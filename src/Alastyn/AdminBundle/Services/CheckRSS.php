@@ -49,7 +49,7 @@ class CheckRSS
             
                 if($http_status != 404)
                 {
-                    if(empty($errors) || $errors[0]->level <= 3) 
+                    if(empty($errors) || $errors[0]->level < 3) 
                     {
                         $message = 'Valide';
                     }
