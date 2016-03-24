@@ -37,6 +37,7 @@ class FrontController extends Controller
         }
 
         foreach ($resources as $rss) {
+          echo $rss->getUrl().'******';
           try {
             $resource = $reader->download($rss->getUrl());
           } catch(Exception $e) {
@@ -50,6 +51,7 @@ class FrontController extends Controller
             );
 
             $feed = $parser->execute();
+            echo $feed->items[0].'++++++++++++';
 
             $result = [];
             $keydate ="";
