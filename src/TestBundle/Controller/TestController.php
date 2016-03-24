@@ -58,8 +58,9 @@ class TestController extends Controller
 
         // $i = 1;
         // foreach ($flows as $flow) {
-        for ($i=50; $i < 100; $i++) {
+        for ($i=0; $i < 100; $i++) {
             $flow = $flows[$i];
+            echo '+++'.$flow->getUrl();
             $check_rss = $this->get('check_rss')->checkRss($flow->getUrl());
             $flow->setStatut($check_rss);
             if($check_rss == 'Valide' && $flow->getDomaine()->getPublication()) {
@@ -83,9 +84,9 @@ class TestController extends Controller
   */
   public function flux_rssAction()
   {
-    $wikipediaURL = 'http://cavesvictor.blogspirit.com/atom.xml';
+    $url = 'http://chateaudebriat.blogspot.fr/atom.xml';
 
-    $check_rss = $this->get('check_rss')->checkRss($wikipediaURL);
+    $check_rss = $this->get('check_rss')->checkRss($url);
 
     return new response(json_encode(array("data" => $check_rss)));
   }
