@@ -22,3 +22,7 @@ function getState(val)
 			}
 		);
 	}
+
+function loadRegion(id){
+	document.location = "/region/" + id;
+}

@@ -82,7 +82,9 @@
 {% set cont = cont + 1 %}
 {% endfor %}
 	</div>
-			{% include 'AlastynAdminBundle:Admin:paging.html.twig' %}
+			{% if pagination is defined %}
+				{% include 'AlastynAdminBundle:Admin:paging.html.twig' %}
+			{% endif %}
     </div>
     <!-- /.container -->
     <footer>
