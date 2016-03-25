@@ -241,10 +241,20 @@ class FrontController extends Controller
       $em = $this->getDoctrine()->getManager();
       $Regions = $em->getRepository('AlastynAdminBundle:Region')->findByPays($id[0]->country_id);
       foreach ($Regions as $key => $value) 
-      { 
-        $Region[0][$key] = $value->getNom();
-        $Region[1][$key] = $value->getId();
-        $Region[2] = $key;
+      {
+          $nb_flux = $em->getRepository('AlastynAdminBundle:Flux')
+              ->createQueryBuilder('f')
+              ->select('COUNT(f)')
+              ->innerJoin('f.domaine', 'd')
+              ->innerJoin('d.region', 'r')
+              ->where('r.id = ' . $value->getId())
+              ->getQuery()
+              ->getSingleScalarResult();
+          if($nb_flux > 0){
+              $Region[0][$key] = $value->getNom();
+              $Region[1][$key] = $value->getId();
+              $Region[2] = $key;
+          }
       }
     }
     return new response(json_encode(array("data" => $Region)));
