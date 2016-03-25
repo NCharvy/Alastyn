@@ -4,3 +4,6 @@ services:
 
     check_datas:
          class: Alastyn\AdminBundle\Services\CheckDatas
+
+    check_datas:
+	    class: Alastyn\AdminBundle\Services\CheckRSSFeedValidator
