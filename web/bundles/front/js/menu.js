@@ -1,11 +1,12 @@
 function getState(val) 
 {
+	alert('ok');
 	$.ajax
 	(
 		{
 			type: "POST",
 			dataType: "json",
-			url: "/api/recherche_region_json",
+			url: "/recherche/recherche_region",
 			data:"[{\"country_id\":"+val+"}]",
 			success: function(data)
 			{

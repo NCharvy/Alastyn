@@ -73,7 +73,7 @@ class TestController extends Controller
 
         // $i = 0;
         // foreach ($flows as $flow) {
-        for ($i=1211; $i < 1727; $i++) {
+        for ($i=660; $i < 1727; $i++) {
             $flow = $flows[$i];
             $check_rss = $this->get('check_rss')->checkRss($flow->getUrl());
             $flow->setStatut($check_rss);
@@ -99,7 +99,7 @@ class TestController extends Controller
   public function flux_rssAction()
   {
 
-    $url = 'http://applewoodwinery.com/index.php?option=com_myblog&amp;Itemid=58&amp;task=rss';
+    $url = 'http://beaurenard.over-blog.com/atom.php';
 
     $check_rss = $this->get('check_rss')->checkRss($url);
 

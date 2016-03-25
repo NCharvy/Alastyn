@@ -17,10 +17,10 @@ use Alastyn\AdminBundle\Form\SuggestionType;
 class FrontController extends Controller
 {
     /**
-     * @Route("/home/{region}/{page}", name = "_index", defaults={"page": 1, "region": "NoRegion"}), requirements={"page": "\d+"}
+     * @Route("/{page}", name = "_index", defaults={"page": 1}), requirements={"page": "\d+"}
      * @Template()
      */
-	public function indexAction(Request $req, $page, $region) {
+	public function indexAction(Request $req, $page) {
         $reader = new Reader;
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery('SELECT f,d,r FROM AlastynAdminBundle:Flux f inner JOIN f.domaine d inner JOIN d.region r 

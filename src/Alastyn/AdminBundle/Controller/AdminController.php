@@ -853,6 +853,6 @@ class AdminController extends Controller
             }
           }
         }
+        return new response(json_encode(array("Data"=>$Region)));
     }
-
 }

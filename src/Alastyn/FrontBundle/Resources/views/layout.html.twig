@@ -44,7 +44,7 @@
                <!-- **************************************** -->
                  <div class="form-group"> 
                         <select class="form-control selectpicker" name="country" id="country-list" placeholder="Pays" onChange="getState(this.value);">
-                          <option value="" selected>{{ 'Choose_country'|trans }}</option>
+                          <option value="" >{{ 'Choose_country'|trans }}</option>
                           {% for state in states %}
                               {% if state.publication == 1 %}
                                 <option value="{{ state.id }}">
