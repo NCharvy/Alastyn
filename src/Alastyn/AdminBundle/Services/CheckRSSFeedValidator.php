@@ -1,9 +1,12 @@
 <?php
 namespace Alastyn\AdminBundle\Services;
 
-class CheckRSS
+class CheckRSSFeedValidator
 {
-    public function checkRss($feed)
+    // L'alogriothme utilisé actuellement sur l'application se trouve dans le fichier
+    // CheckRss.php dans ce même dossier
+
+    public function checkRSSFeedValidator($feed)
     {
         $verification_aditionnel = 1;
 
